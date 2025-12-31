@@ -1,0 +1,257 @@
+import hxp.*;
+import lime.tools.*;
+
+/**
+ * God bless `HXProject`, it's so much easier to manage Lime/OpenFL projects like this. :)
+ */
+class Project extends HXProject
+{
+    /**
+     * The version of the application.
+     */
+    static final VERSION:String = "1.0.3";
+
+    static final BUILD_NUMBER:Int = 1;
+
+    /**
+     * The title of the application.
+     */
+    static final TITLE:String = "VS IMPOSTOR Pixel";
+
+    /**
+     * The name of the executable file.
+     * 
+     * For Desktop targets.
+     */
+    static final EXECUTABLE_NAME:String = "ImpostorPixel";
+
+    /**
+     * The unique package name for this project.
+     * 
+     * For Android applications.
+     */
+    static final PACKAGE_NAME:String = "com.kenton.impostorpixel";
+
+    /**
+     * The company behind this project.
+     */
+    static final COMPANY:String = "kenton";
+
+    /**
+     * A list of languages supported by the application.
+     */
+    static final LANGUAGES:Array<String> = ["en", "es"];
+
+    /**
+     * The path to the class that installs the application and caches most of the assets.
+     */
+    static final PRELOADER_CLASS_PATH:String = "flixel.system.FlxPreloader";
+
+    /**
+     * The path to the class that setups and starts the game.
+     */
+    static final MAIN_CLASS_PATH:String = "Main";
+
+    static final ANDROID_MINIMUM_SDK:Int = 28;
+
+    static final ANDROID_TARGET_SDK:Int = 35;
+
+    public function new()
+    {
+        super();
+
+        setupApplication();
+        setupLibraries();
+        setupAssets();
+    }
+
+    function setupApplication()
+    {
+        meta.version = VERSION;
+        meta.buildNumber = Std.string(BUILD_NUMBER);
+
+        meta.title = TITLE;
+        if (isIOS()) meta.title = ~/ /ig.replace(TITLE, "\u2002");
+
+        meta.company = COMPANY;
+        meta.packageName = PACKAGE_NAME;
+
+        sources.push("source");
+
+        languages = LANGUAGES;
+
+        app.path = "export";
+        app.main = MAIN_CLASS_PATH;
+        app.file = EXECUTABLE_NAME;
+        app.preloader = PRELOADER_CLASS_PATH;
+
+        window.fps = 60;
+        window.width = 1280;
+        window.height = 720;
+
+        window.orientation = isWeb() ? Orientation.AUTO : Orientation.LANDSCAPE;
+
+        window.vsync = false;
+        window.hardware = true;
+        window.allowHighDPI = true;
+
+        if (isWeb())
+        {
+            window.resizable = true;
+        }
+
+        if (isDesktop())
+        {
+            window.resizable = true;
+            window.fullscreen = false;
+        }
+
+        if (isMobile())
+        {
+            window.resizable = false;
+            window.fullscreen = true;
+            window.borderless = true;
+            window.width = 0;
+            window.height = 0;
+        }
+
+        if (isAndroid())
+        {
+            config.set("android.minimum-sdk-version", ANDROID_MINIMUM_SDK);
+            config.set("android.target-sdk-version", ANDROID_TARGET_SDK);
+        }
+
+        window.background = 0xFF000000;
+    }
+
+    function setupLibraries()
+    {
+        addHaxelib("flixel");
+        addHaxelib("flixel-addons");
+
+        addHaxelib("haxeui-core");
+        addHaxelib("haxeui-flixel");
+
+        addHaxelib("hxdiscord_rpc");
+        addHaxelib("extension-androidtools");
+        addHaxelib("extension-haptics");
+
+        if (isDesktop() || isMobile())
+        {
+            //addHaxelib("hxvlc");
+        }
+
+        if (isDebug())
+        {
+            addHaxelib("hxcpp-debug-server");
+        }
+    }
+
+    function setupAssets()
+    {
+        //addAssetPath("buildAssets", "assets");
+        //addAssetPath("embeddedAssets", null, null, true);
+
+        addAssetLibrary(".artwork", true, true);
+    }
+
+    public function addHaxelib(name:String, version:String = ""):Void
+    {
+        haxelibs.push(new Haxelib(name, version));
+    }
+
+    public function addAssetPath(path:String, ?rename:String, library:String, ?include:Array<String>, ?exclude:Array<String>, embed:Bool = false):Void
+    {
+        if (path == "") return;
+    }
+
+    public function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false):Void
+    {
+        libraries.push(new Library("", name, null, embed, preload, false, ""));
+    }
+
+    public function addAsset(path:String, ?rename:String, ?library:String, embed:Bool = false):Void
+    {
+        assets.push(new Asset(path, rename, null, embed, true));
+    }
+
+    public function isDebug():Bool
+    {
+        return this.debug;
+    }
+
+    public function isRelease():Bool
+    {
+        return !isDebug();
+    }
+
+    public function isDesktop():Bool
+    {
+        return platformType == PlatformType.DESKTOP;
+    }
+
+    public function isMobile():Bool
+    {
+        return platformType == PlatformType.MOBILE;
+    }
+
+    public function isWeb():Bool
+    {
+        return platformType == PlatformType.WEB;
+    }
+
+    public function isConsole():Bool
+    {
+        return platformType == PlatformType.CONSOLE;
+    }
+
+    public function isWindows():Bool
+    {
+        return target == Platform.WINDOWS;
+    }
+
+    public function isLinux():Bool
+    {
+        return target == Platform.LINUX;
+    }
+
+    public function isMacOS():Bool
+    {
+        return target == Platform.MAC;
+    }
+
+    public function isHTML5():Bool
+    {
+        return target == Platform.HTML5;
+    }
+
+    public function isAndroid():Bool
+    {
+        return target == Platform.ANDROID;
+    }
+
+    public function isIOS():Bool
+    {
+        return target == Platform.IOS;
+    }
+
+    public function isWiiU():Bool
+    {
+        return target == Platform.WIIU;
+    }
+
+    public function isPS3():Bool
+    {
+        return target == Platform.PS3;
+    }
+
+    public function isPS4():Bool
+    {
+        return target == Platform.PS4;
+    }
+
+    public function isPSVita():Bool
+    {
+        return target == Platform.VITA;
+    }
+}
