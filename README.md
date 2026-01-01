@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://github.com/kenton54/VS-IMPOSTOR-Pixel">
-        <img src="images/github/logo-big.gif" alt="VS IMPOSTOR Pixel Logo" title="VS IMPOSTOR Pixel" style="width: 90%;">
+        <img src=".artwork/github/logo-big.gif" alt="VS IMPOSTOR Pixel Logo" title="VS IMPOSTOR Pixel" style="width: 90%;">
     </a>
     <h1>VS IMPOSTOR Pixel</h1> <!-- this is just here so the table of contents thing shows stuff properly (???) -->
     <p align="center"><b>Created by <a href="https://github.com/kenton54">kenton</a></b></p>
