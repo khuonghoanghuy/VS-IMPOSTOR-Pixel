@@ -1,0 +1,99 @@
+package impostor.ui.debug;
+
+import lime.system.Display;
+import lime.system.System;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+
+#if windows
+import impostor.utils.RegistryUtil;
+#end
+
+class SystemStats extends DebugCategory
+{
+    public var osInfo:String = "";
+    public var cpuName:String = "";
+    public var displayInfo:String = "";
+    public var gameDisplay:String = "";
+    public var gpuName:String = "";
+    public var gpuMaxSize:String = "";
+    public var memType:String = "";
+
+    var systemInfo:TextField;
+
+    public function new(backgroundColor:Int) {
+        super("System", 1080, 122, backgroundColor, TOP_RIGHT);
+
+        systemInfo = new TextField();
+        systemInfo.x = getPositionFromCategoryAlignment();
+        systemInfo.y = 18;
+        systemInfo.width = overlayWidth;
+        systemInfo.height = overlayHeight;
+        systemInfo.selectable = false;
+		systemInfo.mouseEnabled = false;
+        systemInfo.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+        addChild(systemInfo);
+
+        #if windows
+        var windowsVersionPath:String = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion";
+        var buildNumber:Int = Std.parseInt(RegistryUtil.get(HKEY_LOCAL_MACHINE, windowsVersionPath, "CurrentBuildNumber"));
+        var edition:String = RegistryUtil.get(HKEY_LOCAL_MACHINE, windowsVersionPath, "ProductName");
+
+        var lcuKey:String = "WinREVersion";
+        if (buildNumber >= 22000)
+        {
+            edition.replace("Windows 10", "Windows 11");
+            lcuKey = "LCUVer";
+        }
+
+        osInfo = edition;
+
+        var lcuVersion:String = RegistryUtil.get(HKEY_LOCAL_MACHINE, windowsVersionPath, lcuKey);
+
+        if (lcuVersion != null && lcuVersion != "")
+        {
+            osInfo += lcuVersion;
+        }
+        else if (System.platformLabel != null && System.platformLabel != "" && System.platformVersion != null && System.platformVersion != "")
+        {
+            osInfo += '${System.platformLabel.replace(System.platformVersion, "").trim()}  ${System.platformVersion}';
+        }
+        #end
+
+        var display:Display = FlxG.stage.application.window.display;
+        displayInfo = '${display.currentMode.width}x${display.currentMode.height} ${display.dpi * 100}% Scale @ ${display.currentMode.refreshRate}Hz (${display.name})';
+
+        try
+        {
+            #if windows
+            cpuName = RegistryUtil.get(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "ProcessorNameString");
+            #end
+        }
+        catch(e:Dynamic) {}
+
+        var size:Int = FlxG.bitmap.maxTextureSize;
+        gpuMaxSize = '${size}x${size}';
+    }
+
+    public function update()
+    {
+        var display:Display = FlxG.stage.application.window.display;
+        displayInfo = '${display.currentMode.width}x${display.currentMode.height} @ ${display.currentMode.refreshRate}Hz (${display.name})';
+
+        var systemStuff:Array<String> = [];
+        if (cpuName != "") systemStuff.push('CPU Architecture: $cpuName');
+        if (osInfo != "") systemStuff.push('Operating System: $osInfo');
+        if (displayInfo != "") systemStuff.push('Display Monitor: $displayInfo');
+
+        gameDisplay = '${FlxG.stage.stageWidth}x${FlxG.stage.stageHeight} @ ${FlxG.width}x${FlxG.height}';
+        systemStuff.push('Game Display: $gameDisplay');
+
+        final rendererShit:Array<String> = [];
+        rendererShit.push(Std.string(@:privateAccess FlxG.stage.context3D.gl.getParameter(FlxG.stage.context3D.gl.RENDERER)));
+        rendererShit.push('(OpenGL ${@:privateAccess FlxG.stage.context3D.gl.getParameter(FlxG.stage.context3D.gl.VERSION)})');
+
+        systemStuff.push('Renderer: ${rendererShit.join(" ")}');
+
+        systemInfo.text = systemStuff.join('\n');
+    }
+}

@@ -13,7 +13,7 @@ class Project extends HXProject
      */
     static final VERSION:String = "1.0.3";
 
-    static final BUILD_NUMBER:Int = 1;
+    static final BUILD_NUMBER:Int = 13;
 
     /**
      * The title of the application.
@@ -72,8 +72,6 @@ class Project extends HXProject
 
     public function new()
     {
-        //consoleTrace('VS IMPOSTOR Pixel v$VERSION');
-
         super();
 
         displayTarget();
@@ -86,6 +84,16 @@ class Project extends HXProject
         if (!isLinux())
         {
             setupIcons();
+        }
+
+        if (isAndroid())
+        {
+            setupAndroid();
+        }
+
+        if (isIOS())
+        {
+            setupIOS();
         }
     }
 
@@ -120,7 +128,7 @@ class Project extends HXProject
             default: targetStr = "Unknown";
         }
 
-        consoleTrace('Building for device "$targetStr" on the platform "$platformStr"');
+        consoleTrace('Building on the platform "$platformStr", for the device "$targetStr".');
     }
 
     function setupApplication()
@@ -184,19 +192,25 @@ class Project extends HXProject
 
     function setupDefines()
     {
+        setHaxeDefine("FLX_NO_RECORD");
+        setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN");
+
         if (isDesktop())
         {
             setHaxeDefine("FLX_NO_TOUCH");
             setHaxeDefine("DISCORD_API");
+            setHaxeDefine("VIDEOS_BACKEND");
         }
         if (isMobile())
         {
             setHaxeDefine("FLX_NO_MOUSE");
             setHaxeDefine("FLX_NO_SOUND_TRAY");
+            setHaxeDefine("VIDEOS_BACKEND");
         }
         if (!isDebug())
         {
             setHaxeDefine("FLX_NO_DEBUG");
+            setHaxeDefine("NAPE_RELEASE_BUILD");
         }
 
         setHaxeDefine("lime_disable_assets_version");
@@ -219,7 +233,7 @@ class Project extends HXProject
         addHaxelib("extension-androidtools");
         addHaxelib("extension-haptics");
 
-        if (isDesktop() || isMobile())
+        if (hasHaxeDefine("VIDEOS_BACKEND"))
         {
             addHaxelib("hxvlc");
         }
@@ -235,10 +249,20 @@ class Project extends HXProject
         var preloadAssets:Bool = !isWeb();
         var embedAssets:Bool = isWeb();
 
-        addAssetLibrary("default", embedAssets, true);
-        addAssetPath("assets", "assets", "default", ["*"], [], embedAssets, "assets");
+        addAssetLibrary("default", embedAssets, preloadAssets);
+        addAssetPath("assets/preload", "assets", "default", ["*"], [], embedAssets, "assets");
+
+        addAssetPath("assets/fonts", null, "default", ["*"], [], true, "assets");
+
+        if (hasHaxeDefine("VIDEOS_BACKEND"))
+        {
+            addAssetLibrary("videos", false, preloadAssets);
+            addAssetPath("assets/videos", "assets/videos", "videos", ["*"], [], embedAssets, "assets");
+        }
 
         addAssetLibrary("art", false, false);
+        addAsset("LICENSE", "LICENSE", "art", false);
+        addAsset("CHANGELOG.md", "CHANGELOG.md", "art", false);
     }
 
     function setupIcons()
@@ -271,6 +295,22 @@ class Project extends HXProject
         }
     }
 
+    function setupAndroid()
+    {
+        if (isRelease())
+        {
+            if (isBundle())
+            {
+                config.set("android.gradle-project-directory", "bin-bundle");
+            }
+        }
+    }
+
+    function setupIOS()
+    {
+        config.set("ios.deployment", "16.0");
+    }
+
     public function addHaxelib(name:String, version:String = ""):Void
     {
         haxelibs.push(new Haxelib(name, version));
@@ -295,6 +335,11 @@ class Project extends HXProject
     public function removeHaxeDefine(name:String):Void
     {
         haxedefs.remove(name);
+    }
+
+    public function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false):Void
+    {
+        libraries.push(new Library("", name, null, embed, preload, false, ""));
     }
 
     public function addAssetPath(path:String, ?rename:String, library:String, ?include:Array<String>, ?exclude:Array<String>, embed:Bool = false, ?padName:String):Void
@@ -332,11 +377,6 @@ class Project extends HXProject
                 }
             }
         }
-    }
-
-    public function addAssetLibrary(name:String, embed:Bool = false, preload:Bool = false):Void
-    {
-        libraries.push(new Library("", name, null, embed, preload, false, ""));
     }
 
     public function addAsset(path:String, ?rename:String, ?library:String, embed:Bool = false, ?padName:String):Void
@@ -456,13 +496,13 @@ class Project extends HXProject
     {
         if (!(isDisplay() || isClean()))
         {
-            Sys.stdout().write(Bytes.ofString('Build Process [INFO]: $message\n'));
+            Sys.stdout().write(Bytes.ofString('[INFO]: $message\n\n'));
         }
     }
 
     public function throwError(message:String)
     {
-        Sys.stderr().write(Bytes.ofString('Build Process [ERROR] $message\n'));
+        Sys.stderr().write(Bytes.ofString('[ERROR] $message\n'));
         Sys.exit(1);
     }
 }

@@ -1,0 +1,79 @@
+digraph graphname {
+	node [shape=plaintext];
+n286220[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286220) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286219[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286219) BKConditional</td></tr>
+	<tr><td port="e0" align="left">_hx_tmp = \"\"</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286218[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286218) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var _hx_tmp = Std.int(size)</td></tr>
+	<tr><td port="e1" align="left">var _hx_tmp</td></tr>
+	<tr><td port="e2" align="left">var _hx_tmp = label &lt;= 1</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286217[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286217) BKNormal</td></tr>
+	<tr><td port="e0" align="left">size = size / 1024</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286216[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286216) BKSub</td></tr>
+	<tr><td port="e0" align="left">label = label + 1</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286215[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286215) BKNormal</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286214[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286214) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286213[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286213) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var _hx_tmp = ! ((_hx_tmp))</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286212[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286212) BKConditional</td></tr>
+	<tr><td port="e0" align="left">_hx_tmp = false</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286211[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286211) BKConditional</td></tr>
+	<tr><td port="e0" align="left">sizesLength = sizesLength - 1</td></tr>
+	<tr><td port="e1" align="left">var _hx_tmp = sizesLength + 1</td></tr>
+	<tr><td port="e2" align="left">_hx_tmp = label &lt; _hx_tmp</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286210[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286210) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var _hx_tmp</td></tr>
+	<tr><td port="e1" align="left">var _hx_tmp = size &gt;= 1024</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286209[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286209) BKLoopHead</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286208[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286208) BKFunctionEnd</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n286207[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(286207) BKFunctionBegin</td></tr>
+	<tr><td port="e0" align="left">var label = 0</td></tr>
+	<tr><td port="e1" align="left">var sizesLength = impostor.utils.StringUtil.sizeLabels.length</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n1[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(1) BKRoot</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n1:out -> n286207:in[label="CFGFunction"];
+}

@@ -1,18 +1,43 @@
 package impostor.ui;
 
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.addons.transition.TransitionData;
 
 class MusicBeatState extends FlxTransitionableState
 {
+	public static var skipTransIn(get, set):Bool;
+
+	public static var skipTransOut(get, set):Bool;
+
+	static function set_skipTransIn(value:Bool):Bool
+	{
+		return FlxTransitionableState.skipNextTransIn = value;
+	}
+
+	static function get_skipTransIn():Bool
+	{
+		return FlxTransitionableState.skipNextTransIn;
+	}
+
+	static function set_skipTransOut(value:Bool):Bool
+	{
+		return FlxTransitionableState.skipNextTransOut = value;
+	}
+
+	static function get_skipTransOut():Bool
+	{
+		return FlxTransitionableState.skipNextTransOut;
+	}
+
     public var curMeasure(get, never):Int;
 
     public var curBeat(get, never):Int;
 
     public var curStep(get, never):Int;
 
-    public function new()
+	public function new(?transInData:TransitionData, ?transOutData:TransitionData)
     {
-        super();
+		super(transInData, transOutData);
 
         Conductor.onMeasureHit.add(measureHit);
         Conductor.onBeatHit.add(beatHit);
@@ -27,11 +52,23 @@ class MusicBeatState extends FlxTransitionableState
         Conductor.onStepHit.remove(stepHit);
     }
 
-    public function measureHit(curMeasure:Int) {}
+	/**
+	 * Gets triggered when a new measure is reached.
+	 * @param measure The reached measure.
+	 */
+	public function measureHit(measure:Int) {}
 
-    public function beatHit(curBeat:Int) {}
+	/**
+	 * Gets triggered when a new beat is reached.
+	 * @param beat The reached beat.
+	 */
+	public function beatHit(beat:Int) {}
 
-    public function stepHit(curStep:Int) {}
+	/**
+	 * Gets triggered when a new step is reached.
+	 * @param step The reached step.
+	 */
+	public function stepHit(step:Int) {}
 
     function get_curMeasure():Int
     {

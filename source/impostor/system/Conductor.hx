@@ -53,6 +53,8 @@ final class Conductor
 
     public static var offset:Float = 0;
 
+	public static var standalone(get, never):Bool;
+
     /**
      * The list of BPM Changes the Conductor has configured and ready to execute.
      */
@@ -110,6 +112,8 @@ final class Conductor
 
         bpmChanges = [];
 
+		_standalone = false;
+
         onMeasureHit.removeAll();
         onBeatHit.removeAll();
         onStepHit.removeAll();
@@ -128,8 +132,6 @@ final class Conductor
     static function update() {
         if (_paused) return;
 
-        if (_standalone) conductorElapsed += FlxG.elapsed;
-
         var curSongTime:Float = _standalone ? conductorElapsed : (FlxG.sound.music != null ? FlxG.sound.music.time : 0);
         var curSongLength:Float = _standalone ? Math.POSITIVE_INFINITY : (FlxG.sound.music != null ? FlxG.sound.music.length : 0);
 
@@ -142,6 +144,10 @@ final class Conductor
             songPosition = FlxMath.bound(Math.min(offset, 0), curSongTime, curSongLength);
             conductorElapsed += FlxG.elapsed * 1000 * FlxG.sound.music.pitch;
         }
+		else if (_standalone)
+		{
+			conductorElapsed += FlxG.elapsed;
+		}
 
         curStepFloat = FlxMath.roundDecimal((curSongTime / stepLengthMs), 4);
         curBeatFloat = curStepFloat / stepsPerBeat;
@@ -169,17 +175,17 @@ final class Conductor
 
     static function get_curBPM():Float
     {
-        return curBPMChange.bpm;
+		return curBPMChange?.bpm ?? 0;
     }
 
     static function get_beatsPerMeasure():Int
     {
-        return curBPMChange.beatsPerMeasure;
+		return curBPMChange?.beatsPerMeasure ?? 0;
     }
 
     static function get_stepsPerBeat():Int
     {
-        return curBPMChange.stepsPerBeat;
+		return curBPMChange?.stepsPerBeat ?? 0;
     }
 
     static function get_measureLengthMs():Float
@@ -196,6 +202,10 @@ final class Conductor
     {
         return beatLengthMs / stepsPerBeat;
     }
+	static function get_standalone():Bool
+	{
+		return _standalone;
+	}
 }
 
 typedef BPMData =

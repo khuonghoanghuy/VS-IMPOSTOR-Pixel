@@ -3,6 +3,10 @@ package impostor.system;
 import flixel.FlxGame;
 import flixel.util.typeLimit.NextState.InitialState;
 
+#if !(js || web)
+import sys.thread.Thread;
+#end
+
 class FunkinGame extends FlxGame
 {
     /**
@@ -18,9 +22,5 @@ class FunkinGame extends FlxGame
      */
     public function new(gameWidth:Int = 0, gameHeight:Int = 0, ?initialState:InitialState, updateFramerate:Int = 60, drawFramerate:Int = 60, startFullscreen:Bool = false) {
         super(gameWidth, gameHeight, initialState, updateFramerate, drawFramerate, true, startFullscreen);
-    }
-
-    override function update() {
-        super.update();
-    }
+	}
 }

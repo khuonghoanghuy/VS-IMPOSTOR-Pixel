@@ -3,7 +3,7 @@ package impostor;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
-import impostor.play.PlayState;
+import impostor.menus.TitleState;
 
 class InitState extends FlxState
 {
@@ -23,6 +23,6 @@ class InitState extends FlxState
         FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
 
-        FlxG.switchState(PlayState.new);
+		FlxG.switchState(() -> new TitleState());
     }
 }
