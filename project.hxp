@@ -193,8 +193,8 @@ class Project extends HXProject
     function setupDefines()
     {
         // first dont compile stuff we are never gonna use
-        setHaxeDefine("FLX_NO_RECORD", "1");
-        setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN", "1");
+        setHaxeDefine("FLX_NO_RECORD",);
+        setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN");
 
         if (isDesktop() || isMobile())
         {

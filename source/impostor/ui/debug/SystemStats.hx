@@ -1,11 +1,15 @@
 package impostor.ui.debug;
 
-import js.Browser;
 import lime.system.Display;
+import lime.system.System;
 import openfl.text.TextField;
 
 #if windows
 import impostor.utils.RegistryUtil;
+#end
+
+#if web
+import js.Browser;
 #end
 
 class SystemStats extends DebugCategory
