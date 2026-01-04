@@ -192,22 +192,27 @@ class Project extends HXProject
 
     function setupDefines()
     {
-        setHaxeDefine("FLX_NO_RECORD");
-        setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN");
+        // first dont compile stuff we are never gonna use
+        setHaxeDefine("FLX_NO_RECORD", "1");
+        setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN", "1");
 
-        if (isDesktop())
+        if (isDesktop() || isMobile())
         {
-            setHaxeDefine("FLX_NO_TOUCH");
-            setHaxeDefine("DISCORD_API");
+            if (isDesktop())
+            {
+                setHaxeDefine("FLX_NO_TOUCH");
+                setHaxeDefine("DISCORD_API");
+            }
+            if (isMobile())
+            {
+                setHaxeDefine("FLX_NO_MOUSE");
+                setHaxeDefine("FLX_NO_SOUND_TRAY");
+            }
+
             setHaxeDefine("VIDEOS_BACKEND");
         }
-        if (isMobile())
-        {
-            setHaxeDefine("FLX_NO_MOUSE");
-            setHaxeDefine("FLX_NO_SOUND_TRAY");
-            setHaxeDefine("VIDEOS_BACKEND");
-        }
-        if (!isDebug())
+
+        if (isDebug())
         {
             setHaxeDefine("FLX_NO_DEBUG");
             setHaxeDefine("NAPE_RELEASE_BUILD");

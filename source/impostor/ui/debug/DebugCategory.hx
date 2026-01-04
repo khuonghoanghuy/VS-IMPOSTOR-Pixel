@@ -23,7 +23,8 @@ class DebugCategory extends Sprite
 
     var alignment:CategoryAlignment = TOP_LEFT;
 
-    var title:TextField;
+	public var title(default, null):TextField;
+	public var background(default, null):Shape;
 
     public function new(?title:String, width:Float, height:Float, backgroundColor:Int, alignment:CategoryAlignment = TOP_LEFT) {
         super();
@@ -32,7 +33,7 @@ class DebugCategory extends Sprite
         overlayHeight = height;
         this.alignment = alignment;
 
-        var background:Shape = new Shape();
+		background = new Shape();
         background.graphics.beginFill(backgroundColor, 0.5);
         background.graphics.drawRect(0, 0, overlayWidth, overlayHeight);
         background.graphics.endFill();
@@ -42,9 +43,9 @@ class DebugCategory extends Sprite
         {
             this.title = new TextField();
             this.title.text = title;
-            this.title.x = getPositionFromCategoryAlignment();
+			this.title.x = 8;
             this.title.y = 2;
-            this.title.width = background.width;
+			this.title.width = background.width - 16;
             this.title.height = background.height;
             this.title.selectable = false;
             this.title.mouseEnabled = false;
@@ -52,6 +53,19 @@ class DebugCategory extends Sprite
             addChild(this.title);
         }
     }
+
+	public function createTextField():TextField
+	{
+		var textField:TextField = new TextField();
+		textField.x = 8;
+		textField.y = 18;
+		textField.width = overlayWidth - 16;
+		textField.height = overlayHeight;
+		textField.selectable = false;
+		textField.mouseEnabled = false;
+		textField.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+		return textField;
+	}
 
     public function updatePosition()
     {
@@ -72,14 +86,9 @@ class DebugCategory extends Sprite
         }
     }
 
-    public function getPositionFromCategoryAlignment():Float
-    {
-        return switch (alignment)
-        {
-            case TOP_LEFT, BOTTOM_LEFT: 8;
-            case TOP_RIGHT, BOTTOM_RIGHT: -8;
-        }
-    }
+	public function update(?deltaTime:Int) {}
+
+	public function postUpdate() {}
 
     public function getTextAlignFromCategoryAlignment():TextFormatAlign
     {

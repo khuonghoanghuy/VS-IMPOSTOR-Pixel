@@ -1,9 +1,8 @@
 package impostor.ui.debug;
 
+import js.Browser;
 import lime.system.Display;
-import lime.system.System;
 import openfl.text.TextField;
-import openfl.text.TextFormat;
 
 #if windows
 import impostor.utils.RegistryUtil;
@@ -22,16 +21,9 @@ class SystemStats extends DebugCategory
     var systemInfo:TextField;
 
     public function new(backgroundColor:Int) {
-        super("System", 1080, 122, backgroundColor, TOP_RIGHT);
+		super("System", 1024, 122, backgroundColor, TOP_RIGHT);
 
-        systemInfo = new TextField();
-        systemInfo.x = getPositionFromCategoryAlignment();
-        systemInfo.y = 18;
-        systemInfo.width = overlayWidth;
-        systemInfo.height = overlayHeight;
-        systemInfo.selectable = false;
-		systemInfo.mouseEnabled = false;
-        systemInfo.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+		systemInfo = createTextField();
         addChild(systemInfo);
 
         #if windows
@@ -58,6 +50,8 @@ class SystemStats extends DebugCategory
         {
             osInfo += '${System.platformLabel.replace(System.platformVersion, "").trim()}  ${System.platformVersion}';
         }
+		#elseif web
+		osInfo = '${Browser.navigator.appVersion}';
         #end
 
         var display:Display = FlxG.stage.application.window.display;
@@ -75,14 +69,21 @@ class SystemStats extends DebugCategory
         gpuMaxSize = '${size}x${size}';
     }
 
-    public function update()
+	override public function postUpdate()
     {
         var display:Display = FlxG.stage.application.window.display;
         displayInfo = '${display.currentMode.width}x${display.currentMode.height} @ ${display.currentMode.refreshRate}Hz (${display.name})';
 
         var systemStuff:Array<String> = [];
         if (cpuName != "") systemStuff.push('CPU Architecture: $cpuName');
-        if (osInfo != "") systemStuff.push('Operating System: $osInfo');
+		if (osInfo != "")
+		{
+			#if web
+			systemStuff.push('Browser: $osInfo ${Browser.navigator.platform}');
+			#else
+			systemStuff.push('Operating System: $osInfo');
+			#end
+		}
         if (displayInfo != "") systemStuff.push('Display Monitor: $displayInfo');
 
         gameDisplay = '${FlxG.stage.stageWidth}x${FlxG.stage.stageHeight} @ ${FlxG.width}x${FlxG.height}';

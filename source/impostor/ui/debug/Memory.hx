@@ -2,7 +2,6 @@ package impostor.ui.debug;
 
 import impostor.utils.MemoryUtil;
 import openfl.text.TextField;
-import openfl.text.TextFormat;
 
 class Memory extends DebugCategory
 {
@@ -12,18 +11,11 @@ class Memory extends DebugCategory
     {
         super("Memory Info", 440, 84, backgroundColor, TOP_RIGHT);
 
-        memoryInfo = new TextField();
-        memoryInfo.x = getPositionFromCategoryAlignment();
-        memoryInfo.y = 18;
-        memoryInfo.width = overlayWidth;
-        memoryInfo.height = overlayHeight;
-        memoryInfo.selectable = false;
-		memoryInfo.mouseEnabled = false;
-        memoryInfo.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+		memoryInfo = createTextField();
         addChild(memoryInfo);
     }
 
-    public function update()
+	override public function postUpdate()
     {
         #if web
         memoryInfo.text = "Not available for Web targets.";

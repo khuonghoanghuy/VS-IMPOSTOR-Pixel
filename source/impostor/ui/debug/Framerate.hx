@@ -19,22 +19,16 @@ class Framerate extends DebugCategory
 
     public function new(backgroundColor:Int)
     {
-        super(null, 220, 84, backgroundColor);
+		super(null, 220, 82, backgroundColor);
 
-        othersFPSText = new TextField();
-        othersFPSText.x = getPositionFromCategoryAlignment();
-        othersFPSText.y = 38;
-        othersFPSText.width = overlayWidth;
-        othersFPSText.height = overlayHeight;
-        othersFPSText.selectable = false;
-		othersFPSText.mouseEnabled = false;
-        othersFPSText.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+		othersFPSText = createTextField();
+		othersFPSText.y = 38;
         addChild(othersFPSText);
 
         mainFPSText = new TextField();
-        mainFPSText.x = getPositionFromCategoryAlignment();
+		mainFPSText.x = 8;
         mainFPSText.y = 2;
-        mainFPSText.width = overlayWidth;
+		mainFPSText.width = overlayWidth - 16;
         mainFPSText.height = overlayHeight;
         mainFPSText.selectable = false;
 		mainFPSText.mouseEnabled = false;
@@ -44,7 +38,7 @@ class Framerate extends DebugCategory
         fps = 0;
     }
 
-    public function update(deltaTime:Int)
+	override public function update(?deltaTime:Int)
     {
         currentTime += deltaTime;
         times.push(currentTime);

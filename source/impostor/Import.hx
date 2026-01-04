@@ -1,6 +1,7 @@
 package impostor;
 
 #if !macro
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;

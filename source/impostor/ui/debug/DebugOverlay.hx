@@ -1,5 +1,6 @@
 package impostor.ui.debug;
 
+import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
@@ -14,7 +15,7 @@ class DebugOverlay extends Sprite
 
     public var memory:Memory;
 
-    public var conductor:impostor.ui.debug.Conductor;
+	public var conductor:ConductorDebug;
 
     public var system:SystemStats;
 
@@ -32,7 +33,7 @@ class DebugOverlay extends Sprite
         framerate = new Framerate(backgroundColor);
         addChild(framerate);
 
-        conductor = new impostor.ui.debug.Conductor(backgroundColor);
+		conductor = new ConductorDebug(backgroundColor);
         conductor.verticalOffset = framerate.overlayHeight + 5;
         addChild(conductor);
 
@@ -70,15 +71,15 @@ class DebugOverlay extends Sprite
         if (#if html5 FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.THREE #else FlxG.keys.justPressed.F3 #end) toggleVisibility();
         if (!visible) return;
 
-        framerate.updatePosition();
-        conductor.updatePosition();
-        engine.updatePosition();
-        memory.updatePosition();
-        mod.updatePosition();
-        system.updatePosition();
-
-        framerate.update(deltaTime);
-        conductor.update();
+		for (i in 0...numChildren)
+		{
+			var child:DisplayObject = getChildAt(i);
+			if (Std.isOfType(child, DebugCategory))
+			{
+				cast(child, DebugCategory).updatePosition();
+				cast(child, DebugCategory).update(deltaTime);
+			}
+		}
 
         if (updateTimer < updateFrequency)
         {
@@ -86,9 +87,14 @@ class DebugOverlay extends Sprite
             return;
         }
 
-        engine.update();
-        system.update();
-        memory.update();
+		for (i in 0...numChildren)
+		{
+			var child:DisplayObject = getChildAt(i);
+			if (Std.isOfType(child, DebugCategory))
+			{
+				cast(child, DebugCategory).postUpdate();
+			}
+		}
 
         updateTimer = 0;
     }
@@ -104,20 +110,13 @@ private class ImpostorMod extends DebugCategory
     {
         super(null, 472, 62, backgroundColor, TOP_RIGHT);
 
-        modInfo = new TextField();
-        modInfo.x = getPositionFromCategoryAlignment();
-        modInfo.y = 38;
-        modInfo.width = overlayWidth;
-        modInfo.height = overlayHeight;
-        modInfo.selectable = false;
-		modInfo.mouseEnabled = false;
-        modInfo.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+		modInfo = createTextField();
         addChild(modInfo);
 
         modTitle = new TextField();
-        modTitle.x = getPositionFromCategoryAlignment();
+		modTitle.x = 8;
         modTitle.y = 2;
-        modTitle.width = overlayWidth;
+		modTitle.width = overlayWidth - 16;
         modTitle.height = overlayHeight;
         modTitle.selectable = false;
 		modTitle.mouseEnabled = false;
