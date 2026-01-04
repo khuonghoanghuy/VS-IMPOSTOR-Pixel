@@ -146,7 +146,7 @@ final class Conductor
         }
 		else if (_standalone)
 		{
-			conductorElapsed += FlxG.elapsed;
+			conductorElapsed += FlxG.elapsed * 1000;
 		}
 
         curStepFloat = FlxMath.roundDecimal((curSongTime / stepLengthMs), 4);
