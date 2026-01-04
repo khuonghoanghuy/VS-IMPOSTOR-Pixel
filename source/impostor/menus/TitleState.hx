@@ -1,9 +1,14 @@
 package impostor.menus;
 
+import impostor.graphics.text.GameboyText;
 import impostor.ui.StarsBackdrop;
 
 class TitleState extends MusicBeatState
 {
+	static var PRESS_START_TWEEN_DURATION:Float = 1.5;
+	static var CAMERA_DEFAULT_ZOOM:Float = 1;
+	static var CAMERA_BEAT_BOP_STRENGTH:Float = 0.01;
+
     public var curState:TitleStateMode = IDLE;
 
     public var stars:StarsBackdrop;
@@ -13,6 +18,7 @@ class TitleState extends MusicBeatState
 
     public var titleRGBSprite:FunkinSprite;
     public var titleMainSprite:FunkinSprite;
+	public var pressStartText:GameboyText;
 
     var titleColors:Array<Array<FlxColor>> = [
         [0xFFE31629, 0xFF90003A],
@@ -34,9 +40,7 @@ class TitleState extends MusicBeatState
         [0xFFFF7488, 0xFFD94368],
     ];
 
-    var doCameraBop:Bool = true;
-    var defaultZoom:Float = 1;
-    var zoomBop:Float = 0.01;
+	var doCameraBop:Bool = true;
 
     override public function create() {
         MusicBeatState.skipTransOut = true;
@@ -68,6 +72,15 @@ class TitleState extends MusicBeatState
         titleSpriteGroup.add(titleMainSprite);
 
         titleSpriteGroup.screenCenter(X);
+		pressStartText = new GameboyText(0, 0, "TEXT TEST ASDJEIFJH", 56);
+		pressStartText.translationID = "titleScreen.pressStart.press";
+		pressStartText.letterSpacing = -1;
+		pressStartText.screenCenter(X);
+		pressStartText.y = FlxG.height * 0.9 - pressStartText.height;
+		pressStartText.alpha = 1;
+		add(pressStartText);
+
+		tweenPressStart();
     }
 
     var allowInput:Bool = true;
@@ -76,7 +89,7 @@ class TitleState extends MusicBeatState
     {
         super.update(elapsed);
 
-        FlxG.camera.zoom = FlxMath.lerp(FlxG.camera.zoom, defaultZoom, 0.05);
+		FlxG.camera.zoom = FlxMath.lerp(FlxG.camera.zoom, CAMERA_DEFAULT_ZOOM, 0.05);
     }
 
     override public function beatHit(beat:Int) {
@@ -88,11 +101,49 @@ class TitleState extends MusicBeatState
         if (doCameraBop)
         {
             bopTitle();
-            FlxG.camera.zoom += zoomBop;
-        }
-    }
+			FlxG.camera.zoom += CAMERA_BEAT_BOP_STRENGTH;
+		}
+	}
 
-    public function bopTitle() {
+	var pressStartTweenIn:FlxTween = null;
+	var pressStartTweenOut:FlxTween = null;
+	var altPSText:Bool = false;
+
+	public function tweenPressStart():Void
+	{
+		if (altPSText = !altPSText)
+		{
+			pressStartText.translationID = "titleScreen.pressStart.press";
+		}
+		else
+		{
+			if (FlxG.onMobile)
+				pressStartText.translationID = "titleScreen.pressStart.touch";
+			else
+				pressStartText.translationID = "titleScreen.pressStart.mouse";
+		}
+
+		if (pressStartTweenIn != null)
+			pressStartTweenIn.cancel();
+
+		if (pressStartTweenOut != null)
+			pressStartTweenOut.cancel();
+
+		pressStartText.alpha = 0;
+		pressStartTweenIn = FlxTween.tween(pressStartText, {alpha: 1}, PRESS_START_TWEEN_DURATION, {
+			ease: FlxEase.quadOut,
+			onComplete: _ ->
+			{
+				pressStartTweenOut = FlxTween.tween(pressStartText, {alpha: 0}, PRESS_START_TWEEN_DURATION, {
+					ease: FlxEase.quadIn,
+					onComplete: _ -> tweenPressStart()
+				});
+			}
+		});
+	}
+
+	public function bopTitle():Void
+	{
         FlxTween.cancelTweensOf(titleMainSprite, ["scale.x", "scale.y"]);
         FlxTween.cancelTweensOf(titleRGBSprite, ["scale.x", "scale.y"]);
 

@@ -5,30 +5,35 @@ import haxe.io.Path;
 
 class Paths
 {
-    public static function getPath(path:String, ?library:String):String
+	public inline static function getPath(path:String, ?library:String):String
     {
         return library != null ? '$library:assets/$library/$path' : 'assets/$path';
     }
 
-	public static function file(path:String, ?library:String)
+	public static function file(path:String, ?library:String):String
 	{
 		return getPath('$path', library);
 	}
 
-    public static function image(path:String, ?library:String)
+	public static function image(path:String, ?library:String):String
     {
         return getPath('images/$path.png', library);
     }
 
-    public static function sound(path:String, ?library:String)
+	public static function sound(path:String, ?library:String):String
     {
         return getPath('sounds/$path.ogg', library);
     }
 
-    public static function music(path:String, ?library:String)
+	public static function music(path:String, ?library:String):String
     {
         return getPath('music/$path.ogg', library);
     }
+	public static function font(path:String, ?library:String):String
+	{
+		return getPath('fonts/$path', library);
+	}
+
 	public static function parseSprite(path:String, ?library:String):FlxAtlasFrames
 	{
 		var imagePath:String = image(path);

@@ -51,7 +51,8 @@ class FunkinSound extends FlxSound
         if (FlxG.sound.music != null)
         {
             FlxG.sound.music.stop();
-            Conductor.pause();
+			FlxG.sound.music.destroy();
+			Conductor.reset();
         }
     }
 
