@@ -111,6 +111,7 @@ private class ImpostorMod extends DebugCategory
         super(null, 472, 62, backgroundColor, TOP_RIGHT);
 
 		modInfo = createTextField();
+		modInfo.y = 38;
         addChild(modInfo);
 
         modTitle = new TextField();
