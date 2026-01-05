@@ -70,6 +70,12 @@ class MusicBeatState extends FlxTransitionableState
 	 */
 	public function stepHit(step:Int) {}
 
+	/**
+	 * This function is called whenever the game's language gets updated.
+	 * @param language The new language.
+	 */
+	public function onLanguageUpdate(language:String) {}
+
     function get_curMeasure():Int
     {
         return Conductor.curMeasure;

@@ -1,0 +1,46 @@
+{
+    "name": "English",
+    "data": {
+        "common": {
+            "version": "Version {0}",
+            "no": "No",
+            "yes": "Yes"
+        },
+        "time": {
+            "january": "January",
+            "february": "February",
+            "march": "March",
+            "april": "April",
+            "may": "May",
+            "june": "June",
+            "july": "July",
+            "august": "August",
+            "september": "September",
+            "october": "October",
+            "november": "November",
+            "december": "December"
+        },
+        "generic": {
+            "play": "Play",
+            "start": "Start",
+            "worldMap": "World Map",
+            "freeplay": "Freeplay",
+            "achievements": "Achievements",
+            "shop": "Shop",
+            "extras": "Extras",
+            "credits": "Credits",
+            "bios": "Bios",
+            "musicPlayer": "Music Player",
+            "movieTheater": "Movie Theater",
+            "options": "Options",
+            "exit": "Exit"
+        },
+        "titleScreen": {
+            "pressStart": {
+                "press": "Press {0} to Play",
+                "mouse": "Click the Mouse to Play",
+                "touch": "Touch the Screen to Play"
+            }
+        }
+    }
+}

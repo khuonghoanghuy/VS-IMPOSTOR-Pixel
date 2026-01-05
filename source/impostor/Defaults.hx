@@ -19,6 +19,11 @@ final class Defaults
 	public static final DEFAULT_FONT:String = "Pixeloid Sans Bold";
 
 	/**
+	 * The language the engine fallbacks to if a language fails to load or fails to get a translation ID.
+	 */
+	public static final DEFAULT_LANGUAGE:String = "en";
+
+	/**
 	 * The default animation name to add or play for all sprites.
 	 */
 	public static final DEFAULT_ANIMATION_NAME:String = 'anim';

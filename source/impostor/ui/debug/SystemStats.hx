@@ -1,5 +1,6 @@
 package impostor.ui.debug;
 
+import impostor.utils.TranslationUtil;
 import lime.system.Display;
 import lime.system.System;
 import openfl.text.TextField;
@@ -24,8 +25,9 @@ class SystemStats extends DebugCategory
 
     var systemInfo:TextField;
 
-    public function new(backgroundColor:Int) {
-		super("System", 1024, 122, backgroundColor, TOP_RIGHT);
+	public function new(backgroundColor:Int)
+	{
+		super("System", 1024, 138, backgroundColor, TOP_RIGHT);
 
 		systemInfo = createTextField();
         addChild(systemInfo);
@@ -98,6 +100,8 @@ class SystemStats extends DebugCategory
         rendererShit.push('(OpenGL ${@:privateAccess FlxG.stage.context3D.gl.getParameter(FlxG.stage.context3D.gl.VERSION)})');
 
         systemStuff.push('Renderer: ${rendererShit.join(" ")}');
+
+		systemStuff.push('Language: ${TranslationUtil.getSystemLanguage()}');
 
         systemInfo.text = systemStuff.join('\n');
     }

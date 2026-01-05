@@ -19,6 +19,7 @@ import impostor.system.Conductor;
 import impostor.ui.MusicBeatState;
 import impostor.utils.MathUtil;
 import impostor.utils.StringUtil;
+import impostor.utils.TranslationUtil;
 import openfl.utils.Assets;
 
 using StringTools;

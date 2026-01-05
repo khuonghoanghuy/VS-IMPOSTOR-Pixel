@@ -73,7 +73,7 @@ class TitleState extends MusicBeatState
 
         titleSpriteGroup.screenCenter(X);
 		pressStartText = new GameboyText(0, 0, "TEXT TEST ASDJEIFJH", 56);
-		pressStartText.translationID = "titleScreen.pressStart.press";
+		pressStartText.translationData = {id: "titleScreen.pressStart.press", parameters: ["ENTER"]};
 		pressStartText.letterSpacing = -1;
 		pressStartText.screenCenter(X);
 		pressStartText.y = FlxG.height * 0.9 - pressStartText.height;
@@ -113,15 +113,17 @@ class TitleState extends MusicBeatState
 	{
 		if (altPSText = !altPSText)
 		{
-			pressStartText.translationID = "titleScreen.pressStart.press";
+			pressStartText.translationData = {id: "titleScreen.pressStart.press", parameters: ["ENTER"]};
 		}
 		else
 		{
 			if (FlxG.onMobile)
-				pressStartText.translationID = "titleScreen.pressStart.touch";
+				pressStartText.translationData = {id: "titleScreen.pressStart.touch"};
 			else
-				pressStartText.translationID = "titleScreen.pressStart.mouse";
+				pressStartText.translationData = {id: "titleScreen.pressStart.mouse"};
 		}
+
+		pressStartText.screenCenter(X);
 
 		if (pressStartTweenIn != null)
 			pressStartTweenIn.cancel();
@@ -155,6 +157,12 @@ class TitleState extends MusicBeatState
         FlxTween.tween(titleMainSprite, {"scale.x": 4, "scale.y": 4}, tweenDuration, {ease: FlxEase.quadOut});
         FlxTween.tween(titleRGBSprite, {"scale.x": 4, "scale.y": 4}, tweenDuration, {ease: FlxEase.quadOut});
     }
+	override function onLanguageUpdate(language:String)
+	{
+		super.onLanguageUpdate(language);
+
+		pressStartText.screenCenter(X);
+	}
 }
 
 enum TitleStateMode

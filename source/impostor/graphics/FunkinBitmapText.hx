@@ -15,7 +15,7 @@ class FunkinBitmapText extends FlxBitmapText
 	 * 
 	 * If `null` (which is the default value), the text won't follow any translation ID, so you can put whatever text you want.
 	 */
-	public var translationID(default, set):Null<String>;
+	public var translationData(default, set):Null<TranslationData>;
 
     /**
      * The actual size of the text.
@@ -33,7 +33,7 @@ class FunkinBitmapText extends FlxBitmapText
     public function new(x:Float = 0, y:Float = 0, text:UnicodeString = "", size:Int = 12, ?font:FlxBitmapFont)
     {
         super(x, y, text, font);
-
+		translationData = null;
         set_size(size);
     }
 
@@ -51,17 +51,25 @@ class FunkinBitmapText extends FlxBitmapText
         return value;
     }
 
-    function set_translationID(id:String):String
-    {
-        if (translationID != id)
-		{
-			translationID = id;
-		}
-		return id;
-    }
+	function set_translationData(data:Null<TranslationData>):Null<TranslationData>
+	{
+		translationData = data;
+		text = "";
+		return data;
+	}
 
-    override function set_text(value:UnicodeString):UnicodeString
-    {
-        return super.set_text(value);
-    }
+	override function set_text(value:UnicodeString):UnicodeString
+	{
+		if (translationData != null)
+		{
+			text = TranslationUtil.translate(translationData.id, translationData.parameters);
+			pendingTextChange = true;
+		}
+		else
+		{
+			super.set_text(value);
+		}
+
+		return value;
+	}
 }

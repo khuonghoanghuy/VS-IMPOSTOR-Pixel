@@ -14,14 +14,20 @@ package impostor.utils.native;
 #define NOKANJI
 #define NOHELP
 
+#include <iostream>
+#include <string>
 #include <windows.h>
 #include <psapi.h>
 #include <dwmapi.h>
+#include <iomanip>
 #include <stdint.h>
 #include <stdio.h>
 ')
 class Windows
 {
+	/**
+	 * Sets the window to Dark Mode.
+	 */
     @:functionCode('
         HWND window = GetActiveWindow();
 
@@ -34,6 +40,11 @@ class Windows
     ')
     public static function setWindowDarkMode(enable:Bool) {}
 
+	/**
+	 * Gets the game's Task Memory usage.
+	 * 
+	 * Apparently the result isn't that accurate, but whatever.
+	 */
     @:functionCode('
         PROCESS_MEMORY_COUNTERS_EX pmc;
 
@@ -47,6 +58,9 @@ class Windows
         return 0;
     }
 
+	/**
+	 * Gets the total amount of RAM the system has.
+	 */
     @:functionCode('
         MEMORYSTATUSEX statusEx;
         statusEx.dwLength = sizeof(statusEx);
@@ -60,5 +74,18 @@ class Windows
     {
         return 0;
     }
+	/**
+	 * Returns the system's current language.
+	 */
+	@:functionCode('
+        LANGID lang_code = GetUserDefaultUILanguage();
+        WCHAR lang_name[LOCALE_NAME_MAX_LENGTH];
+        GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, lang_name, LOCALE_NAME_MAX_LENGTH);
+        return lang_name;
+    ')
+	public static function getSystemLanguage():String
+	{
+		return "";
+	}
 }
 #end

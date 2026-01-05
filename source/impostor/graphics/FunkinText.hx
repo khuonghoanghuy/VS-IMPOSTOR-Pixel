@@ -26,7 +26,7 @@ class FunkinText extends FlxText
 	 * 
 	 * If `null` (which is the default value), the text won't follow any translation ID, so you can put whatever text you want.
 	 */
-	public var translationID(default, set):Null<String>;
+	public var translationData(default, set):Null<TranslationData>;
 
 	/**
 	 * Whether to use striked-through text or not (`false` by default).
@@ -53,7 +53,7 @@ class FunkinText extends FlxText
 		super(x, y, fieldWidth, text);
 
 		setFormat(Defaults.DEFAULT_FONT, size, 0xFFFFFFFF);
-		translationID = null;
+		translationData = null;
 
 		if (useBorders)
 		{
@@ -63,18 +63,31 @@ class FunkinText extends FlxText
 		}
 	}
 
-	function set_translationID(id:Null<String>):Null<String>
+	function set_translationData(data:Null<TranslationData>):Null<TranslationData>
 	{
-		if (translationID != id)
-		{
-			translationID = id;
-		}
-		return id;
+		translationData = data;
+		text = "";
+		return data;
 	}
 
 	override function set_text(Text:String):String
 	{
-		return super.set_text(Text);
+		if (translationData != null)
+		{
+			text = TranslationUtil.translate(translationData.id, translationData.parameters);
+			if (textField != null)
+			{
+				var oldText:String = textField.text;
+				textField.text = Text;
+				_regen = (textField.text != oldText) || _regen;
+			}
+		}
+		else
+		{
+			super.set_text(Text);
+		}
+
+		return Text;
 	}
 
 	function get_strikethrough():Bool

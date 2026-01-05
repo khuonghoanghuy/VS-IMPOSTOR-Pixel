@@ -6,13 +6,9 @@ import openfl.system.System;
 
 #if windows
 import impostor.utils.native.Windows;
-#end
-
-#if linux
+#elseif linux
 import impostor.utils.native.Linux;
-#end
-
-#if (macos || ios)
+#elseif (macos || ios)
 import impostor.utils.native.Apple;
 #end
 

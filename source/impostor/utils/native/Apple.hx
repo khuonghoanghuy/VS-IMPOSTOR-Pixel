@@ -2,12 +2,18 @@ package impostor.utils.native;
 
 #if (macos || ios)
 @:cppFileCode('
+#include <iostream>
+#include <string>
 #include <mach/mach.h>
 #include <sys/sysctl.h>
 #include <sys/types.h>
+#include <CoreFoundation/CoreFoundation.h>
 ')
 class Apple
 {
+	/**
+	 * Gets the game's Task Memory usage.
+	 */
     @:functionCode('
         struct task_basic_info info;
 
@@ -23,6 +29,9 @@ class Apple
         return 0;
     }
 
+	/**
+	 * Gets the total amount of RAM the system has.
+	 */
     @:functionCode('
         int mib[2];
         int64_t physical_memory;
@@ -40,5 +49,39 @@ class Apple
     {
         return 0;
     }
+	/**
+	 * Returns the system's current language.
+	 */
+	@:functionCode('
+        std::string language_code;
+
+        CFLocaleRef currentLocale = CFLocaleCopyCurrent();
+        CFStringRef languageCodeRef = (CFStringRef)CFLocaleGetValue(currentLocale, kCFLocaleLanguageCode);
+
+        if (languageCodeRef)
+        {
+            const char* cStringPtr = CFStringGetCStringPtr(languageCodeRef, kCFStringEncodingUTF8);
+            if (cStringPtr)
+                language_code = cStringPtr;
+            else {
+                CFIndex length = CFStringGetLength(languageCodeRef);
+                CFIndex maxSize = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8);
+                char* buffer = (char*)malloc(maxSize);
+                if (buffer && CFStringGetCString(languageCodeRef, buffer, maxSize, kCFStringEncodingUTF8))
+                    languageCode = buffer;
+
+                free(buffer);
+            }
+        }
+
+        if (currentLocale)
+            CFRelease(currentLocale);
+
+        return language_code.c_str();
+    ')
+	public static function getSystemLanguage():String
+	{
+		return "";
+	}
 }
 #end

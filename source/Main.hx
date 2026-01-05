@@ -3,6 +3,7 @@ package;
 import impostor.InitState;
 import impostor.system.FunkinGame;
 import impostor.ui.debug.DebugOverlay;
+import impostor.utils.TranslationUtil;
 import openfl.display.Sprite;
 
 class Main extends Sprite
@@ -12,11 +13,8 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		loadSaveData();
 		startGameApp();
 	}
-
-	function loadSaveData() {}
 
 	function startGameApp()
 	{
@@ -29,5 +27,6 @@ class Main extends Sprite
 
 		debugOverlay = new DebugOverlay(0x484848);
 		addChild(debugOverlay);
+		TranslationUtil.init();
 	}
 }
