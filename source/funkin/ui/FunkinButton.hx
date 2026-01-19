@@ -1,0 +1,204 @@
+package funkin.ui;
+
+import flixel.FlxObject;
+import flixel.input.FlxInput;
+import flixel.input.IFlxInput;
+import flixel.math.FlxPoint;
+import flixel.util.FlxDestroyUtil;
+import flixel.util.FlxSignal;
+
+class FunkinButton extends FunkinSprite implements IFlxInput
+{
+    public var onPress:FlxSignal = new FlxSignal();
+
+    public var onRelease:FlxSignal = new FlxSignal();
+
+    public var onHover:FlxSignal = new FlxSignal();
+
+    public var onUnhover:FlxSignal = new FlxSignal();
+
+    public var justPressed(get, never):Bool;
+
+    public var pressed(get, never):Bool;
+
+    public var justReleased(get, never):Bool;
+
+    public var released(get, never):Bool;
+
+    public var enabled:Bool = true;
+
+    public var deadzones:Array<FlxObject> = [];
+
+    public var radius:Float = 0;
+
+    public var fade:Bool;
+
+    public var instant:Bool;
+
+    var restOpacity:Float = 0.3;
+
+    var input:FlxInput<Int>;
+
+    var _isPressed:Bool = false;
+
+    public function new(x:Float = 0, y:Float = 0, fade:Bool = false, instant:Bool = false)
+    {
+        super(x, y);
+        loadGraphic(Paths.image("ui/x"));
+
+        solid = false;
+        immovable = true;
+        scrollFactor.set();
+
+        this.fade = fade;
+        this.instant = instant;
+
+        input = new FlxInput(0);
+    }
+
+    override function destroy()
+    {
+        super.destroy();
+
+        deadzones = FlxDestroyUtil.destroyArray(deadzones);
+        input = null;
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if (visible && enabled)
+        {
+            final overlapping:Bool = checkOverlap();
+
+            if (overlapping)
+            {
+                if (Pointer.pressed)
+                {
+                    if (!_isPressed) pressHandler();
+                }
+                else
+                {
+                    if (_isPressed) releaseHandler();
+                }
+            }
+            else
+            {
+                if (_isPressed) unhoverHandler();
+            }
+        }
+
+        input.update();
+    }
+
+    function checkOverlap():Bool
+    {
+        for (camera in cameras)
+        {
+            final worldPoint:FlxPoint = Pointer.getWorldPosition(camera, _point);
+
+            for (deadzone in deadzones)
+            {
+                if (deadzone != null && deadzone.overlapsPoint(worldPoint, true, camera)) return false;
+            }
+
+            if (radius > 0)
+            {
+                if (circleOverlapsPoint(worldPoint, camera))
+                {
+                    updateStatus(Pointer.pointer);
+                    return true;
+                }
+            }
+            else
+            {
+                if (overlapsPoint(worldPoint, true, camera))
+                {
+                    updateStatus(Pointer.pointer);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function circleOverlapsPoint(point:FlxPoint, ?camera:FlxCamera):Bool
+    {
+        if (camera == null) camera = FlxG.camera;
+
+        final xPos:Float = point.x - camera.scroll.x;
+        final yPos:Float = point.y - camera.scroll.y;
+        getScreenPosition(_point, camera);
+        point.putWeak();
+
+        final distanceX:Float = xPos - (_point.x + (width / 2));
+        final distanceY:Float = yPos - (_point.y + (height / 2));
+        final distance:Float = Math.sqrt((distanceX * distanceY) + (distanceX * distanceY));
+
+        return distance <= radius;
+    }
+
+    function updateStatus(input:Dynamic)
+    {
+        if (input.justPressed)
+        {
+            pressHandler();
+        }
+        else if (!_isPressed)
+        {
+            if (input.pressed)
+            {
+                pressHandler();
+            }
+        }
+    }
+
+    function pressHandler():Void
+    {
+        _isPressed = true;
+
+        input.press();
+
+        onPress.dispatch();
+    }
+
+    function releaseHandler():Void
+    {
+        _isPressed = false;
+
+        input.release();
+
+        onRelease.dispatch();
+    }
+
+    function unhoverHandler():Void
+    {
+        _isPressed = false;
+
+        input.release();
+
+        onUnhover.dispatch();
+    }
+
+    function get_justPressed():Bool
+    {
+        return input.justPressed;
+    }
+
+    function get_pressed():Bool
+    {
+        return input.pressed;
+    }
+
+    function get_justReleased():Bool
+    {
+        return input.justReleased;
+    }
+
+    function get_released():Bool
+    {
+        return input.released;
+    }
+}

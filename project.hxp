@@ -11,9 +11,9 @@ class Project extends HXProject
     /**
      * The version of the application.
      */
-    static final VERSION:String = "1.0.3";
+    static final VERSION:String = "2.0";
 
-    static final BUILD_NUMBER:Int = 13;
+    static final BUILD_NUMBER:Int = 14;
 
     /**
      * The title of the application.
@@ -77,6 +77,7 @@ class Project extends HXProject
         displayTarget();
 
         setupApplication();
+        setupExport();
         setupDefines();
         setupLibraries();
         setupAssets();
@@ -146,7 +147,6 @@ class Project extends HXProject
 
         languages = LANGUAGES;
 
-        app.path = "export";
         app.main = MAIN_CLASS_PATH;
         app.file = EXECUTABLE_NAME;
         app.preloader = PRELOADER_CLASS_PATH;
@@ -190,29 +190,41 @@ class Project extends HXProject
         window.background = 0xFF000000;
     }
 
+    function setupExport()
+    {
+        var exportPath:String = 'export/${isDebug() ? "debug" : "release"}';
+        app.path = exportPath;
+    }
+
     function setupDefines()
     {
         // first dont compile stuff we are never gonna use
-        setHaxeDefine("FLX_NO_RECORD",);
+        setHaxeDefine("FLX_NO_RECORD");
         setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN");
+
+        // for the Crash Handler
+        // has a minor impact on performance.
+        setHaxeDefine("HXCPP_CHECK_POINTER");
+        setHaxeDefine("HXCPP_STACK_LINE");
+        setHaxeDefine("HXCPP_STACK_TRACE");
 
         if (isDesktop() || isMobile())
         {
             if (isDesktop())
             {
-                setHaxeDefine("FLX_NO_TOUCH");
+                //setHaxeDefine("FLX_NO_TOUCH");
                 setHaxeDefine("DISCORD_API");
             }
             if (isMobile())
             {
-                setHaxeDefine("FLX_NO_MOUSE");
+                //setHaxeDefine("FLX_NO_MOUSE");
                 setHaxeDefine("FLX_NO_SOUND_TRAY");
             }
 
             setHaxeDefine("VIDEOS_BACKEND");
         }
 
-        if (isDebug())
+        if (isRelease())
         {
             setHaxeDefine("FLX_NO_DEBUG");
             setHaxeDefine("NAPE_RELEASE_BUILD");
@@ -236,6 +248,10 @@ class Project extends HXProject
         {
             addHaxelib("hxdiscord_rpc");
         }
+
+        addHaxelib("colyseus-websocket");
+        addHaxelib("tink_url");
+        //addHaxelib("tink_await");
 
         addHaxelib("extension-androidtools");
         addHaxelib("extension-haptics");

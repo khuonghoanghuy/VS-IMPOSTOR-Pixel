@@ -1,10 +1,17 @@
 package;
 
-import impostor.InitState;
-import impostor.system.FunkinGame;
-import impostor.ui.debug.DebugOverlay;
-import impostor.utils.TranslationUtil;
+import funkin.InitState;
+import funkin.system.FunkinGame;
+import funkin.system.logs.CrashHandler;
+import funkin.ui.debug.DebugOverlay;
+import haxe.io.Path;
+import lime.system.System;
+import openfl.Lib;
 import openfl.display.Sprite;
+
+#if android
+import android.content.Context;
+#end
 
 class Main extends Sprite
 {
@@ -13,13 +20,16 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		startGameApp();
-	}
+		#if android
+		Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
+		#elseif ios
+		Sys.setCwd(System.applicationStorageDirectory);
+		#end
 
-	function startGameApp()
-	{
+		CrashHandler.init();
+
 		#if windows
-		impostor.utils.native.Windows.setWindowDarkMode(true);
+		funkin.utils.native.Windows.setWindowDarkMode(true);
 		#end
 
 		var game:FunkinGame = new FunkinGame(0, 0, InitState, 60, 60, false);
@@ -27,6 +37,5 @@ class Main extends Sprite
 
 		debugOverlay = new DebugOverlay(0x484848);
 		addChild(debugOverlay);
-		TranslationUtil.init();
 	}
 }
