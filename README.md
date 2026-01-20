@@ -104,10 +104,6 @@ This doesn't apply if you just want to showcase the mod, just stuff (that isn't 
         <th>Russian</th>
     </tr>
     <tr>
-        <th>Video Fanmade Guy</th>
-        <th>German</th>
-    </tr>
-    <tr>
         <th>Huy1234TH</th>
         <th>Vietnamese</th>
     </tr>
