@@ -14,7 +14,7 @@
     </p>
     <br/>
     <p align="center">
-        The mod is meant to be played with <a href="https://codename-engine.com">Codename Engine</a> (Version 1.0.2). The mod is fully compatible with Desktop and Mobile devices!
+        The mod is fully compatible with Desktop and Mobile devices!
     </p>
     <br/>
     <p align="center">
@@ -96,7 +96,7 @@ This doesn't apply if you just want to showcase the mod, just stuff (that isn't 
         <th>French</th>
     </tr>
     <tr>
-        <th>mikeyguy</th>
+        <th>Wøvenx</th>
         <th>Portuguese</th>
     </tr>
     <tr>
