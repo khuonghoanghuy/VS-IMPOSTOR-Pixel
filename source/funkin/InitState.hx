@@ -13,7 +13,9 @@ class InitState extends FlxState
         Conductor.init();
 		Translations.init();
         Achievements.init();
+		#if DISCORD_API
         DiscordClient.init();
+		#end
 
         #if FLX_MOUSE
         FlxG.mouse.useSystemCursor = true;

@@ -1,7 +1,7 @@
 package funkin.utils.native;
 
 #if android
-import lime.system.JNI;
+import extension.androidtools.jni.JNICache;
 
 class Android
 {
@@ -12,13 +12,13 @@ class Android
     {
 		try
 		{
-			var getDefaultLocale:Null<Dynamic> = JNI.createStaticMethod("java/util/Locale", "getDefault", "()Ljava/util/Locale;");
+			var getDefaultLocale:Null<Dynamic> = JNICache.createStaticMethod("java/util/Locale", "getDefault", "()Ljava/util/Locale;");
 
 			if (getDefaultLocale != null)
 			{
 				var locale = getDefaultLocale();
 
-				var getLanguage:Null<Dynamic> = JNI.createMemberMethod("java/util/Locale", "getLanguage", "()Ljava/lang/String;");
+				var getLanguage:Null<Dynamic> = JNICache.createMemberMethod("java/util/Locale", "getLanguage", "()Ljava/lang/String;");
 				if (getLanguage != null)
 					return getLanguage(locale);
 			}
