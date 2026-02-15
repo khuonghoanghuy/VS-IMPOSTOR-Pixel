@@ -1,6 +1,7 @@
 package funkin.system;
 
-import funkin.system.FunkinGame;
+import flixel.FlxBasic;
+import funkin.graphics.FunkinBitmapText;
 import haxe.Json;
 import haxe.io.Path;
 
@@ -14,8 +15,10 @@ import funkin.utils.native.Android;
 import js.Browser;
 #end
 
-class Translations
+class Translations extends FlxBasic
 {
+	static var instance:Translations;
+
     /**
      * All loaded languages.
      */
@@ -58,6 +61,7 @@ class Translations
 				languages.set(language, langData);
 			}
         }
+		FlxG.plugins.addPlugin(new Translations());
     }
 
     /**
@@ -69,11 +73,11 @@ class Translations
      */
     public static function translate(id:String, ?parameters:Array<Dynamic>):String
     {
-        if (exists(curLanguage, id))
+		if (languageExists(curLanguage, id))
         {
             return getText(curLanguage, id, parameters);
         }
-        else if (exists(defaultLanguage, id))
+		else if (languageExists(defaultLanguage, id))
         {
             return getText(defaultLanguage, id, parameters);
         }
@@ -109,7 +113,7 @@ class Translations
      * @param language  The language to check.
      * @param id        The translation ID to find.
      */
-    public static function exists(language:Language, id:String):Bool
+	public static function languageExists(language:Language, id:String):Bool
     {
         return get(language, id) != null;
     }
@@ -143,6 +147,8 @@ class Translations
     {
         if (language.contains("-"))
             return language.split("-")[0];
+		else if (language.contains("_"))
+			return language.split("_")[0];
         else
             return language;
     }
@@ -174,17 +180,71 @@ class Translations
         return result;
     }
 
+	public function new()
+	{
+		super();
+		instance = this;
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		var systemLanguage:String = Translations.getLanguageShort(Translations.getSystemLanguage());
+		if (systemLanguage != Translations.curLanguageID)
+		{
+			curLanguageID = systemLanguage;
+		}
+	}
+
+	/**
+	 * Updates all text objects whenever the language changes.
+	 */
+	@:access(flixel.group.FlxTypedGroup)
+	static function updateLanguage()
+	{
+		function updateTextObjects(group:FlxGroup)
+		{
+			for (member in group.members)
+			{
+				if (Std.isOfType(member, FunkinText))
+				{
+					var text:FunkinText = cast(member, FunkinText);
+					if (text.translationData != null)
+						text.text = "";
+				}
+				if (Std.isOfType(member, FunkinBitmapText))
+				{
+					var bitmapText:FunkinBitmapText = cast(member, FunkinBitmapText);
+					if (bitmapText.translationData != null)
+						bitmapText.text = "";
+				}
+
+				var group = FlxTypedGroup.resolveGroup(member);
+				if (group != null)
+				{
+					updateTextObjects(group);
+				}
+			}
+		}
+
+		updateTextObjects(FlxG.state);
+
+		if (Std.isOfType(FlxG.state, MusicBeatState))
+			cast(FlxG.state, MusicBeatState).onLanguageUpdate(Translations.curLanguageID);
+	}
+
     static function set_curLanguageID(language:String):String
     {
         if (languages.exists(language))
         {
             curLanguageID = language;
-			cast(FlxG.game, FunkinGame).updateLanguage();
+			updateLanguage();
         }
         else
         {
             curLanguageID = Defaults.DEFAULT_LANGUAGE;
-			cast(FlxG.game, FunkinGame).updateLanguage();
+			updateLanguage();
         }
 
         return language;

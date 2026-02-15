@@ -23,15 +23,21 @@ class Achievements
     static function init()
     {
         achievements = new Map<String, Achievement>();
+		startAchievements();
+		loadAchievements();
 
         _initialized = true;
         checkAchievements();
-    }
+		FlxG.signals.postStateSwitch.add(checkAchievements);
+	}
+
+	static function startAchievements() {}
+
+	static function loadAchievements() {}
 
     /**
      * Checks for achievements that are waiting to be unlocked.
-     */
-    @:allow(funkin.system.FunkinGame)
+	 */
     static function checkAchievements()
     {
         if (!_initialized) return;

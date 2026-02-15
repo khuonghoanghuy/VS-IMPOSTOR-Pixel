@@ -1,7 +1,7 @@
 package;
 
+import flixel.FlxGame;
 import funkin.InitState;
-import funkin.system.FunkinGame;
 import funkin.system.logs.CrashHandler;
 import funkin.ui.debug.DebugOverlay;
 import haxe.io.Path;
@@ -33,7 +33,7 @@ class Main extends Sprite
 		funkin.utils.native.Windows.setWindowDarkMode(true);
 		#end
 
-		var game:FunkinGame = new FunkinGame(0, 0, InitState, 60, 60, false);
+		var game:FlxGame = new FlxGame(0, 0, InitState, 60, 60, false);
 		addChild(game);
 
 		debugOverlay = new DebugOverlay(0x484848);
