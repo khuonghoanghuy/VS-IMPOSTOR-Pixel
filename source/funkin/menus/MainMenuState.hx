@@ -386,10 +386,13 @@ class MainMenuState extends MusicBeatState
 
     public function handleMainInput(elapsed:Float)
     {
+		if (FlxG.onMobile)
+			handleTouch();
+		else
+			handleMouse();
+
         if (FlxG.keys.justPressed.ANY)
-            usingKeyboard = true;
-        else if (Pointer.justMoved)
-            usingKeyboard = false;
+			usingKeyboard = true;
 
         if (usingKeyboard)
         {
@@ -404,26 +407,56 @@ class MainMenuState extends MusicBeatState
             if (FlxG.keys.justPressed.ENTER)
                 checkSelection();
         }
-        else
-        {
-            for (button in mainButtonsGroup.members)
-            {
-                if (button.available)
-                {
-                    if (Pointer.overlapsComplex(button, mainCamera))
-                    {
-                        curEntry = button._position;
-                        changeSelection(0);
-                    }
+	}
 
-                    if (Pointer.pressAction(button, mainCamera, true))
-                    {
-                        checkSelection();
-                    }
-                }
-            }
-        }
-    }
+	public function handleMouse()
+	{
+		if (FlxG.mouse.justMoved)
+			usingKeyboard = false;
+		if (usingKeyboard)
+			return;
+
+		for (button in mainButtonsGroup.members)
+		{
+			if (button.available)
+			{
+				if (FlxG.mouse.overlaps(button, mainCamera))
+				{
+					curEntry = button._position;
+					changeSelection(0);
+					if (FlxG.mouse.justReleased)
+						checkSelection();
+				}
+			}
+		}
+	}
+
+	public function handleTouch()
+	{
+		for (touch in FlxG.touches.list)
+			if (touch.justMoved)
+				usingKeyboard = false;
+		if (usingKeyboard)
+			return;
+
+		for (touch in FlxG.touches.list)
+		{
+			for (button in mainButtonsGroup.members)
+			{
+				if (button.available)
+				{
+					if (touch.overlaps(button, mainCamera))
+					{
+						curEntry = button._position;
+						changeSelection(0);
+
+						if (touch.justReleased)
+							checkSelection();
+					}
+				}
+			}
+		}
+	}
 
     public function changeSelection(change:Int = 0)
     {
@@ -930,6 +963,7 @@ class WindowSubMenu extends FlxTypedGroup<WindowButton>
 
         for (button in members)
         {
+			/*
             if (Pointer.overlapsComplex(button, @:privateAccess _parent.windowCamera) && button.available)
             {
                 _hovering = true;
@@ -948,6 +982,7 @@ class WindowSubMenu extends FlxTypedGroup<WindowButton>
             {
                 //button.checkPosition();
             }
+			 */
         }
 
         if (!_hovering)

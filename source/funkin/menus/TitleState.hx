@@ -105,7 +105,8 @@ class TitleState extends MusicBeatState
         super.update(elapsed);
 
 		FlxG.camera.zoom = FlxMath.lerp(FlxG.camera.zoom, CAMERA_DEFAULT_ZOOM, 0.05);
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || Pointer.justReleased;
+		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER
+			|| (FlxG.onMobile ? FlxG.touches.getFirst()?.justReleased : FlxG.mouse.justReleased);
 
 		if (allowInput)
 		{

@@ -10,12 +10,22 @@ class Android
 	 */
     public static function getSystemLanguage():String
     {
-        var getLanguageJNI:Null<Dynamic> = JNI.createStaticMethod('java/util/Locale', 'getLanguage', 'V(C)');
+		try
+		{
+			var getDefaultLocale:Null<Dynamic> = JNI.createStaticMethod("java/util/Locale", "getDefault", "()Ljava/util/Locale;");
 
-        if (getLanguageJNI != null)
-            return getLanguageJNI();
+			if (getDefaultLocale != null)
+			{
+				var locale = getDefaultLocale();
 
-        return "";
+				var getLanguage:Null<Dynamic> = JNI.createMemberMethod("java/util/Locale", "getLanguage", "()Ljava/lang/String;");
+				if (getLanguage != null)
+					return getLanguage(locale);
+			}
+		}
+		catch (e:Dynamic) {}
+
+		return "";
     }
 }
 #end

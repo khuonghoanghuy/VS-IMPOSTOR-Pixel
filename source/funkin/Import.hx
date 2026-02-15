@@ -15,7 +15,6 @@ import funkin.Paths;
 import funkin.api.DiscordClient;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
-import funkin.input.Pointer;
 import funkin.sound.FunkinSound;
 import funkin.system.Achievements;
 import funkin.system.Conductor;

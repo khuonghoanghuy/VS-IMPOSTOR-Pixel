@@ -39,6 +39,8 @@ class FunkinButton extends FunkinSprite implements IFlxInput
 
     var input:FlxInput<Int>;
 
+	var touchID:Int = -1;
+
     var _isPressed:Bool = false;
 
     public function new(x:Float = 0, y:Float = 0, fade:Bool = false, instant:Bool = false)
@@ -70,11 +72,26 @@ class FunkinButton extends FunkinSprite implements IFlxInput
 
         if (visible && enabled)
         {
-            final overlapping:Bool = checkOverlap();
+			final overlapping:Bool = FlxG.onMobile ? checkTouchOverlap() : checkMouseOverlap();
+
+			function getPressed():Bool
+			{
+				if (FlxG.onMobile)
+				{
+					if (touchID >= 0)
+					{
+						return FlxG.touches.list[touchID].pressed;
+					}
+				}
+				else
+					return FlxG.mouse.pressed;
+
+				return false;
+			}
 
             if (overlapping)
             {
-                if (Pointer.pressed)
+				if (getPressed())
                 {
                     if (!_isPressed) pressHandler();
                 }
@@ -92,11 +109,11 @@ class FunkinButton extends FunkinSprite implements IFlxInput
         input.update();
     }
 
-    function checkOverlap():Bool
+	function checkMouseOverlap():Bool
     {
         for (camera in cameras)
         {
-            final worldPoint:FlxPoint = Pointer.getWorldPosition(camera, _point);
+			final worldPoint:FlxPoint = FlxG.mouse.getWorldPosition(camera, _point);
 
             for (deadzone in deadzones)
             {
@@ -107,22 +124,64 @@ class FunkinButton extends FunkinSprite implements IFlxInput
             {
                 if (circleOverlapsPoint(worldPoint, camera))
                 {
-                    updateStatus(Pointer.pointer);
-                    return true;
-                }
-            }
-            else
-            {
-                if (overlapsPoint(worldPoint, true, camera))
-                {
-                    updateStatus(Pointer.pointer);
-                    return true;
-                }
-            }
-        }
+					updateStatus(FlxG.mouse);
+					return true;
+				}
+			}
+			else
+			{
+				if (overlapsPoint(worldPoint, true, camera))
+				{
+					updateStatus(FlxG.mouse);
+					return true;
+				}
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
+
+	function checkTouchOverlap():Bool
+	{
+		for (camera in cameras)
+		{
+			for (touch in FlxG.touches.list)
+			{
+				final worldPoint:FlxPoint = touch.getWorldPosition(camera, _point);
+
+				for (deadzone in deadzones)
+				{
+					if (deadzone != null && deadzone.overlapsPoint(worldPoint, true, camera))
+						return false;
+				}
+
+				function updateTouch()
+				{
+					touchID = FlxG.touches.list.indexOf(touch);
+					updateStatus(touch);
+				}
+
+				if (radius > 0)
+				{
+					if (circleOverlapsPoint(worldPoint, camera))
+					{
+						updateTouch();
+						return true;
+					}
+				}
+				else
+				{
+					if (overlapsPoint(worldPoint, true, camera))
+					{
+						updateTouch();
+						return true;
+					}
+                }
+			}
+		}
+
+		return false;
+	}
 
     public function circleOverlapsPoint(point:FlxPoint, ?camera:FlxCamera):Bool
     {
@@ -140,7 +199,7 @@ class FunkinButton extends FunkinSprite implements IFlxInput
         return distance <= radius;
     }
 
-    function updateStatus(input:Dynamic)
+	function updateStatus(input:Dynamic)
     {
         if (input.justPressed)
         {
@@ -169,6 +228,7 @@ class FunkinButton extends FunkinSprite implements IFlxInput
         _isPressed = false;
 
         input.release();
+		touchID = -1;
 
         onRelease.dispatch();
     }
@@ -178,6 +238,7 @@ class FunkinButton extends FunkinSprite implements IFlxInput
         _isPressed = false;
 
         input.release();
+		touchID = -1;
 
         onUnhover.dispatch();
     }
