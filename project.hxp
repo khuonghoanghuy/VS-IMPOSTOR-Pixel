@@ -13,7 +13,7 @@ class Project extends HXProject
      */
     static final VERSION:String = "2.0";
 
-    static final BUILD_NUMBER:Int = 14;
+    static final BUILD_NUMBER:Int = 15;
 
     /**
      * The title of the application.
@@ -204,6 +204,7 @@ class Project extends HXProject
 
         // for the Crash Handler
         // has a minor impact on performance.
+        setHaxeDefine("openfl-enable-handle-error");
         setHaxeDefine("HXCPP_CHECK_POINTER");
         setHaxeDefine("HXCPP_STACK_LINE");
         setHaxeDefine("HXCPP_STACK_TRACE");
@@ -226,6 +227,7 @@ class Project extends HXProject
 
         if (isRelease())
         {
+            setHaxeDefine("analyzer-optimize");
             setHaxeDefine("FLX_NO_DEBUG");
             setHaxeDefine("NAPE_RELEASE_BUILD");
         }
@@ -303,7 +305,7 @@ class Project extends HXProject
         {
             adaptiveIcon = new AdaptiveIcon('.artwork/icons/android/', true);
         }
-        else*/ if (isIOS())
+        else*/ if (isMobile())
         {
             addIcon(".artwork/icons/icon-iOS-x29.png", 29);
             addIcon(".artwork/icons/icon-iOS-x29@2x.png", 58);
@@ -321,6 +323,7 @@ class Project extends HXProject
             addIcon(".artwork/icons/icon-x16.png", 16);
             addIcon(".artwork/icons/icon-x32.png", 32);
             addIcon(".artwork/icons/icon-x64.png", 64);
+            addIcon(".artwork/icons/icon-x128.png", 128);
             addIcon(".artwork/icons/icon-x512.png", 512);
             addIcon(".artwork/icons/icon-x1024.png", 1024);
             addIcon(".artwork/icons/icon-x40.png");
