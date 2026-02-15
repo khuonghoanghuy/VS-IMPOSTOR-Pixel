@@ -50,14 +50,13 @@ class Translations
         languages = new Map<String, Language>();
         curLanguageID = Defaults.DEFAULT_LANGUAGE;
 
-        for (file in Paths.getFolderContents('data/languages'))
+		for (language in Defaults.LANGUAGES)
         {
-            if (Path.extension(file) == "json")
-            {
-                var fileNoExt:String = Path.withoutExtension(file);
-                var langData:Language = Json.parse(Assets.getText(Paths.json('languages/$fileNoExt')));
-                languages.set(fileNoExt, langData);
-            }
+			if (Assets.exists(Paths.json('languages/$language')))
+			{
+				var langData:Language = Json.parse(Assets.getText(Paths.json('languages/$language')));
+				languages.set(language, langData);
+			}
         }
     }
 

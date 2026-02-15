@@ -1,5 +1,6 @@
 package funkin.ui.debug.advanced;
 
+import flixel.util.FlxStringUtil;
 import funkin.utils.MemoryUtil;
 import openfl.text.TextField;
 
@@ -22,9 +23,9 @@ class Memory extends DebugCategory
         #else
         final memShit:Array<String> = [];
         //memShit.push('CPU Usage: 0');
-        memShit.push('RAM Usage: ${FlxMath.roundDecimal(MemoryUtil.getRAMUsage() * 100, 1)}% (${StringUtil.getByteSizeString(MemoryUtil.getTaskMemory())} / ${StringUtil.getByteSizeString(MemoryUtil.getSystemMemory())})');
-        memShit.push('VRAM Usage: ${FlxMath.roundDecimal(MemoryUtil.getVRAMUsage() * 100, 1)}% (${StringUtil.getByteSizeString(MemoryUtil.getGraphicsMemoryUsage())} / ${StringUtil.getByteSizeString(MemoryUtil.getGraphicsMemoryTotal())})');
-        memShit.push('Garbage Collector Memory: ${StringUtil.getByteSizeString(MemoryUtil.getGCMemory())}');
+		memShit.push('RAM Usage: ${FlxMath.roundDecimal(MemoryUtil.getRAMUsage() * 100, 1)}% (${FlxStringUtil.formatBytes(MemoryUtil.getTaskMemory())} / ${FlxStringUtil.formatBytes(MemoryUtil.getSystemMemory())})');
+		memShit.push('VRAM Usage: ${FlxMath.roundDecimal(MemoryUtil.getVRAMUsage() * 100, 1)}% (${FlxStringUtil.formatBytes(MemoryUtil.getGraphicsMemoryUsage())} / ${FlxStringUtil.formatBytes(MemoryUtil.getGraphicsMemoryTotal())})');
+		memShit.push('Garbage Collector Memory: ${FlxStringUtil.formatBytes(MemoryUtil.getGCMemory())}');
 
         memoryInfo.text = memShit.join('\n');
         #end

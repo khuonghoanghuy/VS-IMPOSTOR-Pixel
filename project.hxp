@@ -42,12 +42,12 @@ class Project extends HXProject
     /**
      * A list of languages supported by the application.
      */
-    static final LANGUAGES:Array<String> = ["en", "es"];
+    static final LANGUAGES:Array<String> = ["en", "es", "fr", "pt", "ru", "vi"];
 
     /**
      * The path to the class that installs the application and caches most of the assets.
      */
-    static final PRELOADER_CLASS_PATH:String = "flixel.system.FlxPreloader";
+    static final PRELOADER_CLASS_PATH:String = "funkin.system.preload.FunkinPreloader";
 
     /**
      * The path to the class that setups and starts the game.
@@ -253,12 +253,19 @@ class Project extends HXProject
         addHaxelib("tink_url");
         //addHaxelib("tink_await");
 
-        addHaxelib("extension-androidtools");
-        addHaxelib("extension-haptics");
-
         if (hasHaxeDefine("VIDEOS_BACKEND"))
         {
             addHaxelib("hxvlc");
+        }
+
+        if (isMobile())
+        {
+            if (isAndroid())
+            {
+                addHaxelib("extension-androidtools");
+            }
+
+            addHaxelib("extension-haptics");
         }
 
         if (isDebug())

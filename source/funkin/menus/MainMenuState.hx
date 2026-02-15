@@ -2,7 +2,7 @@ package funkin.menus;
 
 import flixel.FlxBasic;
 import flixel.FlxSprite;
-import flixel.group.FlxContainer.FlxTypedContainer;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.text.FlxText.FlxTextAlign;
@@ -893,7 +893,7 @@ class WindowSubMenuHandler extends FlxBasic
     }
 }
 
-class WindowSubMenu extends FlxTypedContainer<WindowButton>
+class WindowSubMenu extends FlxTypedGroup<WindowButton>
 {
     public var nameTranslationID(default, null):String;
 

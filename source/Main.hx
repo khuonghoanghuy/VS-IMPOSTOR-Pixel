@@ -10,7 +10,7 @@ import openfl.Lib;
 import openfl.display.Sprite;
 
 #if android
-import android.content.Context;
+import extension.androidtools.content.Context;
 #end
 
 class Main extends Sprite
@@ -20,10 +20,11 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+
 		#if android
 		Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
 		#elseif ios
-		Sys.setCwd(System.applicationStorageDirectory);
+		Sys.setCwd(Path.addTrailingSlash(System.documentsDirectory));
 		#end
 
 		CrashHandler.init();

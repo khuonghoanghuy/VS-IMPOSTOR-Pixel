@@ -1,5 +1,6 @@
 package funkin.ui.debug;
 
+import flixel.util.FlxStringUtil;
 import funkin.utils.MemoryUtil;
 import openfl.display.Sprite;
 import openfl.text.TextField;
@@ -35,7 +36,7 @@ class SimpleDisplay extends Sprite
 
         memoryText = new TextField();
 		memoryText.x = 10;
-		memoryText.y = 36;
+		memoryText.y = 38;
 		memoryText.width = 400;
 		memoryText.height = 20;
 		memoryText.selectable = false;
@@ -43,7 +44,11 @@ class SimpleDisplay extends Sprite
 		memoryText.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 15, 0xFFFFFF);
 		addChild(memoryText);
 
-        memoryText.text = 'Memory: ${StringUtil.getByteSizeString(0)}';
+		#if web
+		memoryText.visible = false;
+		#else
+		memoryText.text = 'Memory: ${FlxStringUtil.formatBytes(0)}';
+		#end
     }
 
     public function update(deltaTime:Float)
@@ -58,12 +63,14 @@ class SimpleDisplay extends Sprite
 
         fps = times.length;
 
+		#if !web
         memoryUpdateTimer += deltaTime;
         if (memoryUpdateTimer >= DebugOverlay.UPDATE_FREQUENCY)
         {
             memoryUpdateTimer = 0;
-            memoryText.text = 'Memory: ${StringUtil.getByteSizeString(MemoryUtil.getGCMemory())}';
+			memoryText.text = 'Memory: ${FlxStringUtil.formatBytes(MemoryUtil.getGCMemory())}';
         }
+		#end
     }
 
     function get_currentFPS():Int

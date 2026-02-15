@@ -22,6 +22,11 @@ final class Defaults
 	 */
 	public static final DEBUG_BUILD:Bool = #if debug true #else false #end;
 
+	/**
+	 * The languages the mod supports.
+	 */
+	public static final LANGUAGES:Array<String> = ["en", "es", "fr", "pt", "ru", "vi"];
+
 	public static final DEFAULT_FONT:String = "Pixeloid Sans Bold";
 
 	/**

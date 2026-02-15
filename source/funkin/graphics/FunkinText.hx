@@ -12,11 +12,13 @@ class FunkinText extends FlxText
 	public static function createFormat(parameters:TextFormatParameters):FlxTextFormat
 	{
 		var textFormat:FlxTextFormat = new FlxTextFormat(parameters.color, parameters.bold, parameters.italic, parameters.borderColor, parameters.underline);
-		@:privateAccess textFormat.format.size = parameters.size;
-		@:privateAccess textFormat.format.font = FlxG.assets.getFont(parameters.font)?.fontName ?? Defaults.DEFAULT_FONT;
-		@:privateAccess textFormat.format.align = FlxTextAlign.toOpenFL(parameters.alignment ?? LEFT);
-		@:privateAccess textFormat.format.strikethrough = parameters.strikethrough;
-		@:privateAccess textFormat.format.letterSpacing = parameters.letterSpacing;
+		@:privateAccess {
+			textFormat.format.size = parameters.size;
+			textFormat.format.font = FlxG.assets.getFont(Paths.font(parameters.font))?.fontName ?? Defaults.DEFAULT_FONT;
+			textFormat.format.align = FlxTextAlign.toOpenFL(parameters.alignment ?? LEFT);
+			textFormat.format.strikethrough = parameters.strikethrough;
+			textFormat.format.letterSpacing = parameters.letterSpacing;
+		}
 		textFormat.leading = parameters.leading;
 		return textFormat;
 	}

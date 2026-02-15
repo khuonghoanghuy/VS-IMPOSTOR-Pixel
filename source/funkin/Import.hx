@@ -21,9 +21,8 @@ import funkin.system.Achievements;
 import funkin.system.Conductor;
 import funkin.system.Translations;
 import funkin.ui.MusicBeatState;
+import funkin.utils.Assets;
 import funkin.utils.MathUtil;
-import funkin.utils.StringUtil;
-import openfl.utils.Assets;
 
 using StringTools;
 #end
