@@ -54,10 +54,12 @@ class TitleState extends MusicBeatState
 
 		FunkinSound.playMenuMusic();
 
+		#if DISCORD_API
         DiscordClient.changePresence({
 			state: "Navigating Menus",
 			details: "Title Screen"
 		});
+		#end
 
         stars = new StarsBackdrop(-10, 5);
         add(stars);

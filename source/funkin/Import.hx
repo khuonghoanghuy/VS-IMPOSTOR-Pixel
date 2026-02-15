@@ -1,6 +1,10 @@
 package funkin;
 
 #if !macro
+#if DISCORD_API
+import funkin.api.DiscordClient;
+#end
+
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
@@ -12,7 +16,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import funkin.Defaults;
 import funkin.Paths;
-import funkin.api.DiscordClient;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinText;
 import funkin.sound.FunkinSound;

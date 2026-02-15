@@ -142,10 +142,12 @@ class MainMenuState extends MusicBeatState
     {
         super.create();
 
+		#if DISCORD_API
         DiscordClient.changePresence({
 			state: "Navigating Menus",
 			details: "Main Menu"
 		});
+		#end
 
         FunkinSound.playMenuMusic();
 

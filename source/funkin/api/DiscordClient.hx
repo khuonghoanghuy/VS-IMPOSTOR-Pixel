@@ -4,7 +4,6 @@ package funkin.api;
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
 import sys.thread.Thread;
-#end
 
 class DiscordClient
 {
@@ -12,7 +11,6 @@ class DiscordClient
 
 	public static function init()
 	{
-        #if DISCORD_API
         var handlers:DiscordEventHandlers = new DiscordEventHandlers();
         handlers.ready = cpp.Function.fromStaticFunction(onReady);
         handlers.disconnected = cpp.Function.fromStaticFunction(onDisconnect);
@@ -21,10 +19,8 @@ class DiscordClient
         Discord.Initialize(clientID, cpp.RawPointer.addressOf(handlers), true, null);
 
 		Thread.create(discordRPCUpdate);
-        #end
     }
 
-    #if DISCORD_API
     private static function discordRPCUpdate():Void {
         while (true) {
             #if DISCORD_DISABLE_IO_THREAD
@@ -48,15 +44,13 @@ class DiscordClient
     public static function onError(error:Int, message:cpp.ConstCharStar) {
         throw '[DISCORD] AN ERROR OCURRED! (Error code: $error | Message: ${cast(message, String)})';
 	}
-    #end
 
 	/**
 	 * Changes the Discord's presence.
 	 * @param params The parameters.
 	 */
-	public static function changePresence(params:#if DISCORD_API DiscordRPCParams #else Dynamic #end)
+	public static function changePresence(params:DiscordRPCParams)
 	{
-        #if DISCORD_API
         var presence:DiscordRichPresence = new DiscordRichPresence();
 
         presence.type = DiscordActivityType.DiscordActivityType_Playing;
@@ -77,21 +71,16 @@ class DiscordClient
         presence.smallImageKey = cast(params.smallImageKey, Null<String>) ?? "";
 
 		Discord.UpdatePresence(cpp.RawConstPointer.addressOf(presence));
-        #end
     }
 
 	public static function clearPresence()
 	{
-        #if DISCORD_API
-        Discord.ClearPresence();
-        #end
+		Discord.ClearPresence();
     }
 
 	public static function shutdown()
 	{
-        #if DISCORD_API
-        Discord.Shutdown();
-        #end
+		Discord.Shutdown();
     }
 }
 
@@ -111,7 +100,7 @@ typedef DiscordRPCParams = {
     /**
      * What the user is doing.
      */
-	var ?activity:#if DISCORD_API DiscordActivityType #else Dynamic #end;
+	var ?activity:DiscordActivityType;
 
     /**
      * The image to display in the Discord RPC.
@@ -132,3 +121,4 @@ typedef DiscordRPCParams = {
      */
     var ?smallImageText:String;
 }
+#end
