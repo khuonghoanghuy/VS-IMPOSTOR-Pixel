@@ -32,6 +32,14 @@
             "options": "Options",
             "exit": "Exit"
         },
+        "languages": {
+            "en": "English",
+            "es": "Spanish",
+            "fr": "French",
+            "pt": "Portuguese",
+            "ru": "Russian",
+            "vi": "Vietnamese"
+        },
         "titleScreen": {
             "pressStart": {
                 "press": "Press {0} to Play",
@@ -78,7 +86,7 @@
         "credits": {},
         "achievements": {
             "earned": "You earned an achievement!",
-            "unknown": "Keep playing the mod to know about this achievement!",
+            "unknown": "Keep playing the mod to know more about this achievement!",
             "youThought": {
                 "name": "You Thought",
                 "desc": "Click on any blocked option in any of the original VS IMPOSTOR menus."
@@ -89,11 +97,11 @@
             },
             "alteredReality": {
                 "name": "Altered Reality",
-                "desc": "Beat Black Impostor in Finale, then have him reset the game and alter reality."
+                "desc": "Beat Black Impostor in Redemption, then have him reset the game and alter reality."
             },
             "newStoryUnfolds": {
                 "name": "New Story Unfolds",
-                "desc": "Enter the lobby for the first time."
+                "desc": "Enter the main lobby for the first time."
             },
             "outsmarted": {
                 "name": "Outsmarted",
@@ -101,19 +109,19 @@
             },
             "noFunAllowed": {
                 "name": "No Fun Allowed",
-                "desc": "Abruptly interrumpt any song or dialogue from Polus Problems by reporting the dead bodies in Story Mode."
+                "desc": "Abruptly interrumpt any song of Polus Problems by reporting the dead bodies in Story Mode."
             },
             "outperformed": {
                 "name": "Outperformed",
                 "desc": "Beat Mira Mania with S rank in Hard difficulty."
             },
-            "beastController": {
-                "name": "Beast Controller",
+            "onTheRun": {
+                "name": "On the Run",
                 "desc": "Beat Airship Atrocities with S rank in Hard difficulty."
             },
             "fashionThief": {
                 "name": "Fashion Thief",
-                "desc": "Play any song from Polus Problems with the Boyfriend skin \"Mini Red\" selected."
+                "desc": "Play any song of Polus Problems with the Boyfriend skin \"Mini Red\" selected."
             },
             "noBeans": {
                 "name": "No Beans?",
@@ -135,9 +143,13 @@
                 "name": "Skill Issue",
                 "desc": "Die 50 times."
             },
+            "easyPrey": {
+                "name": "Easy Prey",
+                "desc": "Die 100 times."
+            },
             "bruh": {
                 "name": "Bruh",
-                "desc": "Die before a song even starts."
+                "desc": "Die before a song starts."
             },
             "impostorFan": {
                 "name": "Impostor Fan",

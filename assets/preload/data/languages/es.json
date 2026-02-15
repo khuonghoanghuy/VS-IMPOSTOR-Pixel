@@ -31,6 +31,14 @@
             "options": "Opciones",
             "exit": "Salir"
         },
+        "languages": {
+            "en": "Inglés",
+            "es": "Español",
+            "fr": "Francés",
+            "pt": "Portugués",
+            "ru": "Ruso",
+            "vi": "Vietnamita"
+        },
         "titleScreen": {
             "pressStart": {
                 "press": "Presiona {0} para Jugar",
