@@ -7,7 +7,7 @@ class DebugState extends FlxState
 {
     var editorsArray:Array<String> = ["Chart Editor", "Character Editor"];
 
-    var editors:FlxTypedGroup<FunkinText>;
+	var editorsTxt:FlxTypedGroup<FunkinText>;
 
     var curEntry:Int = 0;
 
@@ -17,15 +17,18 @@ class DebugState extends FlxState
 
         super.create();
 
-        editors = new FlxTypedGroup<FunkinText>();
-        add(editors);
+		var bg:FunkinSprite = new FunkinSprite().makeSolid(FlxG.width, FlxG.height, FlxColor.GRAY);
+		add(bg);
 
-        for (i => editor in editorsArray)
+		editorsTxt = new FlxTypedGroup<FunkinText>();
+		add(editorsTxt);
+
+		for (i in 0...editorsArray.length)
         {
-            var text:FunkinText = new FunkinText(0, 0, 0, editor, 32);
-            text.screenCenter(X);
-            text.y = 10 * i;//(((FlxG.height - text.height) / 2) / editorsArray.length) * i;
-            editors.add(text);
+			var text:FunkinText = new FunkinText(0, 0, 0, editorsArray[i], 32);
+			text.screenCenter();
+			text.y = (((FlxG.height - text.height) / 2) / editorsArray.length) * i;
+			editorsTxt.add(text);
         }
 
         changeEntry();
@@ -42,13 +45,15 @@ class DebugState extends FlxState
 
         if (FlxG.keys.justPressed.ENTER)
             checkEntry();
+		if (FlxG.keys.justPressed.BACKSPACE)
+			FlxG.switchState(() -> new MainMenuState());
     }
 
     function changeEntry(change:Int = 0)
     {
         curEntry = FlxMath.wrap(curEntry + change, 0, editorsArray.length - 1);
 
-        for (i => text in editors.members)
+		for (i => text in editorsTxt.members)
         {
             if (i == curEntry)
                 text.scale.set(1.1, 1.1);

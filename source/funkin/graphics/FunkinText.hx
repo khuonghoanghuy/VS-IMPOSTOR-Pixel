@@ -45,7 +45,7 @@ class FunkinText extends FlxText
 	 * 
 	 * @param x             The horizontal position of the text.
 	 * @param y             The vertical position of the text.
-	 * @param fieldWidth    The width of the text. Enabled `autoSize` if `0` or below.
+	 * @param fieldWidth    The width of the text. Enables `autoSize` if `0` or below.
 	 * @param text          The text you want the text object to display.
 	 * @param size          The font size of the text.
 	 * @param useBorders    Whether to render borders for the text.

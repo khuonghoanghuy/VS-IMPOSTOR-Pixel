@@ -79,6 +79,8 @@ class CharacterEditorState extends FlxState
         handleCharacterManipulationControls();
 
         super.update(elapsed);
+		if (FlxG.keys.justPressed.BACKSPACE)
+			FlxG.switchState(() -> new DebugState());
     }
 
     function changeCharacter(newCharacter:String)
