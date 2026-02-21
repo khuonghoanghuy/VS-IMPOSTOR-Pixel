@@ -37,7 +37,7 @@ final class Defaults
 	/**
 	 * The default animation name to add or play for all sprites.
 	 */
-	public static final DEFAULT_ANIMATION_NAME:String = 'anim';
+	public static final DEFAULT_ANIMATION_NAME:String = 'idle';
 
 	/**
 	 * The chance for shooting stars to spawn each frame.
@@ -76,12 +76,12 @@ final class Defaults
 	public static final DEFAULT_SHOOTING_STAR_LAUNCH_ANGLE_MAX:Float = 45;
 
 	/**
-	 * The default animation name to play for `Character`s.
-	 */
-	public static final DEFAULT_CHARACTER_ANIMATION:String = 'idle';
-
-	/**
 	 * The default beats per minute.
 	 */
-    public static final DEFAULT_BPM:Float = 100;
+	public static final DEFAULT_BPM:Float = 100;
+
+	/**
+	 * The default character to load if another one fails to load.
+	 */
+	public static final DEFAULT_CHARACTER:String = "bf";
 }

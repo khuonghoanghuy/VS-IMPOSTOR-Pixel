@@ -50,7 +50,8 @@ class MusicBeatState extends FlxTransitionableState
         Conductor.onStepHit.add(stepHit);
     }
 
-    override public function destroy() {
+	override public function destroy()
+	{
         super.destroy();
 
         Conductor.onMeasureHit.remove(measureHit);

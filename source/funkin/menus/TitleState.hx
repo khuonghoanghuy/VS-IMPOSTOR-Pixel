@@ -3,6 +3,7 @@ package funkin.menus;
 import flixel.FlxSprite;
 import flixel.effects.FlxFlicker;
 import flixel.util.FlxGradient;
+import funkin.graphics.shaders.RGBPalette;
 import funkin.graphics.text.GameboyText;
 import funkin.ui.StarsBackdrop;
 
@@ -47,7 +48,8 @@ class TitleState extends MusicBeatState
 
 	var doCameraBop:Bool = true;
 
-    override public function create() {
+	override public function create()
+	{
         MusicBeatState.skipTransOut = true;
 
         super.create();
@@ -70,6 +72,7 @@ class TitleState extends MusicBeatState
 
 		titleRGBSprite = new FunkinSprite().loadGraphic(Paths.image("menus/title/color"));
         titleRGBSprite.scaleSprite(4);
+		titleRGBSprite.shader = new RGBPalette(titleColors[0][0], titleColors[0][1]);
         titleSpriteGroup.add(titleRGBSprite);
 
 		var titleAnimIndices:Array<Int> = [0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 0];
@@ -134,7 +137,8 @@ class TitleState extends MusicBeatState
 		}
     }
 
-    override public function beatHit(beat:Int) {
+	override public function beatHit(beat:Int)
+	{
 		super.beatHit(beat);
 
         if (beat % 4 == 3)
@@ -149,15 +153,23 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	override function measureHit(measure:Int)
+	override public function measureHit(measure:Int)
 	{
 		super.measureHit(measure);
+		if (curMeasure >= 20 || pressed)
+			return;
+
+		var chosenColors:Array<FlxColor> = FlxG.random.getObject(titleColors);
+		titleRGBSprite.shader = new RGBPalette(chosenColors[0], chosenColors[1]);
 	}
 
+	var pressed:Bool = false;
 	var transitionTimer:FlxTimer = new FlxTimer();
 
 	public function accept(keyboard:Bool):Void
 	{
+		pressed = true;
+
 		if (pressStartTweenIn != null)
 			pressStartTweenIn.cancel();
 

@@ -241,7 +241,7 @@ class Project extends HXProject
         addHaxelib("flixel");
         addHaxelib("flixel-addons");
 
-        addHaxelib("json2object");
+        addHaxelib("tjson");
 
         addHaxelib("haxeui-core");
         addHaxelib("haxeui-flixel");

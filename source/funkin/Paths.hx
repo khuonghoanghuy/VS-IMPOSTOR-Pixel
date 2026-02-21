@@ -1,5 +1,6 @@
 package funkin;
 
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.io.Path;
 import lime.system.System;
@@ -72,24 +73,49 @@ class Paths
 		return contents;
 	}
 
+	public inline static function getSparrowFrames(path:String, ?library:String):FlxAtlasFrames
+	{
+		return FlxAtlasFrames.fromSparrow(image(path, library), file('images/$path.xml', library));
+	}
+
+	public inline static function getAsepriteFrames(path:String, ?library:String):FlxAtlasFrames
+	{
+		return FlxAtlasFrames.fromAseprite(image(path, library), file('images/$path.json', library));
+	}
+
+	public inline static function getPackerFrames(path:String, ?library:String):FlxAtlasFrames
+	{
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(path, library), file('images/$path.json', library));
+	}
+
 	public static function getFrames(path:String, ?library:String):FlxAtlasFrames
 	{
-		var imagePath:String = image(path, library);
-
 		if (Assets.exists(file('images/$path.xml')))
 		{
-			return FlxAtlasFrames.fromSparrow(imagePath, file('images/$path.xml', library));
+			return getSparrowFrames(path, library);
 		}
 		else if (Assets.exists(file('images/$path.json')))
 		{
-			return FlxAtlasFrames.fromAseprite(imagePath, file('images/$path.json', library));
+			return getAsepriteFrames(path, library);
 		}
 		else if (Assets.exists(file('images/$path.txt')))
 		{
-			return FlxAtlasFrames.fromSpriteSheetPacker(imagePath, file('images/$path.txt', library));
+			return getPackerFrames(path, library);
 		}
 
 		return null;
+	}
+
+	public static function getMultipleFrames(paths:Array<String>, ?library):FlxAtlasFrames
+	{
+		var mainAtlas:FlxAtlasFrames = getFrames(paths[0], library);
+		if (paths.length > 1)
+		{
+			for (i in 1...paths.length)
+				mainAtlas.addAtlas(getFrames(paths[i], library));
+		}
+
+		return mainAtlas;
 	}
 
 	static function _getFiles(path:String, ?library:String):Array<String>

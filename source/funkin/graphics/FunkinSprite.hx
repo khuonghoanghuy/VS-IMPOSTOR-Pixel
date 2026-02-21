@@ -3,13 +3,22 @@ package funkin.graphics;
 import flixel.FlxSprite;
 import flixel.animation.FlxAnimation;
 import flixel.graphics.FlxGraphic;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import openfl.display.BitmapData;
 
 class FunkinSprite extends FlxSprite
 {
+	/**
+	 * Dispatches each time an animation finishes playing.
+	 * 
+	 * @param name The name of the animation.
+	 */
     public var onFinishAnimation:FlxTypedSignal<(name:String)->Void> = new FlxTypedSignal<(name:String)->Void>();
+
+	var animOffsets:Map<String, FlxPoint> = new Map<String, FlxPoint>();
 
     public function new(x:Float = 0, y:Float = 0, ?graphic:FlxGraphicAsset)
     {
@@ -24,6 +33,13 @@ class FunkinSprite extends FlxSprite
 
         animation.onFinish.add(finishAnimation);
     }
+
+	override public function destroy()
+	{
+		super.destroy();
+
+		FlxDestroyUtil.destroy(onFinishAnimation);
+	}
 
     /**
      * Rescales the sprite and updates it's hitbox automatically.
@@ -40,16 +56,15 @@ class FunkinSprite extends FlxSprite
     }
 
     /**
-     * Loads an image to this sprite from an external or embedded graphic file and parses it's animations if a valid file is alongside it.
+	 * Loads an image to this `FunkinSprite` from an external or embedded graphic file and loads it's animations if a valid file is found along side it at the same file directory path.
      * 
-     * @param graphic   The graphic to want to load and parse the animations from.
-     *                  Must be an asset path (a `String`) in order to parse the animations.
+	 * @param graphic   The graphic to want to load and parse the animations from. Must be a file path (a `String`) in order to load the animations.
      */
     public function loadSprite(graphic:FlxGraphicAsset):FunkinSprite
     {
         if (Std.isOfType(graphic, BitmapData) || Std.isOfType(graphic, FlxGraphic))
         {
-            loadGraphic(graphic);
+			super.loadGraphic(graphic);
         }
         else if (Std.isOfType(graphic, String))
         {
@@ -59,8 +74,9 @@ class FunkinSprite extends FlxSprite
         return this;
     }
 
-    override function clone():FunkinSprite
+	override public function clone():FunkinSprite
     {
+		super.clone();
         return cast new FunkinSprite().loadGraphicFromSprite(this);
     }
 
@@ -74,13 +90,52 @@ class FunkinSprite extends FlxSprite
      * @param unique        Whether the graphic is unique to this sprite.
      *                      This means that the graphic is a unique instance in HaxeFlixel's graphics cache, so whenever
      *                      you change the `pixels` of this sprite, it wouldn't affect other sprites using the same graphic.
-     * @param key           Must be set if you're loading a `BitmapData`.
+	 * @param key           Set this to force the cache backend to index it with a unique key.
+	 * @return              This `FunkinSprite` instance, for chaining.
      */
     override public function loadGraphic(graphic:FlxGraphicAsset, animated:Bool = false, frameWidth:Int = 0, frameHeight:Int = 0, unique:Bool = false, ?key:String):FunkinSprite
     {
         super.loadGraphic(graphic, animated, frameWidth, frameHeight, unique, key);
         return this;
     }
+
+	/**
+	 * Creates a rectangle with a single color and loads it into the sprite.
+	 * 
+	 * If you're not going to modify the sprite in any way, I recommend you use `makeSolid` instead of this function.
+	 * 
+	 * @param width     The width of the rectangle.
+	 * @param height    The height of the rectangle.
+	 * @param color     The color of the rectangle.
+	 * @param unique    Whether the graphic is unique to this sprite.
+	 *                  This means that the graphic is a unique instance in HaxeFlixel's graphics cache, so whenever
+	 *                  you change the `pixels` of this sprite, it wouldn't affect other sprites using the same graphic.
+	 * @param key       Set this to force the cache backend to index it with a unique key.
+	 * @return          This `FunkinSprite` instance, for chaining.
+	 */
+	override public function makeGraphic(width:Int, height:Int, color:FlxColor = FlxColor.WHITE, unique:Bool = false, ?key:String):FunkinSprite
+	{
+		super.makeGraphic(width, height, color, unique, key);
+		return this;
+	}
+
+	/**
+	 * Creates a rectangle with a single color and loads it into this sprite.
+	 * 
+	 * It's much more forgiving in terms of memory usage than `makeGraphic`, but with the cost of not being able to draw on it.
+	 * 
+	 * @param width     The width of the rectangle.
+	 * @param height    The height of the rectangle.
+	 * @param color     The color of the rectangle.
+	 * @return          This `FunkinSprite` instance, for chaining.
+	 */
+	public function makeSolid(width:Int, height:Int, color:FlxColor = FlxColor.WHITE):FunkinSprite
+	{
+		var graphic:FlxGraphic = FlxG.bitmap.create(1, 1, color, false, 'rect#${color.toHexString(true, false)}');
+		frames = graphic.imageFrame;
+		scaleSprite(width, height);
+		return this;
+	}
 
     /**
      * Deletes all the animations stored in the sprite and restores the frame rect so it shows the entire loaded graphic.
@@ -92,6 +147,14 @@ class FunkinSprite extends FlxSprite
         return this;
     }
 
+	/**
+	 * Plays an existing animation. Doesn't do anything if an animation with the same name is already playing.
+	 * 
+	 * @param animation The name of the animation.
+	 * @param force     Whether to force the animation to restart.
+	 * @param reverse   Whether to play the animation in reverse.
+	 * @param frame     From which frame to start playing the animation. If any number below `0` is set, it will play from a random frame.
+	 */
     public function playAnimation(?animation:String, force:Bool = false, reverse:Bool = false, frame:Int = 0):Void
     {
         var validAnimation:String = "";
@@ -107,6 +170,18 @@ class FunkinSprite extends FlxSprite
 
         this.animation.play(validAnimation, force, reverse, frame);
     }
+
+	/**
+	 * Replays the current playing animation.
+	 */
+	public function replayAnimation():Void
+	{
+		var curAnimation:FlxAnimation = getCurrentAnimation();
+		if (curAnimation != null)
+		{
+			curAnimation.play(true, curAnimation.reversed);
+		}
+	}
 
     /**
      * Adds a new animation to the sprite.
@@ -175,6 +250,16 @@ class FunkinSprite extends FlxSprite
         this.animation.addByPrefix(animation, prefix, framerate, looped, flipX, flipY);
     }
 
+	public function addAnimationOffsets(?animation:String, x:Float = 0, y:Float = 0)
+	{
+		if (animation == null)
+		{
+			animation = Defaults.DEFAULT_ANIMATION_NAME;
+		}
+
+		animOffsets.set(animation, FlxPoint.get(x, y));
+	}
+
     /**
      * Gets triggered when an animation finishes playing.
      * @param animation The animation name that just finished playing.
@@ -191,7 +276,7 @@ class FunkinSprite extends FlxSprite
 
     /**
      * @param animation The animation name.
-     * @return The `FlxAnimation`, if it doesn't exists, returns `null`.
+	 * @return The `FlxAnimation` instance. If it doesn't exists, returns `null`.
      */
     public function getAnimation(animation:String):Null<FlxAnimation>
     {
@@ -200,9 +285,28 @@ class FunkinSprite extends FlxSprite
             return null;
         }
 
-        return this.animation.getByName(animation);
-    }
+		return this.animation.getByName(animation);
+	}
 
+	public function getCurrentAnimation():Null<FlxAnimation>
+	{
+		return animation.curAnim;
+	}
+
+	/**
+	 * @param animation The animation name.
+	 * @return The animation offsets. If it doesn't exists, returns `null`.
+	 */
+	public function getAnimationOffsets(animation:String):Null<FlxPoint>
+	{
+		return animOffsets.get(animation);
+	}
+
+	/**
+	 * Checks if an animation exists.
+	 * @param animation The animation to check, by it's name.
+	 * @return Whether it exists or not.
+	 */
     public function hasAnimation(animation:String):Bool
     {
         return this.animation.getByName(animation) != null;

@@ -8,16 +8,15 @@ class FunkinSound extends FlxSound
 {
     public static function playMenuMusic(menuMusic:MenuMusic = MAIN_MENU, fade:Bool = true):FunkinSound
     {
-        if (FlxG.sound.music != null && FlxG.sound.music._sound != null)
+		if (FlxG.sound.music != null)
         {
             if (!FlxG.sound.music.playing)
-            {
-                FlxG.sound.music.resume();
-
+			{
                 if (fade)
                 {
                     FlxG.sound.music.fadeIn(4, 0, 0.8);
                 }
+				FlxG.sound.music.resume();
             }
 
             return cast FlxG.sound.music;
@@ -59,6 +58,9 @@ class FunkinSound extends FlxSound
         return music;
     }
 
+	/**
+	 * Pauses the currently playing background music.
+	 */
     public static function pauseMusic()
     {
         if (FlxG.sound.music != null)
@@ -68,6 +70,9 @@ class FunkinSound extends FlxSound
         }
     }
 
+	/**
+	 * Resumes the paused background music.
+	 */
     public static function resumeMusic()
     {
         if (FlxG.sound.music != null)
@@ -77,12 +82,16 @@ class FunkinSound extends FlxSound
         }
     }
 
+	/**
+	 * Stops the currently playing background music.
+	 */
     public static function stopMusic()
     {
         if (FlxG.sound.music != null)
         {
             FlxG.sound.music.stop();
 			FlxG.sound.music.destroy();
+			FlxG.sound.music = null;
 			Conductor.reset();
         }
     }
@@ -92,6 +101,7 @@ class FunkinSound extends FlxSound
         super();
     }
 
+	/*
 	public function loadSound(soundAsset:FlxSoundAsset, looped:Bool = false, autoDestroy:Bool = true, ?onComplete:Void->Void):FunkinSound
     {
         if (soundAsset == null) return this;
@@ -112,6 +122,7 @@ class FunkinSound extends FlxSound
 
         return cast init(looped, autoDestroy, onComplete);
     }
+	 */
 
 	public function loadStreamed(musicAsset:FlxSoundAsset, looped:Bool = true, autoDestroy:Bool = false, ?onComplete:Void->Void):FunkinSound
     {

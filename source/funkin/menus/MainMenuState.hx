@@ -7,6 +7,7 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.text.FlxText.FlxTextAlign;
 import flixel.util.FlxSignal;
+import funkin.menus.debug.DebugState;
 import funkin.ui.FunkinButton;
 import funkin.ui.StarsBackdrop;
 
@@ -372,10 +373,8 @@ class MainMenuState extends MusicBeatState
     public var usingKeyboard:Bool = true;
     public var curEntry:Int = 0;
 
-    override function update(elapsed:Float)
-    {
-        super.update(elapsed);
-
+	override public function update(elapsed:Float)
+	{
         if (allowInput)
         {
             switch (curSelectionMode)
@@ -384,6 +383,7 @@ class MainMenuState extends MusicBeatState
                 case WINDOW: handleWindowInput(elapsed);
             }
         }
+		super.update(elapsed);
     }
 
     public function handleMainInput(elapsed:Float)
@@ -399,7 +399,10 @@ class MainMenuState extends MusicBeatState
         if (usingKeyboard)
         {
             if (FlxG.keys.justPressed.BACKSPACE)
+			{
                 FlxG.switchState(() -> new TitleState());
+				return;
+			}
 
             if (FlxG.keys.justPressed.DOWN)
                 changeSelection(1);
@@ -408,6 +411,8 @@ class MainMenuState extends MusicBeatState
 
             if (FlxG.keys.justPressed.ENTER)
                 checkSelection();
+			if (FlxG.keys.justPressed.SEVEN)
+				FlxG.switchState(() -> new DebugState());
         }
 	}
 
