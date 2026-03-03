@@ -46,6 +46,7 @@
   "wrapping": {
     "methodChain": {
       "defaultWrap": "keep"
-    }
+    },
+    "maxLineLength": 1000
   }
 }

@@ -32,7 +32,30 @@ class Android
 		}
 		catch (e:Dynamic) {}
 
-		return '';
+		return 'en-US';
+	}
+
+	/**
+	 * @return If a keyboard is currently connected.
+	 */
+	public static function isKeyboardConnected():Bool
+	{
+		try
+		{
+			var getConfiguration:Null<Dynamic> = JNICache.createMemberMethod('android/content/res/Resources', 'getConfiguration', '()Landroid/content/res/Configuration;');
+
+			if (getConfiguration != null)
+			{
+				var config = getConfiguration();
+
+				trace(config.keyboard > 1 ? 'keyboard is connected lel' : 'keyboard is not connected bruh');
+
+				return config.keyboard > 1;
+			}
+		}
+		catch (e:Dynamic) {}
+
+		return false;
 	}
 }
 #end

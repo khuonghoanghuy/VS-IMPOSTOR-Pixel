@@ -8,6 +8,9 @@ import funkin.graphics.shaders.RGBPalette;
 import funkin.graphics.text.GameboyText;
 import funkin.menus.mainmenu.MainMenuState;
 import funkin.ui.StarsBackdrop;
+#if android
+import funkin.utils.native.Android;
+#end
 
 class TitleState extends MusicBeatState
 {
@@ -15,18 +18,18 @@ class TitleState extends MusicBeatState
 	static var CAMERA_DEFAULT_ZOOM:Float = 1;
 	static var CAMERA_BEAT_BOP_STRENGTH:Float = 0.01;
 
-	public var curState:TitleStateMode = IDLE;
+	var curState:TitleStateMode = IDLE;
 
-	public var stars:StarsBackdrop;
+	var stars:StarsBackdrop;
 
-	public var introGroup:FlxGroup;
-	public var introText:FunkinText;
+	var introGroup:FlxGroup;
+	var introText:FunkinText;
 
-	public var titleRGBSprite:FunkinSprite;
-	public var titleMainSprite:FunkinSprite;
-	public var pressStartText:GameboyText;
+	var titleRGBSprite:FunkinSprite;
+	var titleMainSprite:FunkinSprite;
+	var pressStartText:GameboyText;
 
-	public var transitionSprite:FlxSprite;
+	var transitionSprite:FlxSprite;
 
 	var titleColors:Array<Array<FlxColor>> = [
 		[0xFFE31629, 0xFF90003A],
@@ -85,7 +88,7 @@ class TitleState extends MusicBeatState
 
 		titleSpriteGroup.screenCenter(X);
 
-		pressStartText = new GameboyText(0, 0, "", 56);
+		pressStartText = new GameboyText(0, 0, '', 56);
 		pressStartText.fieldWidth = FlxG.width;
 		pressStartText.alignment = CENTER;
 		pressStartText.translationData = {id: 'titleScreen.pressStart.press', parameters: ['ENTER']};
@@ -157,8 +160,11 @@ class TitleState extends MusicBeatState
 	override public function measureHit(measure:Int)
 	{
 		super.measureHit(measure);
+
 		if (curMeasure >= 20 || pressed)
+		{
 			return;
+		}
 
 		var chosenColors:Array<FlxColor> = FlxG.random.getObject(titleColors);
 		titleRGBSprite.shader = new RGBPalette(chosenColors[0], chosenColors[1]);
@@ -166,6 +172,9 @@ class TitleState extends MusicBeatState
 
 	var pressed:Bool = false;
 	var transitionTimer:FlxTimer = new FlxTimer();
+	var psKeyboardTransData:TranslationData = {id: 'titleScreen.pressStart.press', parameters: ['ENTER']};
+	var psMouseTransData:TranslationData = {id: 'titleScreen.pressStart.mouse'};
+	var psTouchTransData:TranslationData = {id: 'titleScreen.pressStart.touch'};
 
 	function accept(keyboard:Bool)
 	{
@@ -183,10 +192,7 @@ class TitleState extends MusicBeatState
 
 		pressStartText.alpha = 1;
 
-		pressStartText.translationData = keyboard ? {
-			id: 'titleScreen.pressStart.press',
-			parameters: ['ENTER']
-		} : (FlxG.onMobile ? {id: 'titleScreen.pressStart.touch'} : {id: 'titleScreen.pressStart.mouse'});
+		pressStartText.translationData = keyboard ? psKeyboardTransData : (FlxG.onMobile ? psTouchTransData : psMouseTransData);
 
 		canSkipTransition = true;
 		doCameraBop = false;
@@ -238,13 +244,13 @@ class TitleState extends MusicBeatState
 			return;
 		}
 
-		if (altPSText = !altPSText)
+		if (altPSText = !altPSText #if android && Android.isKeyboardConnected() #end)
 		{
-			pressStartText.translationData = {id: 'titleScreen.pressStart.press', parameters: ['ENTER']};
+			pressStartText.translationData = psKeyboardTransData;
 		}
 		else
 		{
-			pressStartText.translationData = FlxG.onMobile ? {id: 'titleScreen.pressStart.touch'} : {id: 'titleScreen.pressStart.mouse'};
+			pressStartText.translationData = FlxG.onMobile ? psTouchTransData : psMouseTransData;
 		}
 
 		pressStartText.screenCenter(X);
