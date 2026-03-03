@@ -1,21 +1,34 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Build + Debug",
-			"type": "lime",
-			"request": "launch"
-		},
-		{
-			"name": "Debug",
-			"type": "lime",
-			"request": "launch",
-			"preLaunchTask": null
-		},
-		{
-			"name": "Macro",
-			"type": "haxe-eval",
-			"request": "launch"
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Lime Build + Debug",
+      "type": "lime",
+      "request": "launch"
+    },
+    {
+      "name": "Lime Debug",
+      "type": "lime",
+      "request": "launch",
+      "preLaunchTask": null
+    },
+    {
+      "name": "HTML5 Debug",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8080",
+      "sourceMaps": true,
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Macro",
+      "type": "haxe-eval",
+      "request": "launch"
+    },
+    {
+      "name": "HXCPP Attach",
+      "type": "hxcpp",
+      "request": "attach"
+    }
+  ]
 }

@@ -7,36 +7,39 @@ import openfl.text.TextFormat;
 import funkin.api.Git;
 #end
 
+/**
+ * Shows information about the mod.
+ */
 class ProjectDebug extends DebugCategory
 {
-    var projectTitle:TextField;
+	var projectTitle:TextField;
 
-    var projectInfo:TextField;
+	var projectInfo:TextField;
 
-    public function new(backgroundColor:Int)
-    {
-        super(null, 472, 62, backgroundColor, TOP_RIGHT);
+	public function new(backgroundColor:Int)
+	{
+		super(null, 472, 62, backgroundColor, TOP_RIGHT);
 
 		projectInfo = createTextField();
 		projectInfo.y = 38;
-        addChild(projectInfo);
+		addChild(projectInfo);
 
-        projectTitle = new TextField();
+		projectTitle = new TextField();
 		projectTitle.x = 8;
-        projectTitle.y = 2;
+		projectTitle.y = 2;
 		projectTitle.width = overlayWidth - 16;
-        projectTitle.height = overlayHeight;
-        projectTitle.selectable = false;
+		projectTitle.height = overlayHeight;
+		projectTitle.selectable = false;
 		projectTitle.mouseEnabled = false;
-        projectTitle.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 28, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
-        projectTitle.text = '${Defaults.TITLE} - ${Defaults.VERSION}';
-        addChild(projectTitle);
+		projectTitle.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 28, 0xFFFFFF, null, null, null, null, null, getTextAlignFromCategoryAlignment());
+		projectTitle.text = '${Defaults.TITLE} - ${Defaults.VERSION}';
+		addChild(projectTitle);
 
-        final modStuff:Array<String> = [];
-        #if desktop
-        modStuff.push('Git Commit: ${Git.getCommitHash()}');
-        #end
+		final modStuff:Array<String> = [];
+		#if desktop
+		modStuff.push('Git Commit: ${Git.getCommitHash()}');
+		#end
 
-        projectInfo.text = modStuff.join("\n");
-    }
+		projectInfo.text = modStuff.join('\n');
+	}
 }

@@ -2,38 +2,43 @@ package funkin;
 
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.transition.FlxTransitionableState;
+
 import funkin.menus.TitleState;
 import funkin.system.ShaderResizeFix;
 
+/**
+ * The state the game starts with.
+ * 
+ * Used for setting up critical classes.
+ */
 class InitState extends FlxState
 {
-    override public function create()
-    {
-        FlxSprite.defaultAntialiasing = false;
+	override public function create()
+	{
+		FlxSprite.defaultAntialiasing = false;
 
-        Conductor.init();
+		Conductor.init();
 		Translations.init();
-        Achievements.init();
+		Achievements.init();
 		#if DISCORD_API
-        DiscordClient.init();
+		DiscordClient.init();
 		#end
 		ShaderResizeFix.init();
 
-        #if FLX_MOUSE
-        FlxG.mouse.useSystemCursor = true;
-        #end
+		#if FLX_MOUSE
+		FlxG.mouse.useSystemCursor = true;
+		#end
 
-        FlxG.stage.window.minWidth = 1280;
-        FlxG.stage.window.minHeight = 720;
+		FlxG.stage.window.minWidth = 1280;
+		FlxG.stage.window.minHeight = 720;
 
-        FlxG.cameras.bgColor = FlxColor.TRANSPARENT;
+		FlxG.cameras.bgColor = FlxColor.TRANSPARENT;
 
-        startGame();
-    }
+		startGame();
+	}
 
-    function startGame()
-    {
+	function startGame()
+	{
 		FlxG.switchState(() -> new TitleState());
-    }
+	}
 }

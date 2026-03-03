@@ -1,15 +1,51 @@
 {
-	"lineEnds": {
-		"leftCurly": "both",
-		"rightCurly": "both",
-		"objectLiteralCurly": {
-			"leftCurly": "after"
-		}
-	},
-	"sameLine": {
-		"ifElse": "next",
-		"doWhile": "next",
-		"tryBody": "next",
-		"tryCatch": "next"
-	}
+  "lineEnds": {
+    "emptyCurly": "noBreak",
+    "leftCurly": "both",
+    "rightCurly": "both",
+    "objectLiteralCurly": {
+      "leftCurly": "after"
+    }
+  },
+  "sameLine": {
+    "ifBody": "next",
+    "elseBody": "next",
+    "ifElse": "next",
+    "elseIf": "same",
+    "doWhile": "next",
+    "tryBody": "next",
+    "tryCatch": "next",
+    "functionBody": "next",
+    "anonFunctionBody": "same"
+  },
+  "emptyLines": {
+    "enumAbstractEmptyLines": {
+      "betweenVars": 1
+    },
+    "importAndUsing": {
+      "betweenImportsLevel": "firstLevelPackage",
+      "betweenImports": 1,
+      "beforeUsing": 1,
+      "beforeType": 1
+    },
+    "maxAnywhereInFile": 1
+  },
+  "whitespace": {
+    "parenConfig": {
+      "conditionParens": {
+        "openingPolicy": "before",
+        "closingPolicy": "none"
+      }
+    },
+    "typeParamOpenPolicy": "none",
+    "typeParamClosePolicy": "none",
+    "arrowFunctionsPolicy": "around",
+    "functionTypeHaxe3Policy": "around",
+    "functionTypeHaxe4Policy": "around"
+  },
+  "wrapping": {
+    "methodChain": {
+      "defaultWrap": "keep"
+    }
+  }
 }

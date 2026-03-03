@@ -1,14 +1,60 @@
 {
-	"search.exclude": {
-		"export/**/*.*": true
-	},
-	"[haxe]": {
-		"editor.formatOnSave": true,
-		"editor.formatOnSaveMode":"modifications",
-		"editor.formatOnPaste": false,
-		"editor.codeActionsOnSave": {
-			"source.sortImports": "explicit"
-		}
-	},
-	"haxe.enableExtendedIndentation": true
+  "search.exclude": {
+    "export/**/*.*": true
+  },
+  "[haxe]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.sortImports": "explicit"
+    },
+    "editor.defaultFormatter": "nadako.vshaxe",
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": false,
+  "files.trimTrailingWhitespace": true,
+  "editor.detectIndentation": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "prettier.tabWidth": 2,
+  "files.eol": "\n",
+  "haxe.displayPort": "auto",
+  "haxe.enableCompilationServer": true,
+  "haxe.enableServerView": true,
+  "haxe.displayServer": { "arguments": ["-v"] },
+  "files.associations": {
+    "*.hxp": "haxe",
+    "*.haxe": "haxe"
+  },
+  "haxecheckstyle.sourceFolders": ["source"],
+  "haxecheckstyle.externalSourceRoots": [],
+  "haxecheckstyle.configurationFile": "checkstyle.json",
+  "haxecheckstyle.codeSimilarityBufferSize": 100,
+  "lime.projectFile": "project.hxp",
+  "lime.browser": "chrome",
+  "lime.targets": [
+    { "name": "windows", "enabled": true, "label": "Windows" },
+    { "name": "linux", "enabled": true, "label": "Linux" },
+    { "name": "mac", "enabled": true, "label": "macOS" },
+    { "name": "html5", "enabled": true, "label": "HTML5" },
+    { "name": "android", "enabled": true, "label": "Android" },
+    { "name": "ios", "enabled": true, "label": "iOS" },
+    { "name": "hl", "enabled": true, "label": "HashLink" },
+    { "name": "air", "enabled": false },
+    { "name": "electron", "enabled": false },
+    { "name": "flash", "enabled": false },
+    { "name": "neko", "enabled": false },
+    { "name": "tvos", "enabled": false }
+  ]
 }

@@ -2,8 +2,11 @@ package funkin;
 
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
+
 import haxe.io.Path;
+
 import lime.system.System;
+
 #if sys
 import sys.FileSystem;
 #end
@@ -11,9 +14,9 @@ import sys.FileSystem;
 class Paths
 {
 	public static function getPath(path:String, ?library:String):String
-    {
+	{
 		return library != null ? '$library:assets/$library/$path' : 'assets/$path';
-    }
+	}
 
 	public inline static function file(path:String, ?library:String):String
 	{
@@ -26,11 +29,11 @@ class Paths
 	}
 
 	public static function image(path:String, ?library:String):String
-    {
+	{
 		var path:String = getPath('images/$path.png', library);
 		var pathNoExt:String = Path.withoutExtension(path);
 		var extension:String = Path.extension(path);
-		//trace('$pathNoExt-${Translations.curLanguageID}.$extension');
+		// trace('$pathNoExt-${Translations.curLanguageID}.$extension');
 		if (Assets.exists('$pathNoExt-${Translations.curLanguageID}'))
 		{
 			return '$pathNoExt-${Translations.curLanguageID}.$extension';
@@ -39,17 +42,17 @@ class Paths
 		{
 			return path;
 		}
-    }
+	}
 
 	public inline static function sound(path:String, ?library:String):String
-    {
-        return getPath('sounds/$path.ogg', library);
-    }
+	{
+		return getPath('sounds/$path.ogg', library);
+	}
 
 	public inline static function music(path:String, ?library:String):String
-    {
-        return getPath('music/$path.ogg', library);
-    }
+	{
+		return getPath('music/$path.ogg', library);
+	}
 
 	public inline static function font(path:String, ?library:String):String
 	{

@@ -29,11 +29,11 @@ class MusicBeatState extends FlxTransitionableState
 		return FlxTransitionableState.skipNextTransOut;
 	}
 
-    public var curMeasure(get, never):Int;
+	public var curMeasure(get, never):Int;
 
-    public var curBeat(get, never):Int;
+	public var curBeat(get, never):Int;
 
-    public var curStep(get, never):Int;
+	public var curStep(get, never):Int;
 
 	/**
 	 * Creates a new state with the ability to do transitions and do stuff on beats.
@@ -42,22 +42,22 @@ class MusicBeatState extends FlxTransitionableState
 	 * @param transOutData 	Plays when the state ends.
 	 */
 	public function new(?transInData:TransitionData, ?transOutData:TransitionData)
-    {
+	{
 		super(transInData, transOutData);
 
-        Conductor.onMeasureHit.add(measureHit);
-        Conductor.onBeatHit.add(beatHit);
-        Conductor.onStepHit.add(stepHit);
-    }
+		Conductor.onMeasureHit.add(measureHit);
+		Conductor.onBeatHit.add(beatHit);
+		Conductor.onStepHit.add(stepHit);
+	}
 
 	override public function destroy()
 	{
-        super.destroy();
+		super.destroy();
 
-        Conductor.onMeasureHit.remove(measureHit);
-        Conductor.onBeatHit.remove(beatHit);
-        Conductor.onStepHit.remove(stepHit);
-    }
+		Conductor.onMeasureHit.remove(measureHit);
+		Conductor.onBeatHit.remove(beatHit);
+		Conductor.onStepHit.remove(stepHit);
+	}
 
 	/**
 	 * Gets triggered when the Conductor reaches a new measure.
@@ -83,18 +83,18 @@ class MusicBeatState extends FlxTransitionableState
 	 */
 	public function onLanguageUpdate(language:String) {}
 
-    function get_curMeasure():Int
-    {
-        return Conductor.curMeasure;
-    }
+	function get_curMeasure():Int
+	{
+		return Conductor.curMeasure;
+	}
 
-    function get_curBeat():Int
-    {
-        return Conductor.curBeat;
-    }
+	function get_curBeat():Int
+	{
+		return Conductor.curBeat;
+	}
 
-    function get_curStep():Int
-    {
-        return Conductor.curStep;
-    }
+	function get_curStep():Int
+	{
+		return Conductor.curStep;
+	}
 }

@@ -7,6 +7,7 @@ import flixel.input.FlxSwipe;
 import flixel.input.IFlxInput;
 import flixel.math.FlxPoint;
 import flixel.util.FlxDestroyUtil;
+
 import openfl.geom.Point;
 
 /**
@@ -210,7 +211,8 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 
 	function calculateVelocity():Void
 	{
-		if (!pressed) return;
+		if (!pressed)
+			return;
 
 		velocity.x = deltaViewX;
 		velocity.y = deltaViewY;
@@ -227,28 +229,32 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 	function get_justMovedLeft():Bool
 	{
 		var swiped:Bool = _swipeDeltaX < -FlxG.touches.swipeThreshold.x;
-		if (swiped) _startX = viewX;
+		if (swiped)
+			_startX = viewX;
 		return swiped;
 	}
 
 	function get_justMovedRight():Bool
 	{
 		var swiped:Bool = _swipeDeltaX > FlxG.touches.swipeThreshold.x;
-		if (swiped) _startX = viewX;
+		if (swiped)
+			_startX = viewX;
 		return swiped;
 	}
 
 	function get_justMovedUp():Bool
 	{
 		var swiped:Bool = _swipeDeltaY < -FlxG.touches.swipeThreshold.y;
-		if (swiped) _startY = viewY;
+		if (swiped)
+			_startY = viewY;
 		return swiped;
 	}
 
 	function get_justMovedDown():Bool
 	{
 		var swiped:Bool = _swipeDeltaY > FlxG.touches.swipeThreshold.y;
-		if (swiped) _startY = viewY;
+		if (swiped)
+			_startY = viewY;
 		return swiped;
 	}
 

@@ -4,6 +4,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.animation.FlxAnimation;
 import flixel.math.FlxPoint;
+
 import funkin.play.Character;
 import funkin.ui.backend.TopBar;
 import funkin.ui.backend.UIButton;
@@ -58,68 +59,68 @@ class CharacterEditorState extends MusicBeatState
 
 	var zoomText:FunkinText;
 
-    override public function create()
+	override public function create()
 	{
-        super.create();
+		super.create();
 
-        uiCamera = new FlxCamera();
-        uiCamera.bgColor = FlxColor.TRANSPARENT;
-        FlxG.cameras.add(uiCamera, false);
-
-		/*
-		spriteSheetCamera = new FlxCamera(0, 0, 480, 240);
-		spriteSheetCamera.bgColor = FlxColor.TRANSPARENT;
-		FlxG.cameras.add(spriteSheetCamera, false);
-		*/
-
-        background = new FlxBackdrop(FlxGridOverlay.createGrid(16, 16, 32, 32, true, 0xFFFFFFFF, 0xFFDCDCDC));
-		background.cameras = [FlxG.camera /*, spriteSheetCamera*/];
-        add(background);
-
-        var xAxis:FunkinSprite = new FunkinSprite().makeSolid(9999, 1, FlxColor.RED);
-        xAxis.blend = MULTIPLY;
-        xAxis.screenCenter(X);
-        add(xAxis);
-
-        var yAxis:FunkinSprite = new FunkinSprite().makeSolid(1, 9999, FlxColor.LIME);
-        yAxis.blend = MULTIPLY;
-        yAxis.screenCenter(Y);
-        add(yAxis);
-
-        reference = new FunkinSprite().loadGraphic(Paths.image("menus/debug/character/funker"));
-		reference.scaleSprite(10);
-        reference.color = FlxColor.BLACK;
-        reference.alpha = 0.4;
-        add(reference);
-
-        character = new Character();
-        character.animation.onFrameChange.add(updateAnimation);
-        add(character);
+		uiCamera = new FlxCamera();
+		uiCamera.bgColor = FlxColor.TRANSPARENT;
+		FlxG.cameras.add(uiCamera, false);
 
 		/*
-        animationList = new FlxTypedGroup<FunkinText>();
-        animationList.camera = uiCamera;
-        add(animationList);
+			spriteSheetCamera = new FlxCamera(0, 0, 480, 240);
+			spriteSheetCamera.bgColor = FlxColor.TRANSPARENT;
+			FlxG.cameras.add(spriteSheetCamera, false);
 		 */
 
-        zoomText = new FunkinText(8, FlxG.height - 4, "", 20, true);
-        zoomText.text = 'Zoom: ${Math.round(FlxG.camera.zoom * 100)}%';
-        zoomText.font = "Arial";
-        zoomText.bold = true;
-        zoomText.scrollFactor.set();
-        zoomText.y -= zoomText.height;
+		background = new FlxBackdrop(FlxGridOverlay.createGrid(16, 16, 32, 32, true, 0xFFFFFFFF, 0xFFDCDCDC));
+		background.cameras = [FlxG.camera /*, spriteSheetCamera*/];
+		add(background);
+
+		var xAxis:FunkinSprite = new FunkinSprite().makeSolid(9999, 1, FlxColor.RED);
+		xAxis.blend = MULTIPLY;
+		xAxis.screenCenter(X);
+		add(xAxis);
+
+		var yAxis:FunkinSprite = new FunkinSprite().makeSolid(1, 9999, FlxColor.LIME);
+		yAxis.blend = MULTIPLY;
+		yAxis.screenCenter(Y);
+		add(yAxis);
+
+		reference = new FunkinSprite().loadGraphic(Paths.image("menus/debug/character/funker"));
+		reference.scaleSprite(10);
+		reference.color = FlxColor.BLACK;
+		reference.alpha = 0.4;
+		add(reference);
+
+		character = new Character();
+		character.animation.onFrameChange.add(updateAnimation);
+		add(character);
+
+		/*
+			animationList = new FlxTypedGroup<FunkinText>();
+			animationList.camera = uiCamera;
+			add(animationList);
+		 */
+
+		zoomText = new FunkinText(8, FlxG.height - 4, "", 20, true);
+		zoomText.text = 'Zoom: ${Math.round(FlxG.camera.zoom * 100)}%';
+		zoomText.font = "Arial";
+		zoomText.bold = true;
+		zoomText.scrollFactor.set();
+		zoomText.y -= zoomText.height;
 		zoomText.camera = uiCamera;
-        add(zoomText);
+		add(zoomText);
 
 		initUI();
 
-        changeCharacter(Defaults.DEFAULT_CHARACTER);
+		changeCharacter(Defaults.DEFAULT_CHARACTER);
 
 		updateSpriteSheetViewer();
 
-        FlxG.camera.scroll.x = -(FlxG.camera.width - characterDataBG.width) / 2;
-        FlxG.camera.scroll.y = -FlxG.camera.height / 2;
-    }
+		FlxG.camera.scroll.x = -(FlxG.camera.width - characterDataBG.width) / 2;
+		FlxG.camera.scroll.y = -FlxG.camera.height / 2;
+	}
 
 	function initUI()
 	{
@@ -137,32 +138,32 @@ class CharacterEditorState extends MusicBeatState
 
 		// File Menu Section //
 
-		fileMenu = new UIButtonList("File");
+		fileMenu = new UIButtonList('File');
 		topBar.addButton(fileMenu);
 
-		var fileSaveItem:UIButton = new UIButton("Save");
+		var fileSaveItem:UIButton = new UIButton('Save');
 		fileMenu.addItem(fileSaveItem);
 
-		var fileSaveAsItem:UIButton = new UIButton("Save As...");
+		var fileSaveAsItem:UIButton = new UIButton('Save As...');
 		fileMenu.addItem(fileSaveAsItem);
 
-		var fileExitItem:UIButton = new UIButton("Exit");
+		var fileExitItem:UIButton = new UIButton('Exit');
 		fileExitItem.onPress.add(() -> FlxG.switchState(() -> new DebugState()));
 		fileMenu.addItem(fileExitItem);
 
 		// Edit Menu Section //
 
-		editMenu = new UIButtonList("Edit");
+		editMenu = new UIButtonList('Edit');
 		topBar.addButton(editMenu);
 
 		// View Menu Section //
 
-		viewMenu = new UIButtonList("View");
+		viewMenu = new UIButtonList('View');
 		topBar.addButton(viewMenu);
 
 		// Help Menu Section //
 
-		helpMenu = new UIButtonList("Help");
+		helpMenu = new UIButtonList('Help');
 		topBar.addButton(helpMenu);
 
 		/*
@@ -238,20 +239,29 @@ class CharacterEditorState extends MusicBeatState
 		handleCharacterManipulationControls();
 
 		super.update(elapsed);
-    }
+	}
 
 	var scrollAmount:Float = 500;
-    function handleCameraControls(elapsed:Float)
-    {
-        if (FlxG.keys.pressed.LEFT)
-            FlxG.camera.scroll.x -= scrollAmount * elapsed;
-        else if (FlxG.keys.pressed.RIGHT)
-            FlxG.camera.scroll.x += scrollAmount * elapsed;
 
-        if (FlxG.keys.pressed.UP)
-            FlxG.camera.scroll.y -= scrollAmount * elapsed;
-        else if (FlxG.keys.pressed.DOWN)
-            FlxG.camera.scroll.y += scrollAmount * elapsed;
+	function handleCameraControls(elapsed:Float)
+	{
+		if (FlxG.keys.pressed.LEFT)
+		{
+			FlxG.camera.scroll.x -= scrollAmount * elapsed;
+		}
+		else if (FlxG.keys.pressed.RIGHT)
+		{
+			FlxG.camera.scroll.x += scrollAmount * elapsed;
+		}
+
+		if (FlxG.keys.pressed.UP)
+		{
+			FlxG.camera.scroll.y -= scrollAmount * elapsed;
+		}
+		else if (FlxG.keys.pressed.DOWN)
+		{
+			FlxG.camera.scroll.y += scrollAmount * elapsed;
+		}
 
 		// if (FlxG.mouse.wheel != 0)
 		// setZoom(FlxG.camera.zoom + FlxG.mouse.wheel / 500);
@@ -263,47 +273,54 @@ class CharacterEditorState extends MusicBeatState
 		zoomText.text = 'Zoom: ${Math.round(FlxG.camera.zoom * 100)}%';
 	}
 
-    var curAnimIndex:Int = 0;
+	var curAnimIndex:Int = 0;
 
-    function handleCharacterManipulationControls()
-    {
-        if (FlxG.keys.justPressed.W)
-            changeAnimation(-1);
-        else if (FlxG.keys.justPressed.S)
-            changeAnimation(1);
+	function handleCharacterManipulationControls()
+	{
+		if (FlxG.keys.justPressed.W)
+		{
+			changeAnimation(-1);
+		}
+		else if (FlxG.keys.justPressed.S)
+		{
+			changeAnimation(1);
+		}
 
-        if (FlxG.keys.justPressed.A)
-            changeFrame(-1);
-        else if (FlxG.keys.justPressed.D)
-            changeFrame(1);
+		if (FlxG.keys.justPressed.A)
+		{
+			changeFrame(-1);
+		}
+		else if (FlxG.keys.justPressed.D)
+		{
+			changeFrame(1);
+		}
 
-        if (FlxG.keys.justPressed.SPACE)
-            character.replayAnimation();
-    }
+		if (FlxG.keys.justPressed.SPACE)
+		{
+			character.replayAnimation();
+		}
+	}
 
-    function changeAnimation(change:Int = 0)
-    {
-        var animationList:Array<String> = character.animation.getNameList();
-        curAnimIndex = FlxMath.wrap(curAnimIndex + change, 0, animationList.length - 1);
-        character.playAnimation(animationList[curAnimIndex], true);
+	function changeAnimation(change:Int = 0)
+	{
+		var animList:Array<String> = character.animation.getNameList();
+		curAnimIndex = FlxMath.wrap(curAnimIndex + change, 0, animList.length - 1);
+		character.playAnimation(animList[curAnimIndex], true);
 
-        updateTextList();
-    }
+		updateTextList();
+	}
 
-    function changeFrame(change:Int = 0)
-    {
-        var anim:FlxAnimation = character.getCurrentAnimation();
-        if (anim != null) 
-        {
-            anim.pause();
-            anim.curFrame = FlxMath.wrap(anim.curFrame + change, 0, anim.numFrames - 1);
-        }
-    }
+	function changeFrame(change:Int = 0)
+	{
+		var anim:FlxAnimation = character.getCurrentAnimation();
+		if (anim != null)
+		{
+			anim.pause();
+			anim.curFrame = FlxMath.wrap(anim.curFrame + change, 0, anim.numFrames - 1);
+		}
+	}
 
-    function updateAnimation(animation:String, frame:Int, index:Int)
-    {
-        
-    }
+	function updateAnimation(animation:String, frame:Int, index:Int) {}
 
 	function toggleSpriteSheet()
 	{
@@ -317,7 +334,7 @@ class CharacterEditorState extends MusicBeatState
 	{
 		if (isViewingSpriteSheet)
 		{
-			//spriteSheetCamera.visible = true;
+			// spriteSheetCamera.visible = true;
 			// spriteSheetWindow.show();
 
 			// spriteSheetCamera.x = spriteSheetWindow.x;
@@ -325,7 +342,7 @@ class CharacterEditorState extends MusicBeatState
 		}
 		else
 		{
-			//spriteSheetCamera.visible = false;
+			// spriteSheetCamera.visible = false;
 			// spriteSheetWindow.hide();
 		}
 	}
@@ -356,16 +373,16 @@ class CharacterEditorState extends MusicBeatState
 		updateTextList();
 	}
 
-    function updateTextList()
-    {
+	function updateTextList()
+	{
 		/*
-        for (i => text in animationList.members)
-        {
-            if (i == curAnimIndex)
-                text.color = FlxColor.CYAN;
-            else
-                text.color = FlxColor.WHITE;
-        }
+			for (i => text in animationList.members)
+			{
+				if (i == curAnimIndex)
+					text.color = FlxColor.CYAN;
+				else
+					text.color = FlxColor.WHITE;
+			}
 		 */
 	}
 }

@@ -3,6 +3,7 @@ package flixel.input.touch;
 import flixel.math.FlxPoint;
 #if FLX_TOUCH
 import flixel.util.FlxDestroyUtil;
+
 import openfl.Lib;
 import openfl.events.TouchEvent;
 import openfl.ui.Multitouch;
@@ -45,7 +46,8 @@ class FlxTouchManager implements IFlxInputManager
 	final _touchesCache:Map<Int, FlxTouch> = [];
 
 	/**
-	 * WARNING: can be null if no active touch with the provided ID could be found
+	 * @param TouchPointID The touch ID.
+	 * @return The touch with the matching ID. WARNING: can be null if no active touch with the provided ID could be found
 	 */
 	public inline function getByID(TouchPointID:Int):Null<FlxTouch>
 	{
@@ -53,7 +55,7 @@ class FlxTouchManager implements IFlxInputManager
 	}
 
 	/**
-	 * Return the first touch if there is one, beware of null
+	 * @return The first touch if there is one, beware of null.
 	 */
 	public function getFirst():Null<FlxTouch>
 	{
@@ -77,7 +79,7 @@ class FlxTouchManager implements IFlxInputManager
 	 * Gets all touches which were just started
 	 *
 	 * @param	TouchArray	Optional array to fill with touch objects
-	 * @return	Array with touches
+	 * @return Array with touches
 	 */
 	public function justStarted(?TouchArray:Array<FlxTouch>):Array<FlxTouch>
 	{
@@ -107,7 +109,7 @@ class FlxTouchManager implements IFlxInputManager
 	 * Gets all touches which were just ended
 	 *
 	 * @param	TouchArray	Optional array to fill with touch objects
-	 * @return	Array with touches
+	 * @return Array with touches
 	 */
 	public function justReleased(?TouchArray:Array<FlxTouch>):Array<FlxTouch>
 	{

@@ -7,7 +7,8 @@ class FunkinText extends FlxText
 	/**
 	 * Creates a `FlxTextFormat`.
 	 * 
-	 * @param parameters The parameters you want the format to modify a `FlxText`.
+	 * @param parameters The parameters you want the format to modify a `FlxText` or `FunkinText`.
+	 * @return The `FlxTextFormat`.
 	 */
 	public static function createFormat(parameters:TextFormatParameters):FlxTextFormat
 	{
@@ -50,7 +51,7 @@ class FunkinText extends FlxText
 	 * @param size          The font size of the text.
 	 * @param useBorders    Whether to render borders for the text.
 	 */
-	public function new(x:Float = 0, y:Float = 0, fieldWidth:Float = 0, text:String = "", size:Int = 12, useBorders:Bool = false)
+	public function new(x:Float = 0, y:Float = 0, fieldWidth:Float = 0, text:String = '', size:Int = 12, useBorders:Bool = false)
 	{
 		super(x, y, fieldWidth, text);
 
@@ -65,7 +66,7 @@ class FunkinText extends FlxText
 		}
 	}
 
-	override public function destroy():Void
+	override public function destroy()
 	{
 		super.destroy();
 	}
@@ -89,13 +90,13 @@ class FunkinText extends FlxText
 		translationData = data;
 		if (translationData != null)
 		{
-			set_text("");
+			set_text('');
 		}
 
 		return data;
 	}
 
-	override function set_text(Text:String):String
+	override function set_text(text:String):String
 	{
 		if (translationData != null)
 		{
@@ -109,10 +110,10 @@ class FunkinText extends FlxText
 		}
 		else
 		{
-			super.set_text(Text);
+			super.set_text(text);
 		}
 
-		return Text;
+		return text;
 	}
 
 	function get_strikethrough():Bool
@@ -146,6 +147,9 @@ class FunkinText extends FlxText
 	}
 }
 
+/**
+ * Parameters to use when creating a `FlxTextFormat` from the static method `createFormat`.
+ */
 typedef TextFormatParameters =
 {
 	/**

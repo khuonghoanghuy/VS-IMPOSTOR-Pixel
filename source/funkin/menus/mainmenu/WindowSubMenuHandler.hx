@@ -3,187 +3,194 @@ package funkin.menus.mainmenu;
 import flixel.FlxBasic;
 import flixel.math.FlxRect;
 import flixel.util.FlxSignal;
+
 import funkin.ui.FunkinButton;
 
 class WindowSubMenuHandler extends FlxBasic
 {
-    public var isOpen(default, null):Bool;
+	public var isOpen(default, null):Bool;
 
-    public var titleObject(default, null):FunkinText;
+	public var titleObject(default, null):FunkinText;
 
-    public var closeButton(default, null):FunkinButton;
+	public var closeButton(default, null):FunkinButton;
 
-    public var curSubMenu(default, null):WindowSubMenu;
+	public var curSubMenu(default, null):WindowSubMenu;
 
-    public var enabled:Bool = true;
+	public var enabled:Bool = true;
 
-    public var onOpen:FlxSignal = new FlxSignal();
+	public var onOpen:FlxSignal = new FlxSignal();
 
-    public var onClose:FlxSignal = new FlxSignal();
+	public var onClose:FlxSignal = new FlxSignal();
 
-    var background:FunkinSprite;
-    var line:FunkinSprite;
+	var background:FunkinSprite;
+	var line:FunkinSprite;
 
-    var windowCamera:FlxCamera;
+	@:allow(funkin.menus.mainmenu.WindowSubMenu)
+	var windowCamera:FlxCamera;
 
-    var _mainRect:FlxRect;
-    var _subMenuRect:FlxRect;
+	var _mainRect:FlxRect;
+	var _subMenuRect:FlxRect;
 
-    public function new(camera:FlxCamera, area:FlxRect, scale:Float = 5)
-    {
-        super();
+	public function new(camera:FlxCamera, area:FlxRect, scale:Float = 5)
+	{
+		super();
 
-        this.camera = camera;
+		this.camera = camera;
 
-        background = cast new FunkinSprite().makeGraphic(this.camera.width, this.camera.height, 0xFF505050);
-        background.scrollFactor.set();
-        background.alpha = 0.7;
-        background.camera = this.camera;
+		background = cast new FunkinSprite().makeGraphic(this.camera.width, this.camera.height, 0xFF505050);
+		background.scrollFactor.set();
+		background.alpha = 0.7;
+		background.camera = this.camera;
 
-        closeButton = new FunkinButton(MainMenuState.BASE_SCALE, MainMenuState.BASE_SCALE);
-        closeButton.scaleSprite(MainMenuState.BASE_SCALE);
-        closeButton.camera = this.camera;
+		closeButton = new FunkinButton(MainMenuState.BASE_SCALE, MainMenuState.BASE_SCALE);
+		closeButton.scaleSprite(MainMenuState.BASE_SCALE);
+		closeButton.camera = this.camera;
 
-        line = cast new FunkinSprite(0, closeButton.y + closeButton.height + MainMenuState.BASE_SCALE).makeGraphic(Std.int(background.width), Std.int(scale), 0xFFFFFFFF);
-        line.scrollFactor.set();
-        line.camera = this.camera;
+		line = cast new FunkinSprite(0,
+			closeButton.y + closeButton.height + MainMenuState.BASE_SCALE).makeGraphic(Std.int(background.width), Std.int(scale), 0xFFFFFFFF);
+		line.scrollFactor.set();
+		line.camera = this.camera;
 
-        var titlePos:Float = 2 * scale;
-        titleObject = new FunkinText(titlePos, closeButton.y, background.width - titlePos * 2, "", 56);
-        titleObject.scrollFactor.set();
-        titleObject.alignment = RIGHT;
-        titleObject.camera = this.camera;
+		var titlePos:Float = 2 * scale;
+		titleObject = new FunkinText(titlePos, closeButton.y, background.width - titlePos * 2, '', 56);
+		titleObject.scrollFactor.set();
+		titleObject.alignment = RIGHT;
+		titleObject.camera = this.camera;
 
-        _mainRect = new FlxRect(0, 0, this.camera.width, line.y + line.height);
-        _subMenuRect = new FlxRect(0, _mainRect.height, _mainRect.width, MathUtil.distanceBetweenFloats(_mainRect.y + _mainRect.height, this.camera.height));
+		_mainRect = new FlxRect(0, 0, this.camera.width, line.y + line.height);
+		_subMenuRect = new FlxRect(0, _mainRect.height, _mainRect.width, MathUtil.distanceBetweenFloats(_mainRect.y + _mainRect.height, this.camera.height));
 
-        windowCamera = new FlxCamera(this.camera.x, this.camera.y + _subMenuRect.y, this.camera.width, Std.int(_subMenuRect.height));
-        windowCamera.bgColor = FlxColor.TRANSPARENT;
-        FlxG.cameras.insert(windowCamera, FlxG.cameras.list.indexOf(this.camera) + 1, false);
+		windowCamera = new FlxCamera(this.camera.x, this.camera.y + _subMenuRect.y, this.camera.width, Std.int(_subMenuRect.height));
+		windowCamera.bgColor = FlxColor.TRANSPARENT;
+		FlxG.cameras.insert(windowCamera, FlxG.cameras.list.indexOf(this.camera) + 1, false);
 
-        kill();
-        isOpen = false;
-    }
+		kill();
+		isOpen = false;
+	}
 
-    public function open(subMenu:WindowSubMenu):Void
-    {
-        if (subMenu == null) return;
-        if (isOpen) return;
+	public function open(subMenu:WindowSubMenu)
+	{
+		if (subMenu == null || isOpen)
+		{
+			return;
+		}
 
-        if (curSubMenu != null)
-        {
-            curSubMenu.destroy();
-            curSubMenu = null;
-        }
+		curSubMenu?.destroy();
 
-        revive();
+		revive();
 
-        curSubMenu = subMenu;
-        curSubMenu.camera = windowCamera;
-        curSubMenu.init(this);
-        titleObject.translationData = {id: curSubMenu.nameTranslationID};
+		curSubMenu = subMenu;
+		curSubMenu.camera = windowCamera;
+		curSubMenu.init(this);
+		titleObject.translationData = {id: curSubMenu.nameTranslationID};
 
-        onOpen.dispatch();
+		onOpen.dispatch();
 
-        isOpen = true;
-    }
+		isOpen = true;
+	}
 
-    public function close(trigger:Bool = false)
-    {
-        if (!isOpen) return;
+	public function close(trigger:Bool = false)
+	{
+		if (!isOpen)
+		{
+			return;
+		}
 
-        if (curSubMenu != null)
-        {
-            curSubMenu.destroy();
-            curSubMenu = null;
-        }
+		if (curSubMenu != null)
+		{
+			curSubMenu.destroy();
+			curSubMenu = null;
+		}
 
-        windowCamera.scroll.set();
-        windowCamera.minScrollX = null;
-        windowCamera.minScrollY = null;
-        windowCamera.maxScrollX = null;
-        windowCamera.maxScrollY = null;
+		windowCamera.scroll.set();
+		windowCamera.minScrollX = null;
+		windowCamera.minScrollY = null;
+		windowCamera.maxScrollX = null;
+		windowCamera.maxScrollY = null;
 
-        if (trigger) onClose.dispatch();
+		if (trigger)
+		{
+			onClose.dispatch();
+		}
 
-        kill();
+		kill();
 
-        isOpen = false;
-    }
+		isOpen = false;
+	}
 
-    override function update(elapsed:Float)
-    {
-        if (!enabled || !isOpen) return;
+	override function update(elapsed:Float)
+	{
+		if (!enabled || !isOpen)
+			return;
 
-        super.update(elapsed);
+		super.update(elapsed);
 
-        background.update(elapsed);
-        line.update(elapsed);
-        titleObject.update(elapsed);
-        closeButton.update(elapsed);
+		background.update(elapsed);
+		line.update(elapsed);
+		titleObject.update(elapsed);
+		closeButton.update(elapsed);
 
-        if (curSubMenu != null)
-			curSubMenu.update(elapsed);
+		curSubMenu?.update(elapsed);
 
-        if (closeButton.justReleased)
-        {
-            close(true);
-        }
-    }
+		if (closeButton.justReleased)
+		{
+			close(true);
+		}
+	}
 
-    override function draw()
-    {
-        if (!isOpen) return;
+	override function draw()
+	{
+		if (!isOpen)
+		{
+			return;
+		}
 
-        super.draw();
+		super.draw();
 
-        background.draw();
-        line.draw();
-        titleObject.draw();
-        closeButton.draw();
+		background.draw();
+		line.draw();
+		titleObject.draw();
+		closeButton.draw();
 
-        if (curSubMenu != null)
-			curSubMenu.draw();
-    }
+		curSubMenu?.draw();
+	}
 
-    public function onLanguageUpdate(language:String)
-    {
-        titleObject.text = "";
+	public function onLanguageUpdate(language:String)
+	{
+		titleObject.text = '';
 
-        if (curSubMenu != null)
-			curSubMenu.forEach((spr) -> spr.label.text = "");
-    }
+		curSubMenu?.forEach((spr) -> spr.label.text = '');
+	}
 
-    override public function revive()
-    {
+	override public function revive()
+	{
 		background.revive();
 		closeButton.revive();
 		line.revive();
 		titleObject.revive();
 
-        super.revive();
-    }
+		super.revive();
+	}
 
-    override public function kill()
-    {
-        background.kill();
+	override public function kill()
+	{
+		background.kill();
 		closeButton.kill();
 		line.kill();
 		titleObject.kill();
 
-        super.kill();
-    }
+		super.kill();
+	}
 
-    override public function destroy()
-    {
-        super.destroy();
+	override public function destroy()
+	{
+		super.destroy();
 
 		background.destroy();
 		closeButton.destroy();
 		line.destroy();
 		titleObject.destroy();
 
-		if (curSubMenu != null)
-			curSubMenu.destroy();
-    }
+		curSubMenu?.destroy();
+	}
 }

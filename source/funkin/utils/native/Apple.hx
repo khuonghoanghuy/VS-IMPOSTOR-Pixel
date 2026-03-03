@@ -1,6 +1,9 @@
 package funkin.utils.native;
 
 #if (macos || ios)
+/**
+ * Code that can only be run on systems running operating systems from Apple (like OS X or iOS).
+ */
 @:cppFileCode('
 #include <iostream>
 #include <string>
@@ -12,9 +15,9 @@ package funkin.utils.native;
 class Apple
 {
 	/**
-	 * Gets the game's Task Memory usage.
+	 * @return The game's Task Memory usage.
 	 */
-    @:functionCode('
+	@:functionCode('
         struct task_basic_info info;
 
         mach_msg_type_number_t count = TASK_BASIC_INFO_COUNT;
@@ -24,15 +27,15 @@ class Apple
         
         return info.resident_size;
     ')
-    public static function getTaskProcessMemory():Float
-    {
-        return 0;
-    }
+	public static function getTaskProcessMemory():Float
+	{
+		return 0;
+	}
 
 	/**
-	 * Gets the total amount of RAM the system has.
+	 * @return The total amount of RAM the system has installed.
 	 */
-    @:functionCode('
+	@:functionCode('
         int mib[2];
         int64_t physical_memory;
         size_t length;
@@ -45,12 +48,13 @@ class Apple
 
         return 0;
     ')
-    public static function getTotalSystemMemory():Float
-    {
-        return 0;
-    }
+	public static function getTotalSystemMemory():Float
+	{
+		return 0;
+	}
+
 	/**
-	 * Returns the system's current language.
+	 * @return The system's current language in the Language Code format (i.e. `en-US`).
 	 */
 	@:functionCode('
         std::string language_code;
@@ -81,7 +85,7 @@ class Apple
     ')
 	public static function getSystemLanguage():String
 	{
-		return "";
+		return '';
 	}
 }
 #end

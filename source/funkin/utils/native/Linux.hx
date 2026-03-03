@@ -1,6 +1,9 @@
 package funkin.utils.native;
 
 #if linux
+/**
+ * Code that can only be run on systems running Linux distros.
+ */
 @:cppFileCode('
 #include <iostream>
 #include <cstdlib>
@@ -9,9 +12,9 @@ package funkin.utils.native;
 class Linux
 {
 	/**
-	 * Gets the total amount of RAM the system has.
+	 * @return The total amount of RAM the system has installed.
 	 */
-    @:functionCode('
+	@:functionCode('
         std::string token:
         std::ifstream file("/proc/meminfo"):
         while (file >> token) {
@@ -21,19 +24,20 @@ class Linux
         }
         return 0;
     ')
-    public static function getTotalSystemMemory():Float
-    {
-        return 0;
-    }
+	public static function getTotalSystemMemory():Float
+	{
+		return 0;
+	}
+
 	/**
-	 * Returns the system's current language.
+	 * @return The system's current language in the Language Code format (i.e. `en-US`).
 	 */
 	@:functionCode('
         return std::getenv("LANG").c_str();
     ')
 	public static function getSystemLanguage():String
 	{
-		return "";
+		return '';
 	}
 }
 #end

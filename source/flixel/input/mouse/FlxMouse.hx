@@ -8,6 +8,7 @@ import flixel.input.mouse.FlxMouseButton.FlxMouseButtonID;
 import flixel.math.FlxPoint;
 import flixel.system.replay.MouseRecord;
 import flixel.util.FlxDestroyUtil;
+
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -16,8 +17,10 @@ import openfl.display.Stage;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.ui.Mouse;
+
 #if FLX_NATIVE_CURSOR
 import flash.ui.MouseCursorData;
+
 import openfl.Vector;
 import openfl.geom.Matrix;
 import openfl.geom.Point;
@@ -51,7 +54,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * sits at the right "height". Not used on flash with the native cursor API.
 	 */
 	public var cursorContainer(default, null):Sprite;
-	
+
 	/**
 	 * The current cursor bitmap, if there is one. To set, use the `load` function.
 	 */
@@ -61,7 +64,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * Used to toggle the visiblity of the mouse cursor - works on both
 	 * the flixel and the system cursor, depending on which one is active.
 	 */
-	public var visible(default, set):Bool = #if (mobile || switch) false #else true #end;
+	public var visible(default, set):Bool = #if (mobile || switch ) false #else true #end;
 
 	/**
 	 * Tells flixel to use the default system mouse cursor instead of custom Flixel mouse cursors.
@@ -103,19 +106,19 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * Distance in pixels the mouse has moved since the last frame in the Y direction.
 	 */
 	public var deltaY(get, never):Int;
-	
+
 	/**
 	 * Distance in pixels the mouse has moved in screen space since the last frame in the X direction.
 	 */
 	@:deprecated("deltaScreenX is deprecated, use deltaViewX, instead") // 5.9.0
 	public var deltaScreenX(get, never):Int;
-	
+
 	/**
 	 * Distance in pixels the mouse has moved in screen space since the last frame in the Y direction.
 	 */
 	@:deprecated("deltaScreenY is deprecated, use deltaViewY, instead") // 5.9.0
 	public var deltaScreenY(get, never):Int;
-	
+
 	/**
 	 * Distance in pixels the mouse has moved in view space since the last frame in the X direction.
 	 * @since 5.9.0
@@ -180,7 +183,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * Check to see if the right mouse button has just been pressed.
 	 */
 	public var justPressedRight(get, never):Bool;
-	
+
 	/**
 	 * Check to see if the right mouse button is currently not pressed.
 	 * @since 5.0.0
@@ -247,7 +250,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	#end
 
 	@:deprecated("_cursor is deprecated, use the new, public cursor, instead")
-    var _cursor(get, set):Bitmap;
+	var _cursor(get, set):Bitmap;
 	var _cursorBitmapData:BitmapData;
 	var _wheelUsed:Bool = false;
 	var _visibleWhenFocusLost:Bool = true;
@@ -265,6 +268,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * Helper variables to see if the mouse has moved since the last update, and by how much.
 	 */
 	var _prevX:Int = 0;
+
 	var _prevY:Int = 0;
 	var _prevViewX:Int = 0;
 	var _prevViewY:Int = 0;
@@ -431,12 +435,12 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 
 		if (cursorBitmap.width > 32 || cursorBitmap.height > 32)
 			throw "BitmapData files used for native cursors cannot exceed 32x32 pixels due to an OS limitation.";
-		
-		if(hotSpot == null)
+
+		if (hotSpot == null)
 			hotSpot = new Point();
 		else if (hotSpot.x < 0 || hotSpot.y < 0 || hotSpot.x > cursorBitmap.width || hotSpot.y > cursorBitmap.height)
 			throw 'Invalid hotSpot: $hotSpot';
-		
+
 		var cursorData = new MouseCursorData();
 		cursorData.hotSpot = hotSpot;
 		cursorData.data = cursorVector;
@@ -610,7 +614,8 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 
 	function calculateVelocity():Void
 	{
-		if (!pressed) return;
+		if (!pressed)
+			return;
 
 		velocity.x = deltaViewX;
 		velocity.y = deltaViewY;
@@ -684,28 +689,32 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	function get_justMovedLeft():Bool
 	{
 		var swiped:Bool = _swipeDeltaX < -swipeThreshold.x;
-		if (swiped) _startX = viewX;
+		if (swiped)
+			_startX = viewX;
 		return swiped;
 	}
 
 	function get_justMovedRight():Bool
 	{
 		var swiped:Bool = _swipeDeltaX > swipeThreshold.x;
-		if (swiped) _startX = viewX;
+		if (swiped)
+			_startX = viewX;
 		return swiped;
 	}
 
 	function get_justMovedUp():Bool
 	{
 		var swiped:Bool = _swipeDeltaY < -swipeThreshold.y;
-		if (swiped) _startY = viewY;
+		if (swiped)
+			_startY = viewY;
 		return swiped;
 	}
 
 	function get_justMovedDown():Bool
 	{
 		var swiped:Bool = _swipeDeltaY > swipeThreshold.y;
-		if (swiped) _startY = viewY;
+		if (swiped)
+			_startY = viewY;
 		return swiped;
 	}
 
@@ -717,19 +726,19 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 
 	inline function get_deltaViewX():Int
 		return viewX - _prevViewX;
-	
+
 	inline function get_deltaViewY():Int
 		return viewY - _prevViewY;
-		
+
 	inline function get__prevScreenX():Int
 		return _prevViewX;
-	
+
 	inline function get__prevScreenY():Int
 		return _prevViewY;
-		
+
 	inline function get_deltaScreenX():Int
 		return deltaViewX;
-	
+
 	inline function get_deltaScreenY():Int
 		return deltaViewY;
 
@@ -866,10 +875,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	@:allow(flixel.system.replay.FlxReplay)
 	function record():MouseRecord
 	{
-		if ((_lastX == gameX)
-			&& (_lastY == gameY)
-			&& (_lastLeftButtonState == _leftButton.current)
-			&& (_lastWheel == wheel))
+		if ((_lastX == gameX) && (_lastY == gameY) && (_lastLeftButtonState == _leftButton.current) && (_lastWheel == wheel))
 		{
 			return null;
 		}
@@ -903,7 +909,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	{
 		return cursor;
 	}
-	
+
 	inline function set__cursor(value:Bitmap)
 	{
 		return cursor = value;

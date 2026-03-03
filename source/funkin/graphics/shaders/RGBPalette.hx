@@ -4,55 +4,55 @@ import flixel.graphics.tile.FlxGraphicsShader;
 
 class RGBPalette extends FlxGraphicsShader
 {
-    /**
-     * The red channel of the palette.
-     */
-    public var red(default, set):FlxColor;
+	/**
+	 * The red channel of the palette.
+	 */
+	public var red(default, set):FlxColor;
 
-    /**
-     * The green channel of the palette.
-     */
-    public var green(default, set):FlxColor;
+	/**
+	 * The green channel of the palette.
+	 */
+	public var green(default, set):FlxColor;
 
-    /**
-     * The blue channel of the palette.
-     */
-    public var blue(default, set):FlxColor;
+	/**
+	 * The blue channel of the palette.
+	 */
+	public var blue(default, set):FlxColor;
 
-    /**
-     * How much to multiply the values of each channel.
-     */
-    public var multiplier(default, set):Float;
+	/**
+	 * How much to multiply the values of each channel.
+	 */
+	public var multiplier(default, set):Float;
 
-    function set_red(value:FlxColor):FlxColor
-    {
-        this.red = value;
-        this.r.value = [value.redFloat, value.greenFloat, value.blueFloat];
-        return value;
-    }
+	function set_red(value:FlxColor):FlxColor
+	{
+		this.red = value;
+		this.r.value = [value.redFloat, value.greenFloat, value.blueFloat];
+		return value;
+	}
 
-    function set_green(value:FlxColor):FlxColor
-    {
-        this.green = value;
-        this.g.value = [value.redFloat, value.greenFloat, value.blueFloat];
-        return value;
-    }
+	function set_green(value:FlxColor):FlxColor
+	{
+		this.green = value;
+		this.g.value = [value.redFloat, value.greenFloat, value.blueFloat];
+		return value;
+	}
 
-    function set_blue(value:FlxColor):FlxColor
-    {
-        this.blue = value;
-        this.b.value = [value.redFloat, value.greenFloat, value.blueFloat];
-        return value;
-    }
+	function set_blue(value:FlxColor):FlxColor
+	{
+		this.blue = value;
+		this.b.value = [value.redFloat, value.greenFloat, value.blueFloat];
+		return value;
+	}
 
-    function set_multiplier(value:Float):Float
-    {
-        this.multiplier = value;
-        this.mult.value = [value];
-        return value;
-    }
+	function set_multiplier(value:Float):Float
+	{
+		this.multiplier = value;
+		this.mult.value = [value];
+		return value;
+	}
 
-    @:glFragmentSource("
+	@:glFragmentSource('
         #pragma header
 
         uniform vec3 r;
@@ -83,15 +83,15 @@ class RGBPalette extends FlxGraphicsShader
         {
             gl_FragColor = flixel_texture2DCustom(bitmap, openfl_TextureCoordv);
         }
-    ")
-    public function new(?red:FlxColor, ?green:FlxColor, ?blue:FlxColor)
-    {
-        super();
+    ')
+	public function new(?red:FlxColor, ?green:FlxColor, ?blue:FlxColor)
+	{
+		super();
 
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
+		this.red = red;
+		this.green = green;
+		this.blue = blue;
 
-        this.multiplier = 1.0;
-    }
+		this.multiplier = 1.0;
+	}
 }

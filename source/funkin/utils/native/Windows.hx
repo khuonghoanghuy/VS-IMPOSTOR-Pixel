@@ -1,8 +1,9 @@
 package funkin.utils.native;
 
 #if (windows && cpp)
-import cpp.ConstCharStar;
-
+/**
+ * Code that can only be run on systems running Windows.
+ */
 @:buildXml('
 <target id="haxe">
     <lib name="dwmapi.lib"/>
@@ -28,9 +29,10 @@ import cpp.ConstCharStar;
 class Windows
 {
 	/**
-	 * Sets the window to Dark Mode.
+	 * Toggles the window's dark mode.
+	 * @param enable Whether to enable it or not.
 	 */
-    @:functionCode('
+	@:functionCode('
         HWND window = GetActiveWindow();
 
         int darkMode = enable ? 1 : 0;
@@ -40,14 +42,12 @@ class Windows
 
         UpdateWindow(window);
     ')
-    public static function setWindowDarkMode(enable:Bool) {}
+	public static function setWindowDarkMode(enable:Bool) {}
 
 	/**
-	 * Gets the game's Task Memory usage.
-	 * 
-	 * Apparently the result isn't that accurate, but whatever.
+	 * @return The game's Task Memory usage.
 	 */
-    @:functionCode('
+	@:functionCode('
         PROCESS_MEMORY_COUNTERS_EX pmc;
 
         if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
@@ -55,15 +55,15 @@ class Windows
 
         return 0;
     ')
-    public static function getTaskProcessMemory():Float
-    {
-        return 0;
-    }
+	public static function getTaskProcessMemory():Float
+	{
+		return 0;
+	}
 
 	/**
-	 * Gets the total amount of RAM the system has.
+	 * @return The total amount of RAM the system has installed.
 	 */
-    @:functionCode('
+	@:functionCode('
         MEMORYSTATUSEX statusEx;
         statusEx.dwLength = sizeof(statusEx);
 
@@ -72,12 +72,13 @@ class Windows
 
         return 0;
     ')
-    public static function getTotalSystemMemory():Float
-    {
-        return 0;
-    }
+	public static function getTotalSystemMemory():Float
+	{
+		return 0;
+	}
+
 	/**
-	 * Returns the system's current language.
+	 * @return The system's current language in the Language Code format (i.e. `en-US`).
 	 */
 	@:functionCode('
         LANGID lang_code = GetUserDefaultUILanguage();
@@ -87,34 +88,89 @@ class Windows
     ')
 	public static function getSystemLanguage():String
 	{
-		return "";
+		return '';
 	}
 
-    /**
-     * Makes a window appear with a custom message.
-     */
-    @:functionCode('
+	/**
+	 * Makes a pop-up appear with a custom warning or information.
+	 * 
+	 * Documentation: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
+	 * 
+	 * @param message	The message to display.
+	 * @param title		The title of the pop-up.
+	 * @param buttons	The types of buttons to show.
+	 * @param icon		The icon to show in the pop-up, aka the severity of the pop-up.
+	 */
+	@:functionCode('
         MessageBox(GetActiveWindow(), message, title, buttons | icon);
     ')
-    public static function showMessageBoxPopUp(message:String, title:String, buttons:WindowsMessageBoxButtons = OK, icon:WindowsMessageBoxIcon = NOTICE):Void {}
+	public static function showMessageBoxPopUp(message:String, title:String, buttons:WindowsMessageBoxButtons = OK, icon:WindowsMessageBoxIcon = NOTICE) {}
 }
 
+/**
+ * The types of buttons the message box pop-up can be interacted with.
+ */
 enum abstract WindowsMessageBoxButtons(Int)
 {
-    var OK = 0x00000000;
-    var OK_CANCEL = 0x00000001;
-    var RETRY_CANCEL = 0x00000005;
-    var YES_NO = 0x00000004;
-    var YES_NO_CANCEL = 0x00000003;
-    var ABORT_RETRY_IGNORE = 0x00000002;
-    var CANCEL_TRY_CONTINUE = 0x00000006;
+	/**
+	 * The pop-up will only have the button `OK`.
+	 */
+	var OK = 0x00000000;
+
+	/**
+	 * The pop-up will have the buttons `OK` and `Cancel`.
+	 */
+	var OK_CANCEL = 0x00000001;
+
+	/**
+	 * The pop-up will have the buttons `Retry` and `Cancel`.
+	 */
+	var RETRY_CANCEL = 0x00000005;
+
+	/**
+	 * The pop-up will have the buttons `Yes` and `No`.
+	 */
+	var YES_NO = 0x00000004;
+
+	/**
+	 * The pop-up will have the buttons `Yes`, `No` and `Cancel`.
+	 */
+	var YES_NO_CANCEL = 0x00000003;
+
+	/**
+	 * The pop-up will have the buttons `Abort`, `Retry` and `Ignore`.
+	 */
+	var ABORT_RETRY_IGNORE = 0x00000002;
+
+	/**
+	 * The pop-up will have the buttons `Cancel`, `Try Again` and `Continue`.
+	 */
+	var CANCEL_TRY_CONTINUE = 0x00000006;
 }
 
+/**
+ * The types of icon the message box pop-up can display.
+ */
 enum abstract WindowsMessageBoxIcon(Int)
 {
-    var NOTICE = 0x00000040;
-    var WARNING = 0x00000030;
-    var QUESTION = 0x00000020;
-    var ERROR = 0x00000010;
+	/**
+	 * https://learn.microsoft.com/en-us/windows/win32/api/winuser/images/mb_iconasterisk.png
+	 */
+	var NOTICE = 0x00000040;
+
+	/**
+	 * https://learn.microsoft.com/en-us/windows/win32/api/winuser/images/mb_iconexclamation.png
+	 */
+	var WARNING = 0x00000030;
+
+	/**
+	 * https://learn.microsoft.com/en-us/windows/win32/api/winuser/images/mb_iconquestion.png
+	 */
+	var QUESTION = 0x00000020;
+
+	/**
+	 * https://learn.microsoft.com/en-us/windows/win32/api/winuser/images/mb_iconhand.png
+	 */
+	var ERROR = 0x00000010;
 }
 #end

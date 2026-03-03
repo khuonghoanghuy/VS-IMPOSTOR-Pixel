@@ -2,7 +2,6 @@ package funkin.utils;
 
 // taken from the Codename Crew.
 // props to them, they're geniuses compared to me lol.
-
 #if windows
 @:cppFileCode('
 #include <windows.h>
@@ -12,7 +11,7 @@ package funkin.utils;
 ')
 class RegistryUtil
 {
-    @:functionCode('
+	@:functionCode('
 		HKEY hKey;
 		LONG result;
 		DWORD dataSize = 0;
@@ -67,11 +66,16 @@ class RegistryUtil
 	}
 }
 
-enum abstract RegistryHive(Int) {
+enum abstract RegistryHive(Int)
+{
 	var HKEY_CLASSES_ROOT = 0x80000000;
+
 	var HKEY_CURRENT_USER = 0x80000001;
+
 	var HKEY_LOCAL_MACHINE = 0x80000002;
+
 	var HKEY_USERS = 0x80000003;
+
 	var HKEY_CURRENT_CONFIG = 0x80000005;
 }
 #end

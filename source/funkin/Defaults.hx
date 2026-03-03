@@ -1,11 +1,14 @@
 package funkin;
 
+/**
+ * Holds fallback values for some classes.
+ */
 final class Defaults
 {
 	/**
 	 * The mod's title name.
 	 */
-	public static final TITLE:String = "VS IMPOSTOR Pixel";
+	public static final TITLE:String = 'VS IMPOSTOR Pixel';
 
 	/**
 	 * The mod's version.
@@ -14,7 +17,7 @@ final class Defaults
 
 	static function get_VERSION():String
 	{
-		return FlxG.stage.application.meta.get("version");
+		return FlxG.stage.application.meta.get('version');
 	}
 
 	/**
@@ -27,12 +30,15 @@ final class Defaults
 	 */
 	public static final LANGUAGES:Array<String> = ["en", "es", "fr", "pt", "ru", "vi"];
 
-	public static final DEFAULT_FONT:String = "Pixeloid Sans Bold";
+	/**
+	 * The default font `FunkinText` renders with.
+	 */
+	public static final DEFAULT_FONT:String = 'Pixeloid Sans Bold';
 
 	/**
 	 * The language the engine fallbacks to if a language fails to load or fails to get a translation ID.
 	 */
-	public static final DEFAULT_LANGUAGE:String = "en";
+	public static final DEFAULT_LANGUAGE:String = 'en';
 
 	/**
 	 * The default animation name to add or play for all sprites.
@@ -83,5 +89,5 @@ final class Defaults
 	/**
 	 * The default character to load if another one fails to load.
 	 */
-	public static final DEFAULT_CHARACTER:String = "bf";
+	public static final DEFAULT_CHARACTER:String = 'bf';
 }

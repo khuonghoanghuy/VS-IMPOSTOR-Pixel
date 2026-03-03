@@ -5,22 +5,22 @@ import flixel.util.FlxDestroyUtil;
 
 class FlxFlick
 {
-    public var flickThreshold:FlxPoint;
+	public var flickThreshold:FlxPoint;
 
-    public var maxVelocity:FlxPoint;
+	public var maxVelocity:FlxPoint;
 
-    /**
-     * Can be a mouse input or a touch ID.
-     */
-    public var ID(default, null):Int;
+	/**
+	 * Can be a mouse input or a touch ID.
+	 */
+	public var ID(default, null):Int;
 
-    public var initialized:Bool = false;
+	public var initialized:Bool = false;
 
-    public var velocity(default, null):FlxPoint;
+	public var velocity(default, null):FlxPoint;
 
 	public var drag(default, null):FlxPoint;
 
-    public var flickLeft(get, never):Bool;
+	public var flickLeft(get, never):Bool;
 
 	public var flickRight(get, never):Bool;
 
@@ -34,7 +34,7 @@ class FlxFlick
 	var _flickDown:Bool;
 	var _curDistance:FlxPoint;
 
-    public function new()
+	public function new()
 	{
 		flickThreshold = FlxPoint.get(10, 10);
 		maxVelocity = FlxPoint.get(100, 100);
@@ -42,7 +42,8 @@ class FlxFlick
 
 	public function initFlick(startingVel:FlxPoint, ?ID:Int, ?drag:FlxPoint)
 	{
-		if (initialized) return;
+		if (initialized)
+			return;
 
 		this.ID = ID ?? -1;
 		velocity = startingVel.clone();
@@ -54,10 +55,11 @@ class FlxFlick
 
 	public function update(elapsed:Float)
 	{
-		if (!initialized) return;
+		if (!initialized)
+			return;
 
 		if (Math.abs(velocity.x) <= 1 && Math.abs(velocity.y) <= 1)
-        {
+		{
 			destroy();
 			return;
 		}
@@ -67,7 +69,7 @@ class FlxFlick
 		var modifiedDistance = _curDistance.x;
 
 		if (Math.abs(velocity.x) >= flickThreshold.x)
-        {
+		{
 			if (modifiedDistance < 0)
 				_flickLeft = true;
 			else
@@ -79,7 +81,7 @@ class FlxFlick
 		modifiedDistance = _curDistance.y;
 
 		if (Math.abs(velocity.y) >= flickThreshold.y)
-        {
+		{
 			if (modifiedDistance < 0)
 				_flickDown = true;
 			else
@@ -95,7 +97,8 @@ class FlxFlick
 		dpiScale *= 3.5;
 
 		var framerateAmp:Float = 60 / (FlxG.updateFramerate > 60 ? FlxG.updateFramerate : 60) - 0.05;
-		if (framerateAmp > 0.45) framerateAmp = 0.45;
+		if (framerateAmp > 0.45)
+			framerateAmp = 0.45;
 
 		var newVelocityX:Float = Math.min(velocity.x * 0.95, maxVelocity.x);
 		var averageVelX:Float = 0.5 * (velocity.x + newVelocityX);
