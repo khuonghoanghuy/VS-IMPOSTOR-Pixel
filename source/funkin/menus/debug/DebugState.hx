@@ -1,9 +1,9 @@
 package funkin.menus.debug;
 
-import flixel.FlxState;
 import funkin.menus.debug.character.CharacterEditorState;
+import funkin.menus.mainmenu.MainMenuState;
 
-class DebugState extends FlxState
+class DebugState extends MusicBeatState
 {
     var editorsArray:Array<String> = ["Chart Editor", "Character Editor"];
 
@@ -27,7 +27,7 @@ class DebugState extends FlxState
         {
 			var text:FunkinText = new FunkinText(0, 0, 0, editorsArray[i], 32);
 			text.screenCenter();
-			text.y = (((FlxG.height - text.height) / 2) / editorsArray.length) * i;
+			text.y = (((FlxG.height - text.height) / 2) / editorsArray.length) * (i + 1);
 			editorsTxt.add(text);
         }
 
@@ -56,7 +56,7 @@ class DebugState extends FlxState
 		for (i => text in editorsTxt.members)
         {
             if (i == curEntry)
-                text.scale.set(1.1, 1.1);
+				text.scale.set(1.2, 1.2);
             else
                 text.scale.set(1, 1);
         }

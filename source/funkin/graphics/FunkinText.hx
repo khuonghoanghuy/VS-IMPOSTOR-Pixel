@@ -68,7 +68,6 @@ class FunkinText extends FlxText
 	override public function destroy():Void
 	{
 		super.destroy();
-		translationData = null;
 	}
 
 	override public function clone():FunkinText
@@ -88,7 +87,11 @@ class FunkinText extends FlxText
 	function set_translationData(data:Null<TranslationData>):Null<TranslationData>
 	{
 		translationData = data;
-		set_text("");
+		if (translationData != null)
+		{
+			set_text("");
+		}
+
 		return data;
 	}
 

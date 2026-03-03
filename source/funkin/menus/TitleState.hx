@@ -5,6 +5,7 @@ import flixel.effects.FlxFlicker;
 import flixel.util.FlxGradient;
 import funkin.graphics.shaders.RGBPalette;
 import funkin.graphics.text.GameboyText;
+import funkin.menus.mainmenu.MainMenuState;
 import funkin.ui.StarsBackdrop;
 
 class TitleState extends MusicBeatState
@@ -87,7 +88,6 @@ class TitleState extends MusicBeatState
 		pressStartText.fieldWidth = FlxG.width;
 		pressStartText.alignment = CENTER;
 		pressStartText.translationData = {id: "titleScreen.pressStart.press", parameters: ["ENTER"]};
-		pressStartText.letterSpacing = -1;
 		pressStartText.screenCenter(X);
 		pressStartText.y = FlxG.height * 0.9 - pressStartText.height;
 		pressStartText.alpha = 1;

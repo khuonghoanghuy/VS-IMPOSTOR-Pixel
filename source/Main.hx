@@ -8,9 +8,11 @@ import haxe.io.Path;
 import lime.system.System;
 import openfl.Lib;
 import openfl.display.Sprite;
-
 #if android
 import extension.androidtools.content.Context;
+#end
+#if hxvlc
+import hxvlc.util.Handle;
 #end
 
 class Main extends Sprite
@@ -28,12 +30,15 @@ class Main extends Sprite
 		#end
 
 		CrashHandler.init();
+		#if hxvlc
+		Handle.init();
+		#end
 
-		#if windows
+		#if (windows && cpp)
 		funkin.utils.native.Windows.setWindowDarkMode(true);
 		#end
 
-		var game:FlxGame = new FlxGame(0, 0, InitState, 60, 60, false);
+		var game:FlxGame = new FlxGame(0, 0, InitState, 60, 60, true);
 		addChild(game);
 
 		debugOverlay = new DebugOverlay(0x484848);

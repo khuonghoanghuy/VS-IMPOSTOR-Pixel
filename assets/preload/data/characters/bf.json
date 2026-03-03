@@ -1,6 +1,6 @@
 {
     "assets": ["characters/boyfriend"],
-    "scale": 1,
+    "scale": 10,
     "offsets": [0, 0],
     "flipX": false,
     "flipY": false,

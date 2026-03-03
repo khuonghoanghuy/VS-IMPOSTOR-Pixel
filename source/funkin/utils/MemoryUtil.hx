@@ -4,7 +4,7 @@ import EReg;
 import openfl.display3D.Context3D;
 import openfl.system.System;
 
-#if windows
+#if (windows && cpp)
 import funkin.utils.native.Windows;
 #elseif linux
 import funkin.utils.native.Linux;
@@ -23,7 +23,7 @@ class MemoryUtil
      */
     public static function getSystemMemory():Float
     {
-        #if windows
+		#if (windows && cpp)
         return Windows.getTotalSystemMemory();
         #elseif linux
         return Linux.getTotalSystemMemory();

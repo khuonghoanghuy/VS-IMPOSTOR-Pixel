@@ -1,10 +1,16 @@
 import hxp.*;
 import lime.tools.*;
 import haxe.io.Bytes;
+import haxe.io.Path;
+import sys.io.Process;
 import sys.FileSystem;
+
+using StringTools;
 
 /**
  * God bless `HXProject`, it's so much easier to manage Lime/OpenFL projects like this. :)
+ * 
+ * Also, props to the FunkinCrew, this code is heavily inspired off of their `project.hxp` from Funkin'.
  */
 class Project extends HXProject
 {
@@ -96,6 +102,11 @@ class Project extends HXProject
         {
             setupIOS();
         }
+
+        if (isCPP())
+        {
+            buildHXCPPTools();
+        }
     }
 
     function displayTarget()
@@ -129,7 +140,7 @@ class Project extends HXProject
             default: targetStr = "Unknown";
         }
 
-        consoleTrace('Building on the platform "$platformStr", for the device "$targetStr".');
+        consoleTrace('Building for $platformStr, targetting Operating System "$targetStr".');
     }
 
     function setupApplication()
@@ -199,7 +210,7 @@ class Project extends HXProject
     function setupDefines()
     {
         // first dont compile stuff we are never gonna use
-        setHaxeDefine("FLX_NO_RECORD");
+        removeHaxeDefine("FLX_RECORD");
         setHaxeDefine("FLX_NO_FOCUS_LOST_SCREEN");
 
         // for the Crash Handler
@@ -211,18 +222,19 @@ class Project extends HXProject
 
         if (isDesktop() || isMobile())
         {
-            if (isDesktop())
+            if (isDesktop() && isCPP())
             {
-                //setHaxeDefine("FLX_NO_TOUCH");
                 setHaxeDefine("DISCORD_API");
             }
             if (isMobile())
             {
-                //setHaxeDefine("FLX_NO_MOUSE");
                 setHaxeDefine("FLX_NO_SOUND_TRAY");
             }
 
-            setHaxeDefine("VIDEOS_BACKEND");
+            if (isCPP())
+            {
+                setHaxeDefine("VIDEOS_BACKEND");
+            }
         }
 
         if (isRelease())
@@ -240,8 +252,6 @@ class Project extends HXProject
     {
         addHaxelib("flixel");
         addHaxelib("flixel-addons");
-
-        addHaxelib("tjson");
 
         addHaxelib("haxeui-core");
         addHaxelib("haxeui-flixel");
@@ -344,6 +354,46 @@ class Project extends HXProject
     function setupIOS()
     {
         config.set("ios.deployment", "16.0");
+    }
+
+    /**
+     * Isn't it annoying when HXCPP asks you to set it up every single time you install it or update it?
+     * 
+     * Here we do it for you! cuz seriously this annoys me so much as well lol.
+     * 
+     * *Also prevents GitHub workflows from failing*
+     */
+    function buildHXCPPTools()
+    {
+        var path:String = getLibraryPath("hxcpp");
+
+        if (path.toLowerCase().startsWith("error") || !FileSystem.exists(path))
+        {
+            throwError('Couldn\'t find the library "hxcpp" while targetting C++! Is it installed?');
+        }
+
+        var hxcppN:String = Path.join([path, "hxcpp.n"]);
+
+        if (FileSystem.exists(hxcppN))
+        {
+            // hxcpp build tools were already set up
+            return;
+        }
+
+        var toolsPath:String = Path.join([path, "tools/hxcpp"]);
+        var oldDirectory:String = Sys.getCwd();
+        Sys.setCwd(toolsPath);
+
+        var process = new Process('haxe', ['compile.hxml']);
+
+        if (process.exitCode() != 0)
+        {
+            consoleTrace("Couldn't compile HXCPP Tools. Is HXCPP installed properly?");
+        }
+
+        process.close();
+
+        Sys.setCwd(oldDirectory);
     }
 
     public function addHaxelib(name:String, version:String = ""):Void
@@ -472,9 +522,19 @@ class Project extends HXProject
         return target == Platform.ANDROID;
     }
 
+    public function isAndroidEmulator():Bool
+    {
+        return target == Platform.ANDROID && (targetFlags.exists("emulator") || targetFlags.exists("simulator"));
+    }
+
     public function isIOS():Bool
     {
         return target == Platform.IOS;
+    }
+
+    public function isIOSSimulator():Bool
+    {
+        return target == Platform.IOS && targetFlags.exists("simulator");
     }
 
     public function isWiiU():Bool
@@ -502,6 +562,36 @@ class Project extends HXProject
         return target == Platform.XBOX1;
     }
 
+    public function isHashLink():Bool
+    {
+        return targetFlags.exists("hl");
+    }
+
+    public function isNeko():Bool
+    {
+        return targetFlags.exists("neko");
+    }
+
+    public function isCPP():Bool
+    {
+        return defines.exists("cpp");
+    }
+
+    public function isCSharp():Bool
+    {
+        return targetFlags.exists("cs");
+    }
+
+    public function isJava():Bool
+    {
+        return targetFlags.exists("java");
+    }
+
+    public function isNodeJS():Bool
+    {
+        return targetFlags.exists("nodejs");
+    }
+
     public function isDebug():Bool
     {
         return this.debug;
@@ -525,6 +615,17 @@ class Project extends HXProject
     public function isClean():Bool
     {
         return command == "clean";
+    }
+
+    public function isBuild():Bool
+    {
+        return command == "test" || command == "build";
+    }
+
+    public function getLibraryPath(library:String):String
+    {
+        var process = new Process('haxelib', ['libpath', library]);
+        return process.stdout.readLine();
     }
 
     public function consoleTrace(message:String)

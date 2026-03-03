@@ -75,8 +75,7 @@ class FunkinSprite extends FlxSprite
     }
 
 	override public function clone():FunkinSprite
-    {
-		super.clone();
+	{
         return cast new FunkinSprite().loadGraphicFromSprite(this);
     }
 
@@ -100,7 +99,7 @@ class FunkinSprite extends FlxSprite
     }
 
 	/**
-	 * Creates a rectangle with a single color and loads it into the sprite.
+	 * Creates a rectangle graphic with a single color and loads it into the sprite.
 	 * 
 	 * If you're not going to modify the sprite in any way, I recommend you use `makeSolid` instead of this function.
 	 * 
@@ -120,7 +119,7 @@ class FunkinSprite extends FlxSprite
 	}
 
 	/**
-	 * Creates a rectangle with a single color and loads it into this sprite.
+	 * Creates a rectangle graphic with a single color and loads it into this sprite.
 	 * 
 	 * It's much more forgiving in terms of memory usage than `makeGraphic`, but with the cost of not being able to draw on it.
 	 * 
@@ -131,7 +130,7 @@ class FunkinSprite extends FlxSprite
 	 */
 	public function makeSolid(width:Int, height:Int, color:FlxColor = FlxColor.WHITE):FunkinSprite
 	{
-		var graphic:FlxGraphic = FlxG.bitmap.create(1, 1, color, false, 'rect#${color.toHexString(true, false)}');
+		var graphic:FlxGraphic = FlxG.bitmap.create(1, 1, color, false, 'solid#${color.toHexString(true, false)}');
 		frames = graphic.imageFrame;
 		scaleSprite(width, height);
 		return this;

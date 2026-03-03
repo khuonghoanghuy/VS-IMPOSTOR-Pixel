@@ -38,7 +38,7 @@ class FunkinBitmapText extends FlxBitmapText
         set_size(size);
     }
 
-    override function clone():FunkinBitmapText
+	override public function clone():FunkinBitmapText
     {
         var bitmapText:FunkinBitmapText = new FunkinBitmapText(0, 0, text, size, font);
         bitmapText.fieldWidth = fieldWidth;
@@ -67,6 +67,7 @@ class FunkinBitmapText extends FlxBitmapText
             _sizeCalc = value / lineHeight;
             scale.set(_sizeCalc, _sizeCalc);
             updateHitbox();
+			pendingTextBitmapChange = true;
         }
 
         return value;
@@ -75,7 +76,13 @@ class FunkinBitmapText extends FlxBitmapText
 	function set_translationData(data:Null<TranslationData>):Null<TranslationData>
 	{
 		translationData = data;
-		text = "";
+		if (translationData != null)
+		{
+			set_text("");
+		}
+
+		pendingTextBitmapChange = true;
+
 		return data;
 	}
 

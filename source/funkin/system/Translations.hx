@@ -61,7 +61,8 @@ class Translations extends FlxBasic
 				languages.set(language, langData);
 			}
         }
-		FlxG.plugins.addPlugin(new Translations());
+		FlxG.signals.focusGained.add(checkSystemLanguage);
+		FlxG.signals.postStateSwitch.add(checkSystemLanguage);
     }
 
     /**
@@ -123,7 +124,7 @@ class Translations extends FlxBasic
      */
     public static function getSystemLanguage():String
     {
-        #if windows
+		#if (windows && cpp)
         return Windows.getSystemLanguage();
         #elseif linux
         return Linux.getSystemLanguage();
@@ -186,10 +187,8 @@ class Translations extends FlxBasic
 		instance = this;
 	}
 
-	override function update(elapsed:Float)
+	static function checkSystemLanguage()
 	{
-		super.update(elapsed);
-
 		var systemLanguage:String = Translations.getLanguageShort(Translations.getSystemLanguage());
 		if (systemLanguage != Translations.curLanguageID)
 		{

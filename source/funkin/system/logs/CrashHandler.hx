@@ -64,7 +64,7 @@ class CrashHandler
         Windows.showMessageBoxPopUp(error, CRASH_WINDOW_TITLE, OK, ERROR);
         #else
         Application.current.window.alert(error, CRASH_WINDOW_TITLE);
-        #end
+		#end
     }
 
     static function generateErrorMessage(error:UncaughtErrorEvent):String
@@ -74,15 +74,15 @@ class CrashHandler
 
         if (Std.isOfType(error.error, Error))
         {
-            errorMsg = 'ERROR: ${cast(error.error, Error).message}\n';
+			errorMsg = 'ERROR: ${cast (error.error, Error).message}\n\n';
         }
-        if (Std.isOfType(error.error, ErrorEvent))
+		else if (Std.isOfType(error.error, ErrorEvent))
         {
-            errorMsg = 'ERROR: ${cast(error.error, ErrorEvent).text}\n';
+			errorMsg = 'ERROR: ${cast (error.error, ErrorEvent).text}\n\n';
         }
         else
         {
-            errorMsg = 'ERROR: ${error.error}\n';
+			errorMsg = 'ERROR: ${error.error}\n\n';
         }
 
         for (stackItem in callStack)
@@ -94,8 +94,9 @@ class CrashHandler
                 case Module(module):
                     errorMsg += 'Module ($module)';
                 case FilePos(stackItem, file, line, column):
-                    errorMsg += '$file (Line #$line)';
-                    if (column != null) errorMsg += ':$column';
+					errorMsg += 'File: $file (Line #$line)';
+					if (column != null)
+						errorMsg += ' (Column #$column)';
                 case Method(classname, method):
                     errorMsg += '$classname.$method';
                 case LocalFunction(value):

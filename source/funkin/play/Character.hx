@@ -87,6 +87,7 @@ class Character extends FunkinSprite
         }
 
         playAnimation(animation.getNameList()[0]);
+		scaleSprite(characterData.scale);
 
         _data = characterData;
 
