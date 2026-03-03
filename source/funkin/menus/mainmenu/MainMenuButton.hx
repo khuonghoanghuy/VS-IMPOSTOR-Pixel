@@ -4,16 +4,34 @@ import flixel.FlxSprite;
 
 class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 {
+	/**
+	 * The main button.
+	 */
 	public var button(default, null):FunkinSprite;
 
+	/**
+	 * The button's label.
+	 */
 	public var label(default, null):FunkinText;
 
+	/**
+	 * The button's icon.
+	 */
 	public var icon(default, null):FunkinSprite;
 
+	/**
+	 * The type of button this one is.
+	 */
 	public var type(default, null):MainMenuButtonType;
 
+	/**
+	 * Whether the button can be interacted with or not.
+	 */
 	public var available(default, set):Bool;
 
+	/**
+	 * Whether the button is being hovered or not.
+	 */
 	public var hovered(default, null):Bool = false;
 
 	@:allow(funkin.menus.mainmenu.MainMenuState)
@@ -76,18 +94,32 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 		super.update(elapsed);
 	}
 
+	/**
+	 * Checks if the specified position matches with the button's.
+	 *
+	 * If it matches, the button plays the hover animation, otherwise it goes back to idle.
+	 *
+	 * @param position The position to use for checking.
+	 */
 	public function checkPosition(position:Int)
 	{
 		if (available)
 		{
 			if (position == _position)
+			{
 				hover();
+			}
 			else
+			{
 				idle();
+			}
 		}
 	}
 
-	function idle()
+	/**
+	 * Makes the button go idle.
+	 */
+	public function idle()
 	{
 		button.playAnimation('idle');
 		label.color = _idleColor;
@@ -95,7 +127,10 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 		hovered = false;
 	}
 
-	function hover()
+	/**
+	 * Makes the button get hovered.
+	 */
+	public function hover()
 	{
 		button.playAnimation('hover');
 		label.color = _hoverColor;
@@ -103,9 +138,9 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 		hovered = true;
 	}
 
-	function getSelectionColorsFromType(type:MainMenuButtonType):Array<FlxColor>
+	function getSelectionColorsFromType(buttonType:MainMenuButtonType):Array<FlxColor>
 	{
-		return switch (type)
+		return switch (buttonType)
 		{
 			case MAIN: [0xFF0A3C33, 0xFF105848];
 			case EXTRA: [0xFFAAE2DC, 0xFFFFFFFF];
@@ -113,9 +148,9 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 		};
 	}
 
-	function getImageFromType(type:MainMenuButtonType):String
+	function getImageFromType(buttonType:MainMenuButtonType):String
 	{
-		return switch (type)
+		return switch (buttonType)
 		{
 			case MAIN: Paths.image('menus/mainmenu/mainButton');
 			case EXTRA: Paths.image('menus/mainmenu/extraButton');
@@ -123,9 +158,9 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 		};
 	}
 
-	function getDimentionsFromType(type:MainMenuButtonType):Array<Int>
+	function getDimentionsFromType(buttonType:MainMenuButtonType):Array<Int>
 	{
-		return switch (type)
+		return switch (buttonType)
 		{
 			case MAIN: [90, 12];
 			case EXTRA: [90, 9];
@@ -133,9 +168,9 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 		};
 	}
 
-	function getTextSizeFromType(type:MainMenuButtonType):Int
+	function getTextSizeFromType(buttonType:MainMenuButtonType):Int
 	{
-		return switch (type)
+		return switch (buttonType)
 		{
 			case MAIN: 32;
 			case EXTRA: 25;
@@ -164,6 +199,9 @@ class MainMenuButton extends FlxTypedSpriteGroup<FlxSprite>
 	}
 }
 
+/**
+ * The type of button.
+ */
 enum MainMenuButtonType
 {
 	MAIN;
@@ -173,18 +211,61 @@ enum MainMenuButtonType
 
 typedef MainMenuButtonsData =
 {
+	/**
+	 * The translation ID the button uses.
+	 */
 	var translationID:String;
+
+	/**
+	 * Whether the button can be interacted with or not.
+	 */
 	var available:Bool;
+
+	/**
+	 * The icon graphic to load into the button.
+	 */
 	var ?icon:String;
+
+	/**
+	 * The offsets of the icon.
+	 */
 	var ?iconOffsets:Array<Float>;
+
+	/**
+	 * The type of button to load.
+	 */
 	var type:MainMenuButtonType;
+
+	/**
+	 * The type of action that gets triggered when the button is selected.
+	 */
 	var triggerType:MainMenuButtonTriggerType;
+
+	/**
+	 * Function to trigger when the button is selected.
+	 *
+	 * Requires `MainMenuState` as one of its parameters.
+	 */
 	var onSelect:MainMenuState -> Dynamic;
 }
 
+/**
+ * The trigger types of the `MainMenuButton`.
+ */
 enum MainMenuButtonTriggerType
 {
+	/**
+	 * Opens a window submenu when the button is selected.
+	 */
 	OPEN_WINDOW;
+
+	/**
+	 * Switches to a new state when the button is selected.
+	 */
 	SWITCH_STATE;
+
+	/**
+	 * Opens a substate when the button is selected.
+	 */
 	OPEN_SUBSTATE;
 }

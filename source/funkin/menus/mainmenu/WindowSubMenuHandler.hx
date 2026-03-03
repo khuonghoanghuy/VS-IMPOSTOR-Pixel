@@ -8,6 +8,9 @@ import funkin.ui.FunkinButton;
 
 class WindowSubMenuHandler extends FlxBasic
 {
+	/**
+	 * Whether the submenu is open or not.
+	 */
 	public var isOpen(default, null):Bool;
 
 	public var titleObject(default, null):FunkinText;
@@ -68,6 +71,11 @@ class WindowSubMenuHandler extends FlxBasic
 		isOpen = false;
 	}
 
+	/**
+	 * Opens a window submenu.
+	 *
+	 * @param subMenu The `WindowSubMenu` to open.
+	 */
 	public function open(subMenu:WindowSubMenu)
 	{
 		if (subMenu == null || isOpen)
@@ -89,6 +97,11 @@ class WindowSubMenuHandler extends FlxBasic
 		isOpen = true;
 	}
 
+	/**
+	 * Closes any window submenu that's currently open.
+	 *
+	 * @param trigger Whether to trigger the `onClose` signal.
+	 */
 	public function close(trigger:Bool = false)
 	{
 		if (!isOpen)
@@ -121,7 +134,9 @@ class WindowSubMenuHandler extends FlxBasic
 	override function update(elapsed:Float)
 	{
 		if (!enabled || !isOpen)
+		{
 			return;
+		}
 
 		super.update(elapsed);
 

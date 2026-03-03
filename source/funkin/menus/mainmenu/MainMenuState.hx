@@ -29,9 +29,12 @@ class MainMenuState extends MusicBeatState
 	public var windowArea:FlxRect;
 	public var windowMenu:WindowSubMenuHandler;
 
+	/**
+	 * The camera where the main objects of the menu are rendered.
+	 */
 	public var mainCamera:FlxCamera;
 
-	public var mainMenuButtons:Array<MainMenuButtonsData> = [
+	var mainMenuButtons:Array<MainMenuButtonsData> = [
 		{
 			translationID: 'generic.play',
 			available: true,
@@ -487,16 +490,13 @@ class MainMenuState extends MusicBeatState
 
 		for (button in mainButtonsGroup.members)
 		{
-			if (button.available)
+			if (FlxG.mouse.overlaps(button, mainCamera) && button.available)
 			{
-				if (FlxG.mouse.overlaps(button, mainCamera))
-				{
-					overlaps = true;
-					mouseSelection(button._position);
-				}
-
-				button.checkPosition(curMouseEntry);
+				overlaps = true;
+				mouseSelection(button._position);
 			}
+
+			button.checkPosition(curMouseEntry);
 		}
 
 		if (overlaps)
@@ -531,23 +531,40 @@ class MainMenuState extends MusicBeatState
 			return;
 		}
 
-		for (touch in FlxG.touches.list)
+		curTouchesEntry.resize(FlxG.touches.list.length);
+		lastTouchesEntry.resize(FlxG.touches.list.length);
+		var overlaps:Bool = false;
+
+		for (i => touch in FlxG.touches.list)
 		{
 			for (button in mainButtonsGroup.members)
 			{
-				if (button.available)
+				if (touch.overlaps(button, mainCamera) && button.available)
 				{
-					if (touch.overlaps(button, mainCamera))
-					{
-						curEntry = button._position;
-						changeSelection(0);
-
-						if (touch.justReleased)
-						{
-							checkSelection(curEntry);
-						}
-					}
+					overlaps = true;
+					touchSelection(i, button._position);
+					button.hover();
 				}
+				else
+				{
+					button.idle();
+				}
+			}
+
+			if (overlaps)
+			{
+				if (touch.justReleased)
+				{
+					checkSelection(curTouchesEntry[i]);
+				}
+			}
+		}
+
+		if (curTouchesEntry.length < 0)
+		{
+			for (button in mainButtonsGroup.members)
+			{
+				button.checkPosition(-1);
 			}
 		}
 	}
@@ -570,6 +587,16 @@ class MainMenuState extends MusicBeatState
 		if (curMouseEntry != lastMouseEntry)
 		{
 			lastMouseEntry = curMouseEntry;
+		}
+	}
+
+	function touchSelection(touchID:Int, position:Int = -1)
+	{
+		curTouchesEntry[touchID] = position;
+
+		if (curTouchesEntry[touchID] != lastTouchesEntry[touchID])
+		{
+			lastTouchesEntry[touchID] = curTouchesEntry[touchID];
 		}
 	}
 
