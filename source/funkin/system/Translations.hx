@@ -8,6 +8,8 @@ import haxe.Json;
 import funkin.utils.native.Windows;
 #elseif linux
 import funkin.utils.native.Linux;
+#elseif (macos || ios)
+import funkin.utils.native.Apple;
 #elseif android
 import funkin.utils.native.Android;
 #elseif web
@@ -68,9 +70,9 @@ class Translations
 
 	/**
 	 * Gets the translation of a text with a translation ID from the current language.
-	 * 
+	 *
 	 * If it fails, it tries to get it from the default language.
-	 * 
+	 *
 	 * @param id            The translation ID.
 	 * @param parameters    If the text has parameters that can be replaced with values.
 	 * @return The translated text.
@@ -91,7 +93,7 @@ class Translations
 
 	/**
 	 * Gets the translation of a text with a translation ID.
-	 * 
+	 *
 	 * @param language      The language to use, must be the language's data.
 	 * @param id            The translation ID.
 	 * @param parameters    If the text has parameters that can be replaced with values.
@@ -114,7 +116,7 @@ class Translations
 
 	/**
 	 * Checks if the specified translation ID exists in a language.
-	 * 
+	 *
 	 * @param language  The language to check.
 	 * @param id        The translation ID to find.
 	 * @return Whether the translation ID exists in the language or not.
