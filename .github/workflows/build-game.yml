@@ -5,7 +5,6 @@ on: push
 jobs:
   build_windows:
     name: Windows
-    permissions: write-all
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -22,6 +21,8 @@ jobs:
             .haxelib/
             export/release/windows/haxe/
             export/release/windows/obj/
+      - run: |
+          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup -no-vscheck
@@ -41,9 +42,9 @@ jobs:
             .haxelib/
             export/release/windows/haxe/
             export/release/windows/obj/
+
   build_linux:
     name: Linux
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -60,9 +61,12 @@ jobs:
             .haxelib/
             export/release/linux/haxe/
             export/release/linux/obj/
+      - run: |
+          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install LibVLC
         run: |
-          sudo apt-get install libvlc-dev libvlccore-dev
+          sudo apt-get install libvlc-dev
+          sudo apt-get install libvlccore-dev
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -82,9 +86,9 @@ jobs:
             .haxelib/
             export/release/linux/haxe/
             export/release/linux/obj/
+
   build_mac:
     name: macOS
-    permissions: write-all
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
@@ -101,6 +105,8 @@ jobs:
             .haxelib/
             export/release/macos/haxe/
             export/release/macos/obj/
+      - run: |
+          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -120,9 +126,9 @@ jobs:
             .haxelib/
             export/release/macos/haxe/
             export/release/macos/obj/
+
   build_html5:
     name: HTML5 (Web)
-    permissions: write-all
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -139,6 +145,8 @@ jobs:
             .haxelib/
             export/release/html5/haxe/
             export/release/html5/obj/
+      - run: |
+          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -158,9 +166,9 @@ jobs:
             .haxelib/
             export/release/html5/haxe/
             export/release/html5/obj/
+
   build_hl:
     name: HashLink
-    permissions: write-all
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -177,6 +185,8 @@ jobs:
             .haxelib/
             export/release/hl/haxe/
             export/release/hl/obj/
+      - run: |
+          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup

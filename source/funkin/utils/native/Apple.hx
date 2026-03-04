@@ -72,7 +72,7 @@ class Apple
                 CFIndex maxSize = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8);
                 char* buffer = (char*)malloc(maxSize);
                 if (buffer && CFStringGetCString(languageCodeRef, buffer, maxSize, kCFStringEncodingUTF8))
-                    languageCode = buffer;
+                    language_code = buffer;
 
                 free(buffer);
             }

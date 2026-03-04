@@ -1,5 +1,6 @@
 package funkin;
 
+#if !macro
 #if DISCORD_API
 import funkin.api.DiscordClient;
 #end
@@ -27,3 +28,4 @@ import funkin.utils.Assets;
 import funkin.utils.MathUtil;
 
 using StringTools;
+#end
