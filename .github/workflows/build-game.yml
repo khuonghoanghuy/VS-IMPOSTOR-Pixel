@@ -8,13 +8,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@main
+        uses: actions/checkout@v5
       - name: Install Haxe
-        uses: krdlab/setup-haxe@master
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v5
         with:
           key: cache_windows
           path: |
@@ -23,8 +23,8 @@ jobs:
             export/release/windows/obj/
       - name: Setup Haxelib
         run: |
-          haxelib fixrepo --global
           haxelib set haxelib 4.2.0
+          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup -no-vscheck
@@ -32,12 +32,12 @@ jobs:
         run: |
           haxelib run lime build windows -v -release
       - name: Upload Artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (Windows)
           path: export/release/windows/bin
       - name: Save Cache
-        uses: actions/cache/save@main
+        uses: actions/cache/save@v5
         with:
           key: cache_windows
           path: |
@@ -49,13 +49,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@main
+        uses: actions/checkout@v5
       - name: Install Haxe
-        uses: krdlab/setup-haxe@master
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v5
         with:
           key: cache_linux
           path: |
@@ -67,8 +67,8 @@ jobs:
           sudo apt-get install libvlc-dev libvlccore-dev
       - name: Setup Haxelib
         run: |
-          haxelib fixrepo --global
           haxelib set haxelib 4.2.0
+          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -76,12 +76,12 @@ jobs:
         run: |
           haxelib run lime build linux -v -release
       - name: Upload Artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (Linux)
           path: export/release/linux/bin
       - name: Save Cache
-        uses: actions/cache/save@main
+        uses: actions/cache/save@v5
         with:
           key: cache_linux
           path: |
@@ -93,13 +93,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@main
+        uses: actions/checkout@v5
       - name: Install Haxe
-        uses: krdlab/setup-haxe@master
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v5
         with:
           key: cache_mac
           path: |
@@ -108,8 +108,8 @@ jobs:
             export/release/macos/obj/
       - name: Setup Haxelib
         run: |
-          haxelib fixrepo --global
           haxelib set haxelib 4.2.0
+          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -117,12 +117,12 @@ jobs:
         run: |
           arch -x86_64 haxelib run lime build mac -v -release
       - name: Upload Artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (macOS)
           path: export/release/macos/bin
       - name: Save Cache
-        uses: actions/cache/save@main
+        uses: actions/cache/save@v5
         with:
           key: cache_mac
           path: |
@@ -134,13 +134,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@main
+        uses: actions/checkout@v5
       - name: Install Haxe
-        uses: krdlab/setup-haxe@master
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v5
         with:
           key: cache_html5
           path: |
@@ -149,8 +149,8 @@ jobs:
             export/release/html5/obj/
       - name: Setup Haxelib
         run: |
-          haxelib fixrepo --global
           haxelib set haxelib 4.2.0
+          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -158,12 +158,12 @@ jobs:
         run: |
           haxelib run lime build html5 -v -release
       - name: Upload Artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (HTML5)
           path: export/release/html5/bin
       - name: Save Cache
-        uses: actions/cache/save@main
+        uses: actions/cache/save@v5
         with:
           key: cache_html5
           path: |
@@ -175,13 +175,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@main
+        uses: actions/checkout@v5
       - name: Install Haxe
-        uses: krdlab/setup-haxe@master
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v5
         with:
           key: cache_hl
           path: |
@@ -190,8 +190,8 @@ jobs:
             export/release/hl/obj/
       - name: Setup Haxelib
         run: |
-          haxelib fixrepo --global
           haxelib set haxelib 4.2.0
+          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -203,12 +203,12 @@ jobs:
         run: |
           haxelib run lime build hl -v -release
       - name: Upload Artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (HashLink)
           path: export/release/hl/bin
       - name: Save Cache
-        uses: actions/cache/save@main
+        uses: actions/cache/save@v5
         with:
           key: cache_hl
           path: |
