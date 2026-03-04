@@ -23,7 +23,7 @@ jobs:
             export/release/windows/obj/
       - name: Setup Haxelib
         run: |
-          haxelib set haxelib 4.2.0
+          haxelib --always set haxelib 4.2.0
           haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
@@ -67,7 +67,7 @@ jobs:
           sudo apt-get install libvlc-dev libvlccore-dev
       - name: Setup Haxelib
         run: |
-          haxelib set haxelib 4.2.0
+          haxelib --always set haxelib 4.2.0
           haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
@@ -108,7 +108,7 @@ jobs:
             export/release/macos/obj/
       - name: Setup Haxelib
         run: |
-          haxelib set haxelib 4.2.0
+          haxelib --always set haxelib 4.2.0
           haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
@@ -149,7 +149,7 @@ jobs:
             export/release/html5/obj/
       - name: Setup Haxelib
         run: |
-          haxelib set haxelib 4.2.0
+          haxelib --always set haxelib 4.2.0
           haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
@@ -190,7 +190,7 @@ jobs:
             export/release/hl/obj/
       - name: Setup Haxelib
         run: |
-          haxelib set haxelib 4.2.0
+          haxelib --always set haxelib 4.2.0
           haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
