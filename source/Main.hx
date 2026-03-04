@@ -27,7 +27,7 @@ class Main extends Sprite
 {
 	/**
 	 * IMPOSTOR Pixel's custom debug overlay.
-	 * 
+	 *
 	 * Contains information about the game and the system running this mod.
 	 */
 	public static var debugOverlay:DebugOverlay;

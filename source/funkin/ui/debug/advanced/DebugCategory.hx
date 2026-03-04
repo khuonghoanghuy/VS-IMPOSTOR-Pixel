@@ -6,22 +6,14 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 
-enum abstract CategoryAlignment(String) from String to String
-{
-	var TOP_LEFT = "topLeft";
-
-	var TOP_RIGHT = "topRight";
-
-	var BOTTOM_LEFT = "bottomLeft";
-
-	var BOTTOM_RIGHT = "bottomRight";
-}
-
 class DebugCategory extends Sprite
 {
-	public final overlayWidth:Float;
-	public final overlayHeight:Float;
+	public var overlayWidth(default, set):Float;
+	public var overlayHeight(default, set):Float;
 
+	/**
+	 * How much vertical offset should this category be drawn with.
+	 */
 	public var verticalOffset:Float = 0;
 
 	var alignment:CategoryAlignment = TOP_LEFT;
@@ -33,15 +25,16 @@ class DebugCategory extends Sprite
 	{
 		super();
 
-		overlayWidth = width;
-		overlayHeight = height;
 		this.alignment = alignment;
 
 		background = new Shape();
 		background.graphics.beginFill(backgroundColor, 0.6);
-		background.graphics.drawRect(0, 0, overlayWidth, overlayHeight);
+		background.graphics.drawRect(0, 0, 1, 1);
 		background.graphics.endFill();
 		addChild(background);
+
+		overlayWidth = width;
+		overlayHeight = height;
 
 		if (title != null)
 		{
@@ -53,12 +46,15 @@ class DebugCategory extends Sprite
 			this.title.height = background.height;
 			this.title.selectable = false;
 			this.title.mouseEnabled = false;
-			this.title.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 12, 0xAAAAAA, null, null, null, null, null,
-				getTextAlignFromCategoryAlignment());
+			this.title.defaultTextFormat = new TextFormat(Defaults.DEFAULT_FONT, 12, 0xAAAAAA, null, null, null, null, null, getTextAlignFromCategoryAlignment());
 			addChild(this.title);
 		}
 	}
 
+	/**
+	 * Creates a `TextField` for use within the category. Useful as a shortcut.
+	 * @return The `TextField` instance.
+	 */
 	public function createTextField():TextField
 	{
 		var textField:TextField = new TextField();
@@ -72,7 +68,8 @@ class DebugCategory extends Sprite
 		return textField;
 	}
 
-	public function updatePosition()
+	@:allow(funkin.ui.debug.DebugOverlay)
+	final function updatePosition()
 	{
 		switch (alignment)
 		{
@@ -91,11 +88,13 @@ class DebugCategory extends Sprite
 		}
 	}
 
-	public function update(deltaTime:Float) {}
+	@:allow(funkin.ui.debug.DebugOverlay)
+	function update(deltaTime:Float) {}
 
-	public function postUpdate() {}
+	@:allow(funkin.ui.debug.DebugOverlay)
+	function postUpdate() {}
 
-	public function getTextAlignFromCategoryAlignment():TextFormatAlign
+	function getTextAlignFromCategoryAlignment():TextFormatAlign
 	{
 		return switch (alignment)
 		{
@@ -103,4 +102,55 @@ class DebugCategory extends Sprite
 			case TOP_RIGHT, BOTTOM_RIGHT: TextFormatAlign.RIGHT;
 		}
 	}
+
+	function set_overlayWidth(value:Float):Float
+	{
+		// value += title.textWidth;
+
+		overlayWidth = background.width = value;
+
+		if (title != null)
+		{
+			title.width = value - 16;
+		}
+
+		return value;
+	}
+
+	function set_overlayHeight(value:Float):Float
+	{
+		// value += title.textHeight;
+
+		overlayHeight = background.height = value;
+
+		if (title != null)
+		{
+			title.height = value;
+		}
+
+		return value;
+	}
+}
+
+enum abstract CategoryAlignment(String) from String to String
+{
+	/**
+	 * Aligns the category to the top left of the window.
+	 */
+	var TOP_LEFT = 'topLeft';
+
+	/**
+	 * Aligns the category to the top right of the window.
+	 */
+	var TOP_RIGHT = 'topRight';
+
+	/**
+	 * Aligns the category to the bottom left of the window.
+	 */
+	var BOTTOM_LEFT = 'bottomLeft';
+
+	/**
+	 * Aligns the category to the bottom right of the window.
+	 */
+	var BOTTOM_RIGHT = 'bottomRight';
 }

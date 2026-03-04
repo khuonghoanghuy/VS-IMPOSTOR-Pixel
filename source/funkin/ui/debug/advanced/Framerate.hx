@@ -44,7 +44,7 @@ class Framerate extends DebugCategory
 		fps = 0;
 	}
 
-	override public function update(deltaTime:Float)
+	override function update(deltaTime:Float)
 	{
 		currentTime += deltaTime;
 		times.push(currentTime);

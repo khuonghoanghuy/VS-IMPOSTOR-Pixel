@@ -6,7 +6,7 @@ package funkin.utils.native;
  */
 @:buildXml('
 <target id="haxe">
-    <lib name="dwmapi.lib"/>
+	<lib name="dwmapi.lib"/>
 </target>
 ')
 @:cppFileCode('
@@ -33,28 +33,28 @@ class Windows
 	 * @param enable Whether to enable it or not.
 	 */
 	@:functionCode('
-        HWND window = GetActiveWindow();
+		HWND window = GetActiveWindow();
 
-        int darkMode = enable ? 1 : 0;
+		int darkMode = enable ? 1 : 0;
 
-        if (DwmSetWindowAttribute(window, 20, &darkMode, sizeof(darkMode)) != S_OK)
-            DwmSetWindowAttribute(window, 19, &darkMode, sizeof(darkMode));
+		if (DwmSetWindowAttribute(window, 20, &darkMode, sizeof(darkMode)) != S_OK)
+				DwmSetWindowAttribute(window, 19, &darkMode, sizeof(darkMode));
 
-        UpdateWindow(window);
-    ')
+		UpdateWindow(window);
+	')
 	public static function setWindowDarkMode(enable:Bool) {}
 
 	/**
 	 * @return The game's Task Memory usage.
 	 */
 	@:functionCode('
-        PROCESS_MEMORY_COUNTERS_EX pmc;
+		PROCESS_MEMORY_COUNTERS_EX pmc;
 
-        if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
-            return pmc.WorkingSetSize;
+		if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
+				return pmc.WorkingSetSize;
 
-        return 0;
-    ')
+		return 0;
+	')
 	public static function getTaskProcessMemory():Float
 	{
 		return 0;
@@ -64,14 +64,14 @@ class Windows
 	 * @return The total amount of RAM the system has installed.
 	 */
 	@:functionCode('
-        MEMORYSTATUSEX statusEx;
-        statusEx.dwLength = sizeof(statusEx);
+		MEMORYSTATUSEX statusEx;
+		statusEx.dwLength = sizeof(statusEx);
 
-        if (GlobalMemoryStatusEx(&statusEx))
-            return statusEx.ullTotalPhys;
+		if (GlobalMemoryStatusEx(&statusEx))
+				return statusEx.ullTotalPhys;
 
-        return 0;
-    ')
+		return 0;
+	')
 	public static function getTotalSystemMemory():Float
 	{
 		return 0;
@@ -81,11 +81,11 @@ class Windows
 	 * @return The system's current language in the Language Code format (i.e. `en-US`).
 	 */
 	@:functionCode('
-        LANGID lang_code = GetUserDefaultUILanguage();
-        WCHAR lang_name[LOCALE_NAME_MAX_LENGTH];
-        GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, lang_name, LOCALE_NAME_MAX_LENGTH);
-        return lang_name;
-    ')
+		LANGID lang_code = GetUserDefaultUILanguage();
+		WCHAR lang_name[LOCALE_NAME_MAX_LENGTH];
+		GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, lang_name, LOCALE_NAME_MAX_LENGTH);
+		return lang_name;
+	')
 	public static function getSystemLanguage():String
 	{
 		return '';
@@ -93,17 +93,17 @@ class Windows
 
 	/**
 	 * Makes a pop-up appear with a custom warning or information.
-	 * 
+	 *
 	 * Documentation: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
-	 * 
-	 * @param message	The message to display.
-	 * @param title		The title of the pop-up.
-	 * @param buttons	The types of buttons to show.
-	 * @param icon		The icon to show in the pop-up, aka the severity of the pop-up.
+	 *
+	 * @param message		The message to display.
+	 * @param title			The title of the pop-up.
+	 * @param buttons		The types of buttons to show.
+	 * @param icon			The icon to show in the pop-up, aka the severity of the pop-up.
 	 */
 	@:functionCode('
-        MessageBox(GetActiveWindow(), message, title, buttons | icon);
-    ')
+		MessageBox(GetActiveWindow(), message, title, buttons | icon);
+	')
 	public static function showMessageBoxPopUp(message:String, title:String, buttons:WindowsMessageBoxButtons = OK, icon:WindowsMessageBoxIcon = NOTICE) {}
 }
 

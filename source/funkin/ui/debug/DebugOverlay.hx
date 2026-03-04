@@ -2,7 +2,6 @@ package funkin.ui.debug;
 
 import funkin.ui.debug.advanced.*;
 
-import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 
 class DebugOverlay extends Sprite
@@ -74,10 +73,12 @@ class DebugOverlay extends Sprite
 	public function cycleDisplayMode()
 	{
 		displayModeInt++;
+
 		if (displayModeInt > DebugDisplayMode.ADVANCED)
 		{
 			displayModeInt = DebugDisplayMode.NONE;
 		}
+
 		displayMode = displayMode.fromInt(displayModeInt);
 
 		updateDisplayMode();
@@ -115,12 +116,9 @@ class DebugOverlay extends Sprite
 
 		for (i in 0...numChildren)
 		{
-			var child:DisplayObject = getChildAt(i);
-			if (Std.isOfType(child, DebugCategory))
-			{
-				cast(child, DebugCategory).updatePosition();
-				cast(child, DebugCategory).update(dt);
-			}
+			var child:DebugCategory = cast getChildAt(i);
+			child.updatePosition();
+			child.update(dt);
 		}
 
 		if (updateTimer < UPDATE_FREQUENCY)
@@ -131,11 +129,8 @@ class DebugOverlay extends Sprite
 
 		for (i in 0...numChildren)
 		{
-			var child:DisplayObject = getChildAt(i);
-			if (Std.isOfType(child, DebugCategory))
-			{
-				cast(child, DebugCategory).postUpdate();
-			}
+			var child:DebugCategory = cast getChildAt(i);
+			child.postUpdate();
 		}
 
 		updateTimer = 0;

@@ -24,7 +24,7 @@ class Apple
 
         if (task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&info, &count) != KERN_SUCCESS)
             return 0;
-        
+
         return info.resident_size;
     ')
 	public static function getTaskProcessMemory():Float
