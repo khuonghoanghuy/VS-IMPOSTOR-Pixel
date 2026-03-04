@@ -9,7 +9,7 @@ using StringTools;
 
 /**
  * God bless `HXProject`, it's so much easier to manage Lime/OpenFL projects like this. :)
- * 
+ *
  * Also, props to the FunkinCrew, this code is heavily inspired off of their `project.hxp` from Funkin'.
  */
 class Project extends HXProject
@@ -28,14 +28,14 @@ class Project extends HXProject
 
     /**
      * The name of the executable file.
-     * 
+     *
      * For Desktop targets.
      */
     static final EXECUTABLE_NAME:String = "ImpostorPixel";
 
     /**
      * The unique package name for this project.
-     * 
+     *
      * For Android applications.
      */
     static final PACKAGE_NAME:String = "com.kenton.impostorpixel";
@@ -62,16 +62,16 @@ class Project extends HXProject
 
     /**
      * The minimum Android SDK version this application can launch on.
-     * 
+     *
      * SDK 28 is Android 9.0, codenamed "Pie".
      */
     static final ANDROID_MINIMUM_SDK:Int = 28;
 
     /**
      * The Android SDK version this application is targetting.
-     * 
+     *
      * In other words, the Android SDK version this application is built on.
-     * 
+     *
      * SDK 35 is Android 15.0, codenamed "VanillaIceCream".
      */
     static final ANDROID_TARGET_SDK:Int = 35;
@@ -253,16 +253,13 @@ class Project extends HXProject
         addHaxelib("flixel");
         addHaxelib("flixel-addons");
 
-        addHaxelib("haxeui-core");
-        addHaxelib("haxeui-flixel");
-
         if (hasHaxeDefine("DISCORD_API"))
         {
             addHaxelib("hxdiscord_rpc");
         }
 
-        addHaxelib("colyseus-websocket");
-        addHaxelib("tink_url");
+        //addHaxelib("colyseus-websocket");
+        //addHaxelib("tink_url");
         //addHaxelib("tink_await");
 
         if (hasHaxeDefine("VIDEOS_BACKEND"))
@@ -358,9 +355,9 @@ class Project extends HXProject
 
     /**
      * Isn't it annoying when HXCPP asks you to set it up every single time you install it or update it?
-     * 
+     *
      * Here we do it for you! cuz seriously this annoys me so much as well lol.
-     * 
+     *
      * *Also prevents GitHub workflows from failing*
      */
     function buildHXCPPTools()

@@ -1,0 +1,213 @@
+name: Build Game
+
+on: push
+
+jobs:
+  gather_changes:
+    name: Gather Changes
+    runs-on: builder-set
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+  build_windows:
+    name: Windows
+    needs: gather_changes
+    runs-on: windows-latest
+    steps:
+      - name: Install Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+      - name: Restore Cache
+        uses: actions/cache/restore@main
+        with:
+          key: cache_windows
+          path: |
+            .haxelib/
+            export/release/windows/haxe/
+            export/release/windows/obj/
+      - name: Setup Haxelib
+        run: |
+          haxelib set haxelib 4.2.0
+      - name: Install / Update Libraries
+        run: |
+          haxe -cp build -D analyzer-optimize --run Setup -no-vscheck
+      - name: Build Game
+        run: |
+          haxelib run lime build windows -v -release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: VS IMPOSTOR Pixel
+          path: export/release/windows/bin
+      - name: Save Cache
+        uses: actions/cache/save@main
+        with:
+          key: cache_windows
+          path: |
+            .haxelib/
+            export/release/windows/haxe/
+            export/release/windows/obj/
+  build_linux:
+    name: Linux
+    needs: gather_changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+      - name: Restore Cache
+        uses: actions/cache/restore@main
+        with:
+          key: cache_linux
+          path: |
+            .haxelib/
+            export/release/linux/haxe/
+            export/release/linux/obj/
+      - name: Install LibVLC
+        run: |
+          sudo apt-get install libvlc-dev libvlccore-dev
+      - name: Setup Haxelib
+        run: |
+          haxelib set haxelib 4.2.0
+      - name: Install / Update Libraries
+        run: |
+          haxe -cp build -D analyzer-optimize --run Setup
+      - name: Build Game
+        run: |
+          haxelib run lime build linux -v -release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: VS IMPOSTOR Pixel
+          path: export/release/linux/bin
+      - name: Save Cache
+        uses: actions/cache/save@main
+        with:
+          key: cache_linux
+          path: |
+            .haxelib/
+            export/release/linux/haxe/
+            export/release/linux/obj/
+  build_mac:
+    name: macOS
+    needs: gather_changes
+    runs-on: macos-latest
+    steps:
+      - name: Install Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+      - name: Restore Cache
+        uses: actions/cache/restore@main
+        with:
+          key: cache_mac
+          path: |
+            .haxelib/
+            export/release/macos/haxe/
+            export/release/macos/obj/
+      - name: Setup Haxelib
+        run: |
+          haxelib set haxelib 4.2.0
+      - name: Install / Update Libraries
+        run: |
+          haxe -cp build -D analyzer-optimize --run Setup
+      - name: Build Game
+        run: |
+          arch -x86_64 haxelib run lime build mac -v -release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: VS IMPOSTOR Pixel
+          path: export/release/macos/bin
+      - name: Save Cache
+        uses: actions/cache/save@main
+        with:
+          key: cache_mac
+          path: |
+            .haxelib/
+            export/release/macos/haxe/
+            export/release/macos/obj/
+  build_html5:
+    name: HTML5 (Web)
+    needs: gather_changes
+    runs-on: build-set
+    steps:
+      - name: Install Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+      - name: Restore Cache
+        uses: actions/cache/restore@main
+        with:
+          key: cache_html5
+          path: |
+            .haxelib/
+            export/release/html5/haxe/
+            export/release/html5/obj/
+      - name: Setup Haxelib
+        run: |
+          haxelib set haxelib 4.2.0
+      - name: Install / Update Libraries
+        run: |
+          haxe -cp build -D analyzer-optimize --run Setup
+      - name: Build Game
+        run: |
+          haxelib run lime build html5 -v -release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: VS IMPOSTOR Pixel
+          path: export/release/html5/bin
+      - name: Save Cache
+        uses: actions/cache/save@main
+        with:
+          key: cache_html5
+          path: |
+            .haxelib/
+            export/release/html5/haxe/
+            export/release/html5/obj/
+  build_hl:
+    name: HashLink
+    needs: gather_changes
+    runs-on: build-set
+    steps:
+      - name: Install Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+      - name: Restore Cache
+        uses: actions/cache/restore@main
+        with:
+          key: cache_hl
+          path: |
+            .haxelib/
+            export/release/hl/haxe/
+            export/release/hl/obj/
+      - name: Setup Haxelib
+        run: |
+          haxelib set haxelib 4.2.0
+      - name: Install / Update Libraries
+        run: |
+          haxe -cp build -D analyzer-optimize --run Setup
+      - name: Install HashLink
+        run: |
+          haxelib git hashlink https://github.com/HaxeFoundation/hashlink master
+          haxelib run lime setup hashlink
+      - name: Build Game
+        run: |
+          haxelib run lime build hl -v -release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: VS IMPOSTOR Pixel
+          path: export/release/hl/bin
+      - name: Save Cache
+        uses: actions/cache/save@main
+        with:
+          key: cache_hl
+          path: |
+            .haxelib/
+            export/release/hl/haxe/
+            export/release/hl/obj/
