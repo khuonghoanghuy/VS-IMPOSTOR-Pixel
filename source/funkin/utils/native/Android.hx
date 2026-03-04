@@ -42,12 +42,11 @@ class Android
 	{
 		try
 		{
-			var getConfiguration:Null<Dynamic> = JNICache.createMemberMethod('android/content/res/Resources', 'getConfiguration', '()Landroid/content/res/Configuration;');
+			var keyboard:Null<Dynamic> = JNICache.createStaticMethod('android/content/res/Configuration', 'keyboard', 'I');
 
-			if (getConfiguration != null)
+			if (keyboard != null)
 			{
-				var config = getConfiguration();
-				return config.keyboard > 1;
+				return keyboard > 1;
 			}
 		}
 		catch (e:Dynamic) {}
