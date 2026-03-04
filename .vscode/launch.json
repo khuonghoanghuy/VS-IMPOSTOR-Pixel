@@ -13,14 +13,6 @@
       "preLaunchTask": null
     },
     {
-      "name": "HTML5 Debug",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:8080",
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}"
-    },
-    {
       "name": "Macro",
       "type": "haxe-eval",
       "request": "launch"

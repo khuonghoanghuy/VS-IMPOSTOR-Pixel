@@ -19,7 +19,7 @@ class Setup
 		var arguments:Arguments = new Arguments(Sys.args());
 		final libraries:Array<Library> = Json.parse(File.getContent('./hmm.json')).dependencies;
 
-		final checkVisualStudio:Bool = !arguments.exists('no-vscheck');
+		final checkVisualStudio:Bool = arguments.exists('no-vscheck') == false;
 		final silentInstall:Bool = arguments.exists('silent') || arguments.exists('quiet');
 		final globalInstall:Bool = arguments.exists('global');
 
