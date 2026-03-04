@@ -14,18 +14,16 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v4.3.0
+        uses: actions/cache/restore@v5
         with:
           key: cache_windows
           path: |
             .haxelib/
             export/release/windows/haxe/
             export/release/windows/obj/
-      - run: |
-          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
-          haxe -cp build -D analyzer-optimize --run Setup -no-vscheck
+          haxe -cp setup -D analyzer-optimize --run Setup -no-vscheck
       - name: Build Game
         run: |
           haxelib run lime build windows -release
@@ -35,7 +33,7 @@ jobs:
           name: VS IMPOSTOR Pixel (Windows)
           path: export/release/windows/bin
       - name: Save Cache
-        uses: actions/cache/save@v4.3.0
+        uses: actions/cache/save@v5
         with:
           key: cache_windows
           path: |
@@ -54,22 +52,20 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v4.3.0
+        uses: actions/cache/restore@v5
         with:
           key: cache_linux
           path: |
             .haxelib/
             export/release/linux/haxe/
             export/release/linux/obj/
-      - run: |
-          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install LibVLC
         run: |
           sudo apt-get install libvlc-dev
           sudo apt-get install libvlccore-dev
       - name: Install / Update Libraries
         run: |
-          haxe -cp build -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
           haxelib run lime build linux -release
@@ -79,7 +75,7 @@ jobs:
           name: VS IMPOSTOR Pixel (Linux)
           path: export/release/linux/bin
       - name: Save Cache
-        uses: actions/cache/save@v4.3.0
+        uses: actions/cache/save@v5
         with:
           key: cache_linux
           path: |
@@ -98,18 +94,16 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v4.3.0
+        uses: actions/cache/restore@v5
         with:
           key: cache_mac
           path: |
             .haxelib/
             export/release/macos/haxe/
             export/release/macos/obj/
-      - run: |
-          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
-          haxe -cp build -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
           arch -x86_64 haxelib run lime build mac -release
@@ -119,7 +113,7 @@ jobs:
           name: VS IMPOSTOR Pixel (macOS)
           path: export/release/macos/bin
       - name: Save Cache
-        uses: actions/cache/save@v4.3.0
+        uses: actions/cache/save@v5
         with:
           key: cache_mac
           path: |
@@ -138,18 +132,16 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v4.3.0
+        uses: actions/cache/restore@v5
         with:
           key: cache_html5
           path: |
             .haxelib/
             export/release/html5/haxe/
             export/release/html5/obj/
-      - run: |
-          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
-          haxe -cp build -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
           haxelib run lime build html5 -release
@@ -159,7 +151,7 @@ jobs:
           name: VS IMPOSTOR Pixel (HTML5)
           path: export/release/html5/bin
       - name: Save Cache
-        uses: actions/cache/save@v4.3.0
+        uses: actions/cache/save@v5
         with:
           key: cache_html5
           path: |
@@ -178,18 +170,16 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v4.3.0
+        uses: actions/cache/restore@v5
         with:
           key: cache_hl
           path: |
             .haxelib/
             export/release/hl/haxe/
             export/release/hl/obj/
-      - run: |
-          echo "HXCPP_COMPILE_CACHE=~/.hxcpp" >> $GITHUB_ENV
       - name: Install / Update Libraries
         run: |
-          haxe -cp build -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup
       - name: Install HashLink
         run: |
           haxelib git hashlink https://github.com/HaxeFoundation/hashlink master
@@ -203,7 +193,7 @@ jobs:
           name: VS IMPOSTOR Pixel (HashLink)
           path: export/release/hl/bin
       - name: Save Cache
-        uses: actions/cache/save@v4.3.0
+        uses: actions/cache/save@v5
         with:
           key: cache_hl
           path: |

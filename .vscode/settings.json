@@ -42,7 +42,6 @@
   "haxecheckstyle.configurationFile": "checkstyle.json",
   "haxecheckstyle.codeSimilarityBufferSize": 100,
   "lime.projectFile": "project.hxp",
-  "lime.browser": "chrome",
   "lime.targets": [
     { "name": "windows", "enabled": true, "label": "Windows" },
     { "name": "linux", "enabled": true, "label": "Linux" },
