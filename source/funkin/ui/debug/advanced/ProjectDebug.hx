@@ -3,10 +3,6 @@ package funkin.ui.debug.advanced;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
-#if desktop
-import funkin.api.Git;
-#end
-
 /**
  * Shows information about the mod.
  */
@@ -35,11 +31,10 @@ class ProjectDebug extends DebugCategory
 		projectTitle.text = '${Defaults.TITLE} - ${Defaults.VERSION}';
 		addChild(projectTitle);
 
-		final modStuff:Array<String> = [];
-		#if desktop
-		modStuff.push('Git Commit: ${Git.getCommitHash()}');
-		#end
+		/*
+			final modStuff:Array<String> = [];
 
-		projectInfo.text = modStuff.join('\n');
+			projectInfo.text = modStuff.join('\n');
+		 */
 	}
 }

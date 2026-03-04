@@ -33,7 +33,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: VS IMPOSTOR Pixel
+          name: VS IMPOSTOR Pixel (Windows)
           path: export/release/windows/bin
       - name: Save Cache
         uses: actions/cache/save@main
@@ -76,7 +76,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: VS IMPOSTOR Pixel
+          name: VS IMPOSTOR Pixel (Linux)
           path: export/release/linux/bin
       - name: Save Cache
         uses: actions/cache/save@main
@@ -116,7 +116,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: VS IMPOSTOR Pixel
+          name: VS IMPOSTOR Pixel (macOS)
           path: export/release/macos/bin
       - name: Save Cache
         uses: actions/cache/save@main
@@ -156,7 +156,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: VS IMPOSTOR Pixel
+          name: VS IMPOSTOR Pixel (HTML5)
           path: export/release/html5/bin
       - name: Save Cache
         uses: actions/cache/save@main
@@ -200,7 +200,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: VS IMPOSTOR Pixel
+          name: VS IMPOSTOR Pixel (HashLink)
           path: export/release/hl/bin
       - name: Save Cache
         uses: actions/cache/save@main
