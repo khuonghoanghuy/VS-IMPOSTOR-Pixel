@@ -2,6 +2,7 @@ package funkin.ui.debug;
 
 import funkin.ui.debug.advanced.*;
 
+import openfl.display.DisplayObject;
 import openfl.display.Sprite;
 
 class DebugOverlay extends Sprite
@@ -116,9 +117,12 @@ class DebugOverlay extends Sprite
 
 		for (i in 0...numChildren)
 		{
-			var child:DebugCategory = cast getChildAt(i);
-			child.updatePosition();
-			child.update(dt);
+			var child:DisplayObject = getChildAt(i);
+			if (Std.isOfType(child, DebugCategory))
+			{
+				cast(child, DebugCategory).updatePosition();
+				cast(child, DebugCategory).update(dt);
+			}
 		}
 
 		if (updateTimer < UPDATE_FREQUENCY)
@@ -129,8 +133,11 @@ class DebugOverlay extends Sprite
 
 		for (i in 0...numChildren)
 		{
-			var child:DebugCategory = cast getChildAt(i);
-			child.postUpdate();
+			var child:DisplayObject = getChildAt(i);
+			if (Std.isOfType(child, DebugCategory))
+			{
+				cast(child, DebugCategory).postUpdate();
+			}
 		}
 
 		updateTimer = 0;
