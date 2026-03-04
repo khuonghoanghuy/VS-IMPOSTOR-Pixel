@@ -46,7 +46,8 @@ class Android
 
 			if (getConfiguration != null)
 			{
-				return getConfiguration().keyboard > 1;
+				var config = getConfiguration();
+				return config.keyboard > 1;
 			}
 		}
 		catch (e:Dynamic) {}
