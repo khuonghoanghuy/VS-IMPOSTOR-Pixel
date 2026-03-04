@@ -3,17 +3,12 @@ name: Build Game
 on: push
 
 jobs:
-  gather_changes:
-    name: Gather Changes
-    runs-on: builder-set
+  build_windows:
+    name: Windows
+    runs-on: windows-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@main
-  build_windows:
-    name: Windows
-    needs: gather_changes
-    runs-on: windows-latest
-    steps:
       - name: Install Haxe
         uses: krdlab/setup-haxe@master
         with:
@@ -50,9 +45,10 @@ jobs:
             export/release/windows/obj/
   build_linux:
     name: Linux
-    needs: gather_changes
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
       - name: Install Haxe
         uses: krdlab/setup-haxe@master
         with:
@@ -92,9 +88,10 @@ jobs:
             export/release/linux/obj/
   build_mac:
     name: macOS
-    needs: gather_changes
     runs-on: macos-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
       - name: Install Haxe
         uses: krdlab/setup-haxe@master
         with:
@@ -131,9 +128,10 @@ jobs:
             export/release/macos/obj/
   build_html5:
     name: HTML5 (Web)
-    needs: gather_changes
-    runs-on: build-set
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
       - name: Install Haxe
         uses: krdlab/setup-haxe@master
         with:
@@ -170,9 +168,10 @@ jobs:
             export/release/html5/obj/
   build_hl:
     name: HashLink
-    needs: gather_changes
-    runs-on: build-set
+    runs-on: windows-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
       - name: Install Haxe
         uses: krdlab/setup-haxe@master
         with:
