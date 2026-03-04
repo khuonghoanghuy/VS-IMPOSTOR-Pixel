@@ -26,7 +26,7 @@ jobs:
           haxe -cp build -D analyzer-optimize --run Setup -no-vscheck
       - name: Build Game
         run: |
-          haxelib run lime build windows -v -release
+          haxelib run lime build windows -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -66,7 +66,7 @@ jobs:
           haxe -cp build -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
-          haxelib run lime build linux -v -release
+          haxelib run lime build linux -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -103,7 +103,7 @@ jobs:
           haxe -cp build -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
-          arch -x86_64 haxelib run lime build mac -v -release
+          arch -x86_64 haxelib run lime build mac -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -140,7 +140,7 @@ jobs:
           haxe -cp build -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
-          haxelib run lime build html5 -v -release
+          haxelib run lime build html5 -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -181,7 +181,7 @@ jobs:
           haxelib run lime setup hashlink
       - name: Build Game
         run: |
-          haxelib run lime build hl -v -release
+          haxelib run lime build hl -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
