@@ -21,10 +21,6 @@ jobs:
             .haxelib/
             export/release/windows/haxe/
             export/release/windows/obj/
-      - name: Setup Haxelib
-        run: |
-          haxelib --always set haxelib 4.2.0
-          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup -no-vscheck
@@ -65,10 +61,6 @@ jobs:
       - name: Install LibVLC
         run: |
           sudo apt-get install libvlc-dev libvlccore-dev
-      - name: Setup Haxelib
-        run: |
-          haxelib --always set haxelib 4.2.0
-          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -106,10 +98,6 @@ jobs:
             .haxelib/
             export/release/macos/haxe/
             export/release/macos/obj/
-      - name: Setup Haxelib
-        run: |
-          haxelib --always set haxelib 4.2.0
-          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -147,10 +135,6 @@ jobs:
             .haxelib/
             export/release/html5/haxe/
             export/release/html5/obj/
-      - name: Setup Haxelib
-        run: |
-          haxelib --always set haxelib 4.2.0
-          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
@@ -188,10 +172,6 @@ jobs:
             .haxelib/
             export/release/hl/haxe/
             export/release/hl/obj/
-      - name: Setup Haxelib
-        run: |
-          haxelib --always set haxelib 4.2.0
-          haxelib fixrepo --global
       - name: Install / Update Libraries
         run: |
           haxe -cp build -D analyzer-optimize --run Setup
