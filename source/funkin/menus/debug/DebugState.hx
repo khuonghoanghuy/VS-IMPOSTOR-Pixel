@@ -2,7 +2,6 @@ package funkin.menus.debug;
 
 import funkin.menus.debug.character.CharacterEditorState;
 import funkin.menus.mainmenu.MainMenuState;
-import funkin.ui.MusicBeatState;
 
 class DebugState extends MusicBeatState
 {

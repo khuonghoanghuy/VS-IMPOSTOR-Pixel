@@ -7,7 +7,6 @@ import flixel.math.FlxRect;
 import funkin.menus.debug.DebugState;
 import funkin.menus.mainmenu.MainMenuButton;
 import funkin.ui.FunkinButton;
-import funkin.ui.MusicBeatState;
 import funkin.ui.StarsBackdrop;
 
 import openfl.ui.Mouse;
