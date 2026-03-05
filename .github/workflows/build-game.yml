@@ -35,7 +35,7 @@ jobs:
 
   build_linux:
     name: Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
@@ -53,8 +53,7 @@ jobs:
             export/release/linux/obj/
       - name: Install LibVLC
         run: |
-          sudo apt-get install libvlc-dev
-          sudo apt-get install libvlccore-dev
+          sudo apt-get install libvlc-dev libvlccore-dev
       - name: Install / Update Libraries
         run: |
           haxe -cp setup -D analyzer-optimize --run Setup
