@@ -8,15 +8,16 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2
+        uses: krdlab/setup-haxe@v2.0.2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
         uses: actions/cache@v5
         with:
           key: cache_windows
+          restore-keys: cache_windows
           path: |
             .haxelib/
             export/release/windows/haxe/
@@ -31,22 +32,23 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (Windows)
-          path: export/release/windows/bin
+          path: export/release/windows/bin/
 
   build_linux:
     name: Linux
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2
+        uses: krdlab/setup-haxe@v2.0.2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
         uses: actions/cache@v5
         with:
           key: cache_linux
+          restore-keys: cache_linux
           path: |
             .haxelib/
             export/release/linux/haxe/
@@ -64,22 +66,23 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (Linux)
-          path: export/release/linux/bin
+          path: export/release/linux/bin/
 
   build_mac:
     name: macOS
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2
+        uses: krdlab/setup-haxe@v2.0.2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
         uses: actions/cache@v5
         with:
           key: cache_mac
+          restore-keys: cache_mac
           path: |
             .haxelib/
             export/release/macos/haxe/
@@ -94,22 +97,23 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (macOS)
-          path: export/release/macos/bin
+          path: export/release/macos/bin/
 
   build_html5:
     name: HTML5 (Web)
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2
+        uses: krdlab/setup-haxe@v2.0.2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
         uses: actions/cache@v5
         with:
           key: cache_html5
+          restore-keys: cache_html5
           path: |
             .haxelib/
             export/release/html5/haxe/
@@ -124,22 +128,23 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (HTML5)
-          path: export/release/html5/bin
+          path: export/release/html5/bin/
 
   build_hl:
     name: HashLink
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2
+        uses: krdlab/setup-haxe@v2.0.2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
         uses: actions/cache@v5
         with:
           key: cache_hl
+          restore-keys: cache_hl
           path: |
             .haxelib/
             export/release/hl/haxe/
@@ -158,4 +163,4 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (HashLink)
-          path: export/release/hl/bin
+          path: export/release/hl/bin/
