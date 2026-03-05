@@ -10,7 +10,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2.0.2
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
@@ -24,7 +24,7 @@ jobs:
             export/release/windows/obj/
       - name: Install / Update Libraries
         run: |
-          haxe -cp setup -D analyzer-optimize --run Setup -no-vscheck
+          haxe -cp setup -D analyzer-optimize --run Setup --no-vscheck -quiet
       - name: Build Game
         run: |
           haxelib run lime build windows -release
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2.0.2
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
@@ -58,10 +58,10 @@ jobs:
           sudo apt-get install libvlc-dev libvlccore-dev
       - name: Install / Update Libraries
         run: |
-          haxe -cp setup -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup -quiet
       - name: Build Game
         run: |
-          haxelib run lime build linux
+          haxelib run lime build linux -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -75,7 +75,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2.0.2
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
@@ -89,10 +89,10 @@ jobs:
             export/release/macos/obj/
       - name: Install / Update Libraries
         run: |
-          haxe -cp setup -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup -quiet
       - name: Build Game
         run: |
-          arch -x86_64 haxelib run lime build mac
+          arch -x86_64 haxelib run lime build mac -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -106,7 +106,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2.0.2
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
@@ -120,10 +120,10 @@ jobs:
             export/release/html5/obj/
       - name: Install / Update Libraries
         run: |
-          haxe -cp setup -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup -quiet
       - name: Build Game
         run: |
-          haxelib run lime build html5
+          haxelib run lime build html5 -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
@@ -137,7 +137,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v6
       - name: Install Haxe
-        uses: krdlab/setup-haxe@v2.0.2
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
@@ -151,14 +151,14 @@ jobs:
             export/release/hl/obj/
       - name: Install / Update Libraries
         run: |
-          haxe -cp setup -D analyzer-optimize --run Setup
+          haxe -cp setup -D analyzer-optimize --run Setup -quiet
       - name: Install HashLink
         run: |
           haxelib git hashlink https://github.com/HaxeFoundation/hashlink master
           haxelib run lime setup hashlink
       - name: Build Game
         run: |
-          haxelib run lime build hl
+          haxelib run lime build hl -clean -release
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
