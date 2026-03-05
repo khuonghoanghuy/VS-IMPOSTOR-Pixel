@@ -7,6 +7,7 @@ import flixel.math.FlxRect;
 import funkin.menus.debug.DebugState;
 import funkin.menus.mainmenu.MainMenuButton;
 import funkin.ui.FunkinButton;
+import funkin.ui.MusicBeatState;
 import funkin.ui.StarsBackdrop;
 
 import openfl.ui.Mouse;
@@ -228,8 +229,7 @@ class MainMenuState extends MusicBeatState
 		topBarGroup.add(topShadowRight);
 
 		var topShadowBordersDistance:Float = MathUtil.distanceBetweenFloats(topShadowLeft.x + topShadowLeft.width, topShadowRight.x);
-		var topShadowMiddle:FunkinSprite = new FunkinSprite(topShadowLeft.x + topShadowLeft.width,
-			topShadowLeft.y).makeGraphic(Std.int(topShadowBordersDistance), Std.int(4 * BASE_SCALE), 0xFF999999);
+		var topShadowMiddle:FunkinSprite = new FunkinSprite(topShadowLeft.x + topShadowLeft.width, topShadowLeft.y).makeGraphic(Std.int(topShadowBordersDistance), Std.int(4 * BASE_SCALE), 0xFF999999);
 		topShadowMiddle.blend = MULTIPLY;
 		topBarGroup.add(topShadowMiddle);
 
@@ -263,13 +263,11 @@ class MainMenuState extends MusicBeatState
 		miniTitle.camera = mainCamera;
 		add(miniTitle);
 
-		var mainButtonsBack:FunkinSprite = new FunkinSprite(2 * BASE_SCALE,
-			miniTitle.y + miniTitle.height + 2 * BASE_SCALE).loadGraphic(getImage('buttonsBack'));
+		var mainButtonsBack:FunkinSprite = new FunkinSprite(2 * BASE_SCALE, miniTitle.y + miniTitle.height + 2 * BASE_SCALE).loadGraphic(getImage('buttonsBack'));
 		mainButtonsBack.scaleSprite(BASE_SCALE);
 		mainButtonsBack.camera = mainCamera;
 
-		var buttonsBackShadow:FunkinSprite = new FunkinSprite(mainButtonsBack.x - 1 * BASE_SCALE,
-			mainButtonsBack.y + 3 * BASE_SCALE).loadGraphic(getImage('buttonsBack-shadow'));
+		var buttonsBackShadow:FunkinSprite = new FunkinSprite(mainButtonsBack.x - 1 * BASE_SCALE, mainButtonsBack.y + 3 * BASE_SCALE).loadGraphic(getImage('buttonsBack-shadow'));
 		buttonsBackShadow.scaleSprite(BASE_SCALE);
 		buttonsBackShadow.blend = MULTIPLY;
 		buttonsBackShadow.camera = mainCamera;
@@ -277,8 +275,7 @@ class MainMenuState extends MusicBeatState
 		add(buttonsBackShadow);
 		add(mainButtonsBack);
 
-		var buttonsDivision:FunkinSprite = new FunkinSprite(mainButtonsBack.x + 4 * BASE_SCALE,
-			mainButtonsBack.y + 46 * BASE_SCALE).makeGraphic(94, 1, 0xFF5A5B61);
+		var buttonsDivision:FunkinSprite = new FunkinSprite(mainButtonsBack.x + 4 * BASE_SCALE, mainButtonsBack.y + 46 * BASE_SCALE).makeGraphic(94, 1, 0xFF5A5B61);
 
 		for (position in [0, 1, 92, 93])
 		{
@@ -295,8 +292,7 @@ class MainMenuState extends MusicBeatState
 
 		createMainButtons(mainButtonsBack.x + 3 * BASE_SCALE * 2, mainButtonsBack.y + 3 * BASE_SCALE * 2);
 
-		var version:FunkinText = new FunkinText(mainButtonsBack.x, mainButtonsBack.y + mainButtonsBack.height + 2 * BASE_SCALE, mainButtonsBack.width, '', 18,
-			true);
+		var version:FunkinText = new FunkinText(mainButtonsBack.x, mainButtonsBack.y + mainButtonsBack.height + 2 * BASE_SCALE, mainButtonsBack.width, '', 18, true);
 		version.translationData = {id: 'common.version', parameters: [Defaults.VERSION]};
 		version.alignment = CENTER;
 		version.borderSize = 2;
@@ -310,24 +306,20 @@ class MainMenuState extends MusicBeatState
 		windowBordersGroup.camera = mainCamera;
 		add(windowBordersGroup);
 
-		var windowBorderLeft:FunkinSprite = new FunkinSprite(mainButtonsBack.x + mainButtonsBack.width + 2 * BASE_SCALE,
-			topLeft.y + topLeft.height + 3 * BASE_SCALE).loadGraphic(getImage('windowBorder-left'));
+		var windowBorderLeft:FunkinSprite = new FunkinSprite(mainButtonsBack.x + mainButtonsBack.width + 2 * BASE_SCALE, topLeft.y + topLeft.height + 3 * BASE_SCALE).loadGraphic(getImage('windowBorder-left'));
 		windowBorderLeft.scaleSprite(BASE_SCALE);
 
 		var windowBorderDistance:Float = MathUtil.distanceBetweenFloats(windowBorderLeft.x + windowBorderLeft.width, FlxG.width);
-		var windowBorderMiddle:FunkinSprite = new FunkinSprite(windowBorderLeft.x + windowBorderLeft.width,
-			windowBorderLeft.y).loadGraphic(getImage('windowBorder-middle'));
+		var windowBorderMiddle:FunkinSprite = new FunkinSprite(windowBorderLeft.x + windowBorderLeft.width, windowBorderLeft.y).loadGraphic(getImage('windowBorder-middle'));
 		windowBorderMiddle.setGraphicSize(windowBorderDistance, windowBorderMiddle.frameHeight * BASE_SCALE);
 		windowBorderMiddle.updateHitbox();
 
-		var windowShadowLeft:FunkinSprite = new FunkinSprite(windowBorderLeft.x - BASE_SCALE,
-			windowBorderLeft.y + 5 * BASE_SCALE).loadGraphic(getImage('windowBorder-shadowL'));
+		var windowShadowLeft:FunkinSprite = new FunkinSprite(windowBorderLeft.x - BASE_SCALE, windowBorderLeft.y + 5 * BASE_SCALE).loadGraphic(getImage('windowBorder-shadowL'));
 		windowShadowLeft.scaleSprite(BASE_SCALE);
 		windowShadowLeft.blend = MULTIPLY;
 
 		var windowShadowDistance:Float = MathUtil.distanceBetweenFloats(windowBorderLeft.x + windowBorderLeft.width, FlxG.width);
-		var windowShadowMiddle:FunkinSprite = new FunkinSprite(windowShadowLeft.x + windowShadowLeft.width,
-			windowShadowLeft.y).loadGraphic(getImage('windowBorder-shadowM'));
+		var windowShadowMiddle:FunkinSprite = new FunkinSprite(windowShadowLeft.x + windowShadowLeft.width, windowShadowLeft.y).loadGraphic(getImage('windowBorder-shadowM'));
 		windowShadowMiddle.setGraphicSize(windowShadowDistance, windowShadowMiddle.frameHeight * BASE_SCALE);
 		windowShadowMiddle.updateHitbox();
 		windowShadowMiddle.blend = MULTIPLY;
