@@ -14,7 +14,7 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache@v5
         with:
           key: cache_windows
           path: |
@@ -33,7 +33,7 @@ jobs:
           name: VS IMPOSTOR Pixel (Windows)
           path: export/release/windows/bin
       - name: Save Cache
-        uses: actions/cache/save@v5
+        uses: actions/cache@v5
         with:
           key: cache_windows
           path: |
@@ -52,7 +52,7 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache@v5
         with:
           key: cache_linux
           path: |
@@ -68,14 +68,14 @@ jobs:
           haxe -cp setup -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
-          haxelib run lime build linux -release
+          haxelib run lime build linux
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (Linux)
           path: export/release/linux/bin
       - name: Save Cache
-        uses: actions/cache/save@v5
+        uses: actions/cache@v5
         with:
           key: cache_linux
           path: |
@@ -94,7 +94,7 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache@v5
         with:
           key: cache_mac
           path: |
@@ -106,14 +106,14 @@ jobs:
           haxe -cp setup -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
-          arch -x86_64 haxelib run lime build mac -release
+          arch -x86_64 haxelib run lime build mac
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (macOS)
           path: export/release/macos/bin
       - name: Save Cache
-        uses: actions/cache/save@v5
+        uses: actions/cache@v5
         with:
           key: cache_mac
           path: |
@@ -132,7 +132,7 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache@v5
         with:
           key: cache_html5
           path: |
@@ -144,14 +144,14 @@ jobs:
           haxe -cp setup -D analyzer-optimize --run Setup
       - name: Build Game
         run: |
-          haxelib run lime build html5 -release
+          haxelib run lime build html5
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (HTML5)
           path: export/release/html5/bin
       - name: Save Cache
-        uses: actions/cache/save@v5
+        uses: actions/cache@v5
         with:
           key: cache_html5
           path: |
@@ -170,7 +170,7 @@ jobs:
         with:
           haxe-version: 4.3.7
       - name: Restore Cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache@v5
         with:
           key: cache_hl
           path: |
@@ -186,14 +186,14 @@ jobs:
           haxelib run lime setup hashlink
       - name: Build Game
         run: |
-          haxelib run lime build hl -release
+          haxelib run lime build hl
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
           name: VS IMPOSTOR Pixel (HashLink)
           path: export/release/hl/bin
       - name: Save Cache
-        uses: actions/cache/save@v5
+        uses: actions/cache@v5
         with:
           key: cache_hl
           path: |
